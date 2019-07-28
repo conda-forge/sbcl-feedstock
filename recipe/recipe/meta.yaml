@@ -11,7 +11,8 @@ source:
 
 build:
   number: 0
-  skip: true  # [win and osx]
+  skip: true  # [win]
+  skip: true  # [osx]
 
 requirements:
   build:
@@ -29,9 +30,9 @@ about:
   license: BSD
   summary: Steel Bank Common Lisp (SBCL) is a high performance Common Lisp compiler
   description: |
-    Steel Bank Common Lisp (SBCL) is a high performance Common Lisp compiler. 
-    It is open source / free software, with a permissive license. In addition to the 
-    compiler and runtime system for ANSI Common Lisp, it provides an interactive 
+    Steel Bank Common Lisp (SBCL) is a high performance Common Lisp compiler.
+    It is open source / free software, with a permissive license. In addition to the
+    compiler and runtime system for ANSI Common Lisp, it provides an interactive
     environment including a debugger, a statistical profiler, a code coverage tool,
     and many other extensions.
   doc_url: http://www.sbcl.org/manual/index.html
