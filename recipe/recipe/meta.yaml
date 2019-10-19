@@ -1,18 +1,17 @@
-{% set version = "1.5.4" %}
+{% set version = "1.2.11" %}
 
 package:
   name: sbcl
   version: {{ version }}
 
 source:
-  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-x86-64-linux-binary.tar.bz2  # [linux]
-  fn: sbcl-1.5.4.tar.gz
-  sha256: 9c6625cdb167e9450566f309686faa8a3fbf6b1a6de5697f3777836a4da0d100
+  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-x86-64-darwin-binary.tar.bz2  # [osx]
+  sha256: 057d3a1c033fb53deee994c0135110636a04f92d2f88919679864214f77d0452
 
 build:
   number: 0
   skip: true  # [win]
-  skip: true  # [osx]
+  skip: true  # [linux]
 
 requirements:
   build:
