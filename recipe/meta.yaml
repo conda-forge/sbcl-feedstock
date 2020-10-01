@@ -1,0 +1,52 @@
+{% set linux_version = "1.5.4" %}
+{% set aarch64_version = "1.4.2" %}
+
+package:
+  name: sbcl
+  version: {{ linux_version }}  # [linux64]
+  version: {{ aarch64_version }}  # [aarch64]
+
+source:
+  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ linux_version }}-x86-64-linux-binary.tar.bz2  # [linux64]
+  fn: sbcl-{{ linux_version }}.tar.gz                                                                              # [linux64]
+  sha256: 9c6625cdb167e9450566f309686faa8a3fbf6b1a6de5697f3777836a4da0d100                           # [linux64]
+  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ aarch64_version }}-arm64-linux-binary.tar.bz2  # [aarch64]
+  fn: sbcl-{{ aarch64_version }}.tar.gz                                                                               # [aarch64]
+  sha256: ddac6499f36c18ecbce9822a53ef3914c0def5276a457446a456c62999b16d36                            # [aarch64]
+
+build:
+  number: 0
+  skip: true  # [win]
+  skip: true  # [osx]
+
+requirements:
+  build:
+    - make  # [unix]
+  host:
+  run:
+
+test:
+  commands:
+    - sbcl --version
+    - sbcl --help
+    - sbcl --eval '(print "hello world")' --quit
+
+about:
+  home: http://www.sbcl.org
+  license: BSD-2-Clause AND MIT
+  summary: Steel Bank Common Lisp (SBCL) is a high performance Common Lisp compiler
+  description: |
+    Steel Bank Common Lisp (SBCL) is a high performance Common Lisp compiler.
+    It is open source / free software, with a permissive license. In addition to the
+    compiler and runtime system for ANSI Common Lisp, it provides an interactive
+    environment including a debugger, a statistical profiler, a code coverage tool,
+    and many other extensions.
+  doc_url: http://www.sbcl.org/manual/index.html
+  license_file:
+    - COPYING
+    - CREDITS
+
+extra:
+  recipe-maintainers:
+    - wolfv
+    - lesteve
