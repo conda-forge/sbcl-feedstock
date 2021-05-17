@@ -7,22 +7,22 @@ package:
   name: sbcl
   version: {{ linux_version }}       # [linux64]
   version: {{ aarch64_version }}     # [aarch64]
-  version: {{ osx_version }}        # [osx and x86_64]
-  version: {{ osx_arm64_version }}  # [osx and arm64]
+  version: {{ osx_version }}         # [osx and x86_64]
+  version: {{ osx_arm64_version }}   # [osx and arm64]
 
 source:
-  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ linux_version }}-x86-64-linux-binary.tar.bz2     # [linux64]
-  fn: sbcl-{{ linux_version }}.tar.gz                                                                   # [linux64]
-  sha256: 9c6625cdb167e9450566f309686faa8a3fbf6b1a6de5697f3777836a4da0d100                              # [linux64]
-  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ aarch64_version }}-arm64-linux-binary.tar.bz2    # [aarch64]
-  fn: sbcl-{{ aarch64_version }}.tar.gz                                                                 # [aarch64]
-  sha256: ddac6499f36c18ecbce9822a53ef3914c0def5276a457446a456c62999b16d36                              # [aarch64]
-  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_version }}-x86-64-darwin-binary.tar.bz2      # [osx and x86_64]
-  fn: sbcl-{{ osx_version }}.tar.gz                                                                     # [osx and x86_64]
-  sha256: 057d3a1c033fb53deee994c0135110636a04f92d2f88919679864214f77d0452                              # [osx and x86_64]
-  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_version }}-arm64-darwin-binary.tar.bz2       # [osx and arm64]
-  fn: sbcl-{{ osx_arm64_version }}.tar.gz                                                               # [osx and arm64]
-  sha256: 1f400b8a05dc588ca9740f9f4dfee3111b1cc1b6fb40801f728c42b460e1d115                              # [osx and arm64]
+  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ linux_version }}-x86-64-linux-binary.tar.bz2      # [linux64]
+  fn: sbcl-{{ linux_version }}.tar.gz                                                                    # [linux64]
+  sha256: 46b8deff7d498407c3d47e918e8b9b2851e77c479ed909c54a9ef7722d98314a                               # [linux64]
+  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ aarch64_version }}-arm64-linux-binary.tar.bz2     # [aarch64]
+  fn: sbcl-{{ aarch64_version }}.tar.gz                                                                  # [aarch64]
+  sha256: ddac6499f36c18ecbce9822a53ef3914c0def5276a457446a456c62999b16d36                               # [aarch64]
+  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_version }}-x86-64-darwin-binary.tar.bz2       # [osx and x86_64]
+  fn: sbcl-{{ osx_version }}.tar.gz                                                                      # [osx and x86_64]
+  sha256: 057d3a1c033fb53deee994c0135110636a04f92d2f88919679864214f77d0452                               # [osx and x86_64]
+  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
+  fn: sbcl-{{ osx_arm64_version }}.tar.gz                                                                # [osx and arm64]
+  sha256: 1f400b8a05dc588ca9740f9f4dfee3111b1cc1b6fb40801f728c42b460e1d115                               # [osx and arm64]
 
 build:
   number: 1
