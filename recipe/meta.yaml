@@ -1,4 +1,4 @@
-{% set linux_version = "2.0.0" %}
+{% set linux_version = "1.5.4" %}
 {% set aarch64_version = "1.4.2" %}
 {% set osx_version = "1.2.11" %}
 {% set osx_arm64_version = "2.1.2" %}
@@ -13,7 +13,7 @@ package:
 source:
   url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ linux_version }}-x86-64-linux-binary.tar.bz2      # [linux64]
   fn: sbcl-{{ linux_version }}.tar.gz                                                                    # [linux64]
-  sha256: 938065251d5a7d4d1d6650e0e728dcfe94745d769aa57f68bae73468693be530                               # [linux64]
+  sha256: 9c6625cdb167e9450566f309686faa8a3fbf6b1a6de5697f3777836a4da0d100                               # [linux64]
   url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ aarch64_version }}-arm64-linux-binary.tar.bz2     # [aarch64]
   fn: sbcl-{{ aarch64_version }}.tar.gz                                                                  # [aarch64]
   sha256: ddac6499f36c18ecbce9822a53ef3914c0def5276a457446a456c62999b16d36                               # [aarch64]
