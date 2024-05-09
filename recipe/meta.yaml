@@ -1,22 +1,26 @@
 {% set linux_version = "2.2.11" %}
-{% set aarch64_version = "1.4.2" %}  # Not yet
+{% set aarch64_version = "1.4.2" %}
+{% set aarch_hf_version = "2.3.3" %}
 {% set osx_version = "2.2.9" %}
 {% set osx_arm64_version = "2.4.0" %}
 
 package:
   name: sbcl
   version: {{ linux_version }}       # [linux64]
-  version: {{ aarch64_version }}     # [aarch64]
+  # version: {{ aarch64_version }}     # [aarch64]
+  version: {{ aarch_hf_version }}     # [aarch64]
   version: {{ osx_version }}         # [osx and x86_64]
   version: {{ osx_arm64_version }}   # [osx and arm64]
 
 source:
   url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ linux_version }}-x86-64-linux-binary.tar.bz2      # [linux64]
   sha256: 477a885b260c8cf8c794e0c9af0769303706f11e51367dad48e5b402ad0a9493                               # [linux64]
-  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ aarch64_version }}-arm64-linux-binary.tar.bz2     # [aarch64]
-  sha256: ddac6499f36c18ecbce9822a53ef3914c0def5276a457446a456c62999b16d36                               # [aarch64]
+  # url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ aarch64_version }}-arm64-linux-binary.tar.bz2     # [aarch64]
+  # sha256: ddac6499f36c18ecbce9822a53ef3914c0def5276a457446a456c62999b16d36                               # [aarch64]
+  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ aarch_hf_version }}-armhf-linux-binary.tar.bz2    # [aarch64]
+  sha256: cdd9d6772f915554e4402b91cf7384181c839018abe92dbfa1b61931e8fddb7a                               # [aarch64]
   url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_version }}-x86-64-darwin-binary.tar.bz2       # [osx and x86_64]
-  sha256: 057d3a1c033fb53deee994c0135110636a04f92d2f88919679864214f77d0452                               # [osx and x86_64]
+  sha256: 6f504b9282c83842c0601600f5e0663209b53b133125ec3334ff7a0bd0037ca6                               # [osx and x86_64]
   url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
   sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117                               # [osx and arm64]
 
