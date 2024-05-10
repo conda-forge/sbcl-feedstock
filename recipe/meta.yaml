@@ -1,7 +1,7 @@
-{% set linux_version = "1.5.4" %}
+{% set linux_version = "2.2.11" %}
 {% set aarch64_version = "1.4.2" %}
-{% set osx_version = "1.2.11" %}
-{% set osx_arm64_version = "2.1.2" %}
+{% set osx_version = "2.2.9" %}
+{% set osx_arm64_version = "2.4.0" %}
 
 package:
   name: sbcl
@@ -12,26 +12,22 @@ package:
 
 source:
   url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ linux_version }}-x86-64-linux-binary.tar.bz2      # [linux64]
-  fn: sbcl-{{ linux_version }}.tar.gz                                                                    # [linux64]
-  sha256: 9c6625cdb167e9450566f309686faa8a3fbf6b1a6de5697f3777836a4da0d100                               # [linux64]
+  sha256: 477a885b260c8cf8c794e0c9af0769303706f11e51367dad48e5b402ad0a9493                               # [linux64]
   url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ aarch64_version }}-arm64-linux-binary.tar.bz2     # [aarch64]
-  fn: sbcl-{{ aarch64_version }}.tar.gz                                                                  # [aarch64]
   sha256: ddac6499f36c18ecbce9822a53ef3914c0def5276a457446a456c62999b16d36                               # [aarch64]
   url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_version }}-x86-64-darwin-binary.tar.bz2       # [osx and x86_64]
-  fn: sbcl-{{ osx_version }}.tar.gz                                                                      # [osx and x86_64]
-  sha256: 057d3a1c033fb53deee994c0135110636a04f92d2f88919679864214f77d0452                               # [osx and x86_64]
+  sha256: 6f504b9282c83842c0601600f5e0663209b53b133125ec3334ff7a0bd0037ca6                               # [osx and x86_64]
   url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
-  fn: sbcl-{{ osx_arm64_version }}.tar.gz                                                                # [osx and arm64]
-  sha256: 1f400b8a05dc588ca9740f9f4dfee3111b1cc1b6fb40801f728c42b460e1d115                               # [osx and arm64]
+  sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117                               # [osx and arm64]
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win]
 
 requirements:
   build:
+    - {{ stdlib("c") }}
     - make  # [unix]
-    - sysroot_linux-64 2.17  # [linux64]
   host:
   run:
 
