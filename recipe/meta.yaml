@@ -22,7 +22,7 @@ source:
   url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
   sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117                               # [osx and arm64]
   url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ win_64_version }}-x86-64-windows-binary.msi       # [win and x86_64]
-  sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855                               # [win and x86_64]
+  sha256: 2cf132de1688b6e7d108128525446ae3de0fb7b98e3af016a1278593878be5a2                               # [win and x86_64]
 
 build:
   number: 3
