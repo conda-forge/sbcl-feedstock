@@ -1,7 +1,12 @@
 @echo off
 set INSTALL_ROOT=%PREFIX%
 
-msiexec /a "%SRC_DIR%\%MSI_FILE%" TARGET_DIR=%PREFIX% /qb
+mkdir "%SRC_DIR%\_built"
+msiexec /a "%SRC_DIR%\%MSI_FILE%" TARGET_DIR=%SRC_DIR%\_built /qb
+
+dir %SRC_DIR%\_built
+copy %SRC_DIR%\_built\COPYING %RECIPE_DIR%\COPYING
+copy %SRC_DIR%\_built\CREDITS %RECIPE_DIR%\CREDITS
 
 if not exist "%PREFIX%\etc\conda\activate.d\" mkdir "%PREFIX%\etc\conda\activate.d\"
 if not exist "%PREFIX%\etc\conda\deactivate.d\" mkdir "%PREFIX%\etc\conda\deactivate.d\"
