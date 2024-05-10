@@ -2,7 +2,8 @@
 set INSTALL_ROOT=%PREFIX%
 
 mkdir "%SRC_DIR%\_built"
-msiexec /a "%SRC_DIR%\%MSI_FILE%" TARGETDIR="%SRC_DIR%\_built" /qn
+cd %SRC_DIR%
+msiexec /a "%MSI_FILE%" /qb TARGETDIR="%SRC_DIR%\_built"
 
 dir %SRC_DIR%\_built
 copy "%SRC_DIR%\_built\COPYING" "%RECIPE_DIR%\COPYING"
