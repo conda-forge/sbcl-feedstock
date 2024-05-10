@@ -1,7 +1,7 @@
 @echo off
 set INSTALL_ROOT=%PREFIX%
 
-misexec /a "%SRC_DIR%\%MSI_FILE%" TARGET_DIR=%PREFIX% /qb
+msiexec /a "%SRC_DIR%\%MSI_FILE%" TARGET_DIR=%PREFIX% /qb
 
 if not exist "%PREFIX%\etc\conda\activate.d\" mkdir "%PREFIX%\etc\conda\activate.d\"
 if not exist "%PREFIX%\etc\conda\deactivate.d\" mkdir "%PREFIX%\etc\conda\deactivate.d\"
