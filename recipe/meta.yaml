@@ -36,7 +36,7 @@ build:
 requirements:
   build:
     - {{ stdlib("c") }}  # [unix]
-    - make  # [unix]
+    - make
   host:
   run:
 
