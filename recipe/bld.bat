@@ -3,10 +3,8 @@
 dir "%SRC_DIR%"
 dir "%SRC_DIR%\sbcl-source"
 
-cd "%SRC_DIR%\sbcl-source"
-  mkdir "%SRC_DIR%\_bootstrap"
-  msiexec /a %MSI_FILE% /qb TARGETDIR="%SRC_DIR%\_bootstrap"
-cd ..
+mkdir "%SRC_DIR%\_bootstrap"
+msiexec /a %MSI_FILE% /qb TARGETDIR="%SRC_DIR%\_bootstrap"
 
 dir "%SRC_DIR%\_bootstrap"
 
