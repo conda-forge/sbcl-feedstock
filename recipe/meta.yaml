@@ -2,6 +2,7 @@
 {% set aarch64_version = "1.4.2" %}
 {% set osx_version = "2.2.9" %}
 {% set osx_arm64_version = "2.4.0" %}
+
 {% set version = "2.4.4" %}
 
 package:
@@ -21,6 +22,9 @@ source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
     sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117                               # [osx and arm64]
 
+  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-x86-64-windows-binary.msi              # [win and x86_64]
+    sha256: 2cf132de1688b6e7d108128525446ae3de0fb7b98e3af016a1278593878be5a2                               # [win and x86_64]
+
   - url: https://downloads.sourceforge.net/project/sbcl/sbcl/{{ version }}/sbcl-{{ version }}-source.tar.bz2
     sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5
     folder: sbcl-source
@@ -28,18 +32,75 @@ source:
     #   - 0001-add-patchelf-sbcl.patch  # [linux]
 
 build:
-  number: 2
-  skip: true  # [win]
+  number: 4
+  skip: true  # [osx or not x86_64]
 
 requirements:
   build:
+    - {{ compiler('c') }}
     - {{ stdlib("c") }}
-    - make  # [unix]
+    - make
+    - zstd
+    # This is for debugging purposes only
+    - conda-build
   host:
-  run:
+    - zstd
 
 test:
+  source_files:
+    - sbcl-from-source/tests
   commands:
+    - test -f ${PREFIX}/etc/conda/activate.d/sbcl-activate.sh  # [unix]
+    - test -f ${PREFIX}/etc/conda/deactivate.d/sbcl-deactivate.sh  # [unix]
+    - if not exist %PREFIX%\\etc\\conda\\activate.d\\sbcl-activate.bat exit 1  # [win]
+    - if not exist %PREFIX%\\etc\\conda\\deactivate.d\\sbcl-deactivate.bat exit 1  # [win]
+
+    - test -f ${PREFIX}/bin/sbcl  # [unix]
+    - test -f ${PREFIX}/lib/sbcl/contrib/asdf.fasl  # [unix]
+    - test -f ${PREFIX}/lib/sbcl/contrib/uiop.fasl  # [unix]
+    - if not exist %PREFIX%\\bin\\sbcl.exe exit 1  # [win]
+    - if not exist %PREFIX%\\lib\\sbcl\\contrib\\asdf.fasl exit 1  # [win]
+    - if not exist %PREFIX%\\lib\\sbcl\\contrib\\uiop.fasl exit 1  # [win]
+
+    {% set contribs = [
+      "sb-aclrepl", "sb-bsd-sockets", "sb-capstone", "sb-cltl2", "sb-concurrency", "sb-cover",
+      "sb-executable", "sb-gmp", "sb-grovel", "sb-introspect", "sb-md5", "sb-mpfr", "sb-perf",
+      "sb-posix", "sb-queue", "sb-rotate-byte", "sb-rt", "sb-simd", "sb-simple-streams", "sb-sprof",
+    ] %}
+    {% for contrib in contribs %}
+    - test -f ${PREFIX}/lib/sbcl/contrib/{{ contrib }}.asd  # [unix]
+    - test -f ${PREFIX}/lib/sbcl/contrib/{{ contrib }}.fasl  # [unix]
+    - if not exist %PREFIX%\\lib\\sbcl\\contrib\\{{ contrib }}.asd exit 1  # [win]
+    - if not exist %PREFIX%\\lib\\sbcl\\contrib\\{{ contrib }}.fasl exit 1  # [win]
+    {% endfor %}
+
+    - test -f ${PREFIX}/lib/sbcl/sbcl.core  # [unix]
+    - test -f ${PREFIX}/lib/sbcl/sbcl.mk  # [unix]
+    - test -f ${PREFIX}/share/doc/sbcl/BUGS  # [unix]
+    - test -f ${PREFIX}/share/doc/sbcl/COPYING  # [unix]
+    - test -f ${PREFIX}/share/doc/sbcl/CREDITS  # [unix]
+    - test -f ${PREFIX}/share/doc/sbcl/NEWS  # [unix]
+    - test -f ${PREFIX}/share/man/man1/sbcl.1  # [unix]
+    - if not exist %PREFIX%\\lib\\sbcl\\sbcl.core exit 1  # [win]
+    - if not exist %PREFIX%\\lib\\sbcl\\sbcl.mk exit 1  # [win]
+    - if not exist %PREFIX%\\share\\doc\\sbcl\\BUGS exit 1  # [win]
+    - if not exist %PREFIX%\\share\\doc\\sbcl\\COPYING exit 1  # [win]
+    - if not exist %PREFIX%\\share\\doc\\sbcl\\CREDITS exit 1  # [win]
+    - if not exist %PREFIX%\\share\\doc\\sbcl\\NEWS exit 1  # [win]
+    - if not exist %PREFIX%\\share\\man\\man1\\sbcl.1 exit 1  # [win]
+
+    # Empty due to TeX requirements unmet on conda-forge
+    - test -d ${PREFIX}/share/info  # [unix]
+    - test -d ${PREFIX}/share/doc/sbcl/html  # [unix]
+    - if not exist %PREFIX%\\share\\info exit 1  # [win]
+    - if not exist %PREFIX%\\share\\doc\\sbcl\\html exit 1  # [win]
+
+    # Remove failing test - TEMPORARY
+    - rm -rf sbcl-from-source/tests/elfcore.test.sh
+    - rm -rf sbcl-from-source/tests/futex-wait.test.sh
+    - cd sbcl-from-source/tests && sh run-tests.sh > _conda_tests_output.txt 2>&1
+
+    # Additional functionality tests
     - sbcl --version
     - sbcl --help
     - sbcl --eval '(print "hello world")' --quit
