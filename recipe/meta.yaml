@@ -32,7 +32,7 @@ build:
 
 requirements:
   build:
-    - {{ stdlib("c") }}
+    - {{ stdlib("c") }}  # [unix]
     - make  # [unix]
   host:
   run:
