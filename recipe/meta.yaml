@@ -21,11 +21,11 @@ source:
   sha256: 6f504b9282c83842c0601600f5e0663209b53b133125ec3334ff7a0bd0037ca6                               # [osx and x86_64]
   url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
   sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117                               # [osx and arm64]
-  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ win_64_version }}-x86-64-windows-binary.msi     # [win and x86_64]
-  sha256: 2cf132de1688b6e7d108128525446ae3de0fb7b98e3af016a1278593878be5a2                             # [win and x86_64]
-  url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ win_64_version }}-source.tar.bz2                # [win and x86_64]
-  sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                             # [win and x86_64]
-  folder: sbcl-source                                                                                  # [win and x86_64]
+  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ win_64_version }}-x86-64-windows-binary.msi     # [win and x86_64]
+    sha256: 2cf132de1688b6e7d108128525446ae3de0fb7b98e3af016a1278593878be5a2                             # [win and x86_64]
+  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ win_64_version }}-source.tar.bz2                # [win and x86_64]
+    sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                             # [win and x86_64]
+  folder: sbcl-source                                                                                    # [win and x86_64]
 
 build:
   number: 3
