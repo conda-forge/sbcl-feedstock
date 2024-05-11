@@ -6,6 +6,9 @@ set "INSTALL_ROOT=%SRC_DIR%\_built\PFiles\Steel Bank Common Lisp"
 set "SBCL_HOME=%INSTALL_ROOT%"
 setx /M PATH "%SBCL_HOME%:%PATH%"
 
+dir %SBCL_HIME%"
+where sbcl
+
 cd %SRC_DIR%\sbcl-source
   bash make.sh --fancy
 
