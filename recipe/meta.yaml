@@ -36,10 +36,12 @@ build:
 
 requirements:
   build:
-    - {{ stdlib("c") }}  # [unix]
-    - zstd
+    - {{ compiler("c") }}
+    - {{ stdlib("c") }}
     - make
+    - zstd
   host:
+    - zstd
   run:
 
 test:
