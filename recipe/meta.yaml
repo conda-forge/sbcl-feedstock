@@ -11,6 +11,7 @@ package:
   version: {{ aarch64_version }}     # [aarch64]
   version: {{ osx_version }}         # [osx and x86_64]
   version: {{ osx_arm64_version }}   # [osx and arm64]
+  version: {{ version }}             # [win and x86_64]
 
 source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ linux_version }}-x86-64-linux-binary.tar.bz2      # [linux64]
