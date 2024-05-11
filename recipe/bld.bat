@@ -13,7 +13,7 @@ dir "%SRC_DIR%\_bootstrap\PFiies\Steel Bank Common Lisp"
 set "INSTALL_ROOT=%SRC_DIR%\_bootstrap\PFiles\Steel Bank Common Lisp"
 copy %INSTALL_ROOT%\sbcl.exe %INSTALL_ROOT%\sbcl
 set "SBCL_HOME=%INSTALL_ROOT%"
-set "PATH=%SBCL_HOME%:%PATH%"
+set "PATH=%SBCL_HOME%;%PATH%"
 
 echo "%PATH%"
 
