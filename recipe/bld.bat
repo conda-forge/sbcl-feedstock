@@ -3,11 +3,13 @@ mkdir "%SRC_DIR%\_bootstrap"
 msiexec /a "%SRC_DIR%\%MSI_FILE%" /qb TARGETDIR="%SRC_DIR%\_bootstrap"
 
 set "INSTALL_ROOT=%SRC_DIR%\_built\PFiles\Steel Bank Common Lisp"
+copy %INSTALL_ROOT%\sbcl.exe %INSTALL_ROOT%\sbcl
 set "SBCL_HOME=%INSTALL_ROOT%"
 setx /M PATH "%SBCL_HOME%:%PATH%"
 
-dir %SBCL_HIME%"
+dir %SBCL_HOME%"
 where sbcl
+where sbcl.exe
 
 cd %SRC_DIR%\sbcl-source
   bash make.sh --fancy
