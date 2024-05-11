@@ -2,10 +2,9 @@
 set INSTALL_ROOT=%PREFIX%
 
 mkdir "%SRC_DIR%\_built"
-cd %SRC_DIR%
-msiexec /a "%MSI_FILE%" /qb TARGETDIR="%SRC_DIR%\_built"
-dir
-dir PFiles
+msiexec /a "%SRC_DIR%\%MSI_FILE%" /qb TARGETDIR="%SRC_DIR%\_built"
+dir"%SRC_DIR%\_built"
+dir "%SRC_DIR%\_built\PFiles"
 
 copy "%SRC_DIR%\_built\PFiles\COPYING" "%RECIPE_DIR%\COPYING"
 copy "%SRC_DIR%\_built\PFiles\CREDITS" "%RECIPE_DIR%\CREDITS"
