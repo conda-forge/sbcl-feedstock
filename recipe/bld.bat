@@ -1,13 +1,19 @@
 @echo off
-set INSTALL_ROOT=%PREFIX%
+mkdir "%SRC_DIR%\_bootstrap"
+msiexec /a "%SRC_DIR%\%MSI_FILE%" /qb TARGETDIR="%SRC_DIR%\_bootstrap"
 
-mkdir "%SRC_DIR%\_built"
-msiexec /a "%SRC_DIR%\%MSI_FILE%" /qb TARGETDIR="%SRC_DIR%\_built"
+set "INSTALL_ROOT=%SRC_DIR%\_built\PFiles\Steel Bank Common Lisp"
+set "SBCL_HOME=%INSTALL_ROOT%"
 
-dir "%SRC_DIR%\_built\PFiles\Steel Bank Common Lisp"
+cd %SRC_DIR%\sbcl-source
+  bash make.sh --fancy
 
-copy "%SRC_DIR%\_built\PFiles\Steel Bank Common Lisp\sbcl.exe" "%PREFIX%\bin"
-copy "%SRC_DIR%\_built\PFiles\Steel Bank Common Lisp\sbcl.core" "%PREFIX%\bin"
+  copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING
+  copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDIT
+
+  set INSTALL_ROOT=%PREFIX%
+  bash install.sh
+cd ..
 
 if not exist "%PREFIX%\etc\conda\activate.d\" mkdir "%PREFIX%\etc\conda\activate.d\"
 if not exist "%PREFIX%\etc\conda\deactivate.d\" mkdir "%PREFIX%\etc\conda\deactivate.d\"
