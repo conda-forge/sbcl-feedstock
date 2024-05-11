@@ -1,6 +1,14 @@
 @echo off
-mkdir "%SRC_DIR%\_bootstrap"
-msiexec /a "%SRC_DIR%\sbcl-source\%MSI_FILE%" /qb TARGETDIR="%SRC_DIR%\_bootstrap"
+
+dir "%SRC_DIR%"
+dir "%SRC_DIR%\sbcl-source"
+
+cd "%SRC_DIR%\sbcl-source"
+  mkdir "%SRC_DIR%\_bootstrap"
+  msiexec /a %MSI_FILE% /qb TARGETDIR="%SRC_DIR%\_bootstrap"
+cd ..
+
+dir "%SRC_DIR%\_bootstrap"
 
 set "INSTALL_ROOT=%SRC_DIR%\_bootstrap\PFiles\Steel Bank Common Lisp"
 copy %INSTALL_ROOT%\sbcl.exe %INSTALL_ROOT%\sbcl
