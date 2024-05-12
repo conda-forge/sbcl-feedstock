@@ -14,6 +14,7 @@ cd %SRC_DIR%\sbcl-source
   dir %CONDA_PREFIX%\bin\xargs
   dir %PREFIX%\bin\xargs.exe
   dir %PREFIX%\bin\xargs
+  where xargs
   copy %CONDA_PREFIX%\bin\xargs.exe xargs
 
   bash make.sh --fancy
