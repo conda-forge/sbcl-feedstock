@@ -1,25 +1,13 @@
 @echo off
 
-dir %SRC_DIR%
-dir %MSI_FILE%
-
 mkdir %SRC_DIR%\_bootstrap
 msiexec /a %MSI_FILE% /qb TARGETDIR="%SRC_DIR%\_bootstrap"
 
-dir %SRC_DIR%\_bootstrap
-dir %SRC_DIR%\_bootstrap\PFiles
-dir "%SRC_DIR%\_bootstrap\PFiles\Steel Bank Common Lisp"
-
 set "INSTALL_ROOT=%SRC_DIR%\_bootstrap\PFiles\Steel Bank Common Lisp"
-copy %INSTALL_ROOT%\sbcl.exe %INSTALL_ROOT%\sbcl
+copy "%INSTALL_ROOT%\sbcl.exe" "%INSTALL_ROOT%\sbcl"
+
 set "SBCL_HOME=%INSTALL_ROOT%"
 set "PATH=%SBCL_HOME%;%PATH%"
-
-echo "%PATH%"
-
-dir "%SBCL_HOME%"
-where sbcl
-where sbcl.exe
 
 cd %SRC_DIR%\sbcl-source
   bash make.sh --fancy

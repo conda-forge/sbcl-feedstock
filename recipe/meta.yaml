@@ -27,6 +27,8 @@ source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ win_64_version }}-source.tar.bz2                  # [win and x86_64]
     sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                               # [win and x86_64]
     folder: sbcl-source                                                                                    # [win and x86_64]
+    patches:
+      - 0004-split-clean.sh.patch  # [win]
 
 build:
   number: 3

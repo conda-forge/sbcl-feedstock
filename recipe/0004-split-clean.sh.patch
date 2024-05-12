@@ -1,0 +1,12 @@
+--- clean.sh    2024-04-29 16:18:51.000000000 -0500
++++ clean.sh    2024-05-11 19:26:44.737874895 -0500
+@@ -90,6 +90,9 @@
+         -name '?*.fasl' -o \
+         -name '?*.FASL' -o \
+         -name 'core' -o \
++        -name 'local-target-features.lisp-expr' \) -print | xargs rm -fr
++find . \( \
++        -name _darcs -o \
+         -name '?*.core' -o \
+         -name '*.map' -o \
+         -name '*.host-obj' -o \
