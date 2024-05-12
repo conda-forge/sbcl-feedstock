@@ -1,11 +1,12 @@
 --- src/runtime/Config.x86-64-win32     2024-04-29 16:18:52.000000000 -0500
 +++ src/runtime/Config.x86-64-win32     2024-05-12 13:26:58.119261982 -0500
-@@ -59,8 +59,6 @@
+@@ -59,8 +59,8 @@
         -O5 -m64 -DWINVER=0x0501 \
         -D__W32API_USE_DLLIMPORT__
 
--CC = $(BUILD_PREFIX)/Library/mingw-w64/bin/gcc
--
+-CC = gcc
++CC = $(BUILD_PREFIX)/Library/mingw-w64/bin/gcc
+
  ifeq ($(shell $(LD) --disable-dynamicbase 2>&1 | grep disable-dynamicbase),)
  LINKFLAGS += -Wl,--disable-dynamicbase
  endif
