@@ -13,3 +13,23 @@
         -D__W32API_USE_DLLIMPORT__
 
  CC = gcc
+--- src/runtime/GNUmakefile     2024-04-29 16:18:52.000000000 -0500
++++ src/runtime/GNUmakefile     2024-05-12 14:47:53.438370011 -0500
+@@ -35,7 +35,7 @@
+
+ CFLAGS += -g -Wall -Wundef -Wsign-compare -Wpointer-arith -O3
+ ASFLAGS += $(CFLAGS)
+-CPPFLAGS += -I.
++CPPFLAGS += -I. -I$(BUILD_PREFIX)/include
+
+ # Give make access to the target Lisp features.
+ include genesis/Makefile.features
+@@ -59,7 +59,7 @@
+ ifneq ($(shell $(CC) -dumpspecs 2>/dev/null | grep -e '[^f]no-pie'),)
+ CFLAGS += -fno-pie
+ LINKFLAGS += -no-pie
+-LDFLAGS += -no-pie
++LDFLAGS += -no-pie -L$(BUILD_PREFIX)/lib
+ __LDFLAGS__ += -no-pie
+ endif
+ ifneq ($(shell $(CC) -dumpspecs 2>/dev/null | grep -e '[^f]nopie'),)
