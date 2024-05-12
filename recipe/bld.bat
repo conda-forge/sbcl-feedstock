@@ -11,7 +11,7 @@ set "PATH=%SBCL_HOME%;%PATH%"
 
 cd %SRC_DIR%\sbcl-source
   copy %CONDA_PREFIX%\bin\xargs.exe xargs
-  ls xargs
+  dir .\xargs
 
   bash make.sh --fancy
 
