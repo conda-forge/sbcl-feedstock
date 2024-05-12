@@ -10,6 +10,7 @@ set "SBCL_HOME=%INSTALL_ROOT%"
 set "PATH=%SBCL_HOME%;%PATH%"
 
 cd %SRC_DIR%\sbcl-source
+  copy %CONDA_PREFIX%\bin\xargs.exe xargs
   bash make.sh --fancy
 
   copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING
