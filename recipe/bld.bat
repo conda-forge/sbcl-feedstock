@@ -10,10 +10,10 @@ set "SBCL_HOME=%INSTALL_ROOT%"
 set "PATH=%SBCL_HOME%;%PATH%"
 
 cd %SRC_DIR%\sbcl-source
-  dir %BUILD_PREFIX%\Library\include\zstd.h > nul 2>&1 || (
-    echo "zstd.h not found in %BUILD_PREFIX%\Library\include"
-    exit /b 1
-  )
+
+  bash -c "which gcc"
+  bash -c "gcc --version"
+  set "CC=%PREFIX%/bin/gcc"
   set "CFLAGS=-I%BUILD_PREFIX%/Library/include %CFLAGS%"
   set "LDFLAGS=-L%BUILD_PREFIX%/Library/lib %LDFLAGS%"
   bash make.sh --fancy

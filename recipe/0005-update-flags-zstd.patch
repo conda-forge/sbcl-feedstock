@@ -1,14 +1,11 @@
 --- src/runtime/Config.x86-64-win32     2024-04-29 16:18:52.000000000 -0500
 +++ src/runtime/Config.x86-64-win32     2024-05-12 13:26:58.119261982 -0500
-@@ -53,10 +53,10 @@
- # -Wno-type-limits suppresses a ton of warnings from 'grovel-headers'
- # which seems to produce C code in which a comparison is always false.
- CFLAGS += -g -W -Wall \
--       -Wno-unused-function -Wno-unused-parameter -Wno-cast-function-type \
-+       -Wno-unused-function -Wno-unused-parameter \
-        -Wno-type-limits \
-        -fno-omit-frame-pointer \
+@@ -59,8 +59,6 @@
         -O5 -m64 -DWINVER=0x0501 \
         -D__W32API_USE_DLLIMPORT__
 
- CC = gcc
+-CC = gcc
+-
+ ifeq ($(shell $(LD) --disable-dynamicbase 2>&1 | grep disable-dynamicbase),)
+ LINKFLAGS += -Wl,--disable-dynamicbase
+ endif
