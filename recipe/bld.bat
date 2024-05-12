@@ -8,7 +8,7 @@ msiexec /a %MSI_FILE% /qb TARGETDIR="%SRC_DIR%\_bootstrap"
 
 dir %SRC_DIR%\_bootstrap
 dir %SRC_DIR%\_bootstrap\PFiles
-dir %SRC_DIR%\_bootstrap\PFiles\Steel Bank Common Lisp
+dir "%SRC_DIR%\_bootstrap\PFiles\Steel Bank Common Lisp"
 
 set "INSTALL_ROOT=%SRC_DIR%\_bootstrap\PFiles\Steel Bank Common Lisp"
 copy %INSTALL_ROOT%\sbcl.exe %INSTALL_ROOT%\sbcl
@@ -17,7 +17,7 @@ set "PATH=%SBCL_HOME%;%PATH%"
 
 echo "%PATH%"
 
-dir %SBCL_HOME%
+dir "%SBCL_HOME%"
 where sbcl
 where sbcl.exe
 
