@@ -13,8 +13,9 @@ cd %SRC_DIR%\sbcl-source
 
   bash -c "which gcc"
   bash -c "gcc --version"
+  echo "%CC%"
 
-  set "CC=%BUILD_PREFIX%\bin\gcc"
+  set "CC=%BUILD_PREFIX%\Library\mingw-w64\bin\gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
   set "LDFLAGS=-L%BUILD_PREFIX%\Library\lib %LDFLAGS%"
 
