@@ -14,8 +14,8 @@ cd %SRC_DIR%\sbcl-source
     echo "zstd.h not found in %BUILD_PREFIX%\Library\include"
     exit /b 1
   )
-  set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
-  set "LDFLAGS=-L%BUILD_PREFIX%\Library\lib %LDFLAGS%"
+  set "CFLAGS=-I%BUILD_PREFIX%/Library/include %CFLAGS%"
+  set "LDFLAGS=-L%BUILD_PREFIX%/Library/lib %LDFLAGS%"
   bash make.sh --fancy
 
   copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING

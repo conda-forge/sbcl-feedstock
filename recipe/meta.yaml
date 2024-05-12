@@ -29,7 +29,6 @@ source:
     folder: sbcl-source                                                                                    # [win and x86_64]
     patches:
       - 0004-split-clean.sh.patch  # [win]
-      - 0005-update-flags-zstd.patch  # [win]
 
 build:
   number: 3
