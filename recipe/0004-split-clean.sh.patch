@@ -5,4 +5,4 @@
          -name 'TAGS' -o \
          -name 'tags' -o \
 -        -name 'local-target-features.lisp-expr' \) -print | xargs rm -fr
-+        -name 'local-target-features.lisp-expr' \) -print | xargs -s 1 -n 1 rm -fr
++        -name 'local-target-features.lisp-expr' \) -print | env -i xargs rm -fr
