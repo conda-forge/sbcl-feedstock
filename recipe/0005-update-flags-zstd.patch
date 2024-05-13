@@ -5,7 +5,7 @@
         -D__W32API_USE_DLLIMPORT__
 
 -CC = gcc
-+CC = $(BUILD_PREFIX)/Library/mingw-w64/bin/gcc
++CC = gcc
 
  ifeq ($(shell $(LD) --disable-dynamicbase 2>&1 | grep disable-dynamicbase),)
  LINKFLAGS += -Wl,--disable-dynamicbase
