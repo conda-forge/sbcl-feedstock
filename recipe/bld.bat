@@ -19,6 +19,7 @@ cd %SRC_DIR%\sbcl-source
   set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
   set "LDFLAGS=-L%BUILD_PREFIX%\Library\lib %LDFLAGS%"
+  set "LINKFLAGS=-L%PREFIX%\Library\lib"
   echo "Compiler: %CC%"
 
   bash make.sh --fancy
