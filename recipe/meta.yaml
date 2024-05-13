@@ -39,9 +39,7 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}  # [unix]
-    - {{ compiler('c') }}  # [win]
-    # - {{ compiler('m2w64_c') }}  # [win]
+    - {{ compiler('c') }}
     - {{ stdlib('c') }}
     - make
     - zstd

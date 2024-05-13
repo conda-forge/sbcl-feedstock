@@ -20,8 +20,12 @@ cd %SRC_DIR%\sbcl-source
   copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDIT
 
   set INSTALL_ROOT=%PREFIX%
+  set "SBCL_HOME=%INSTALL_ROOT%"
   bash install.sh
-cd ..
+cd %SRC_DIR%
+
+copy %SRC_DIR%\COPYING %PREFIX%\COPYING
+copy %SRC_DIR%\CREDIT %PREFIX%\CREDIT
 
 if not exist "%PREFIX%\etc\conda\activate.d\" mkdir "%PREFIX%\etc\conda\activate.d\"
 if not exist "%PREFIX%\etc\conda\deactivate.d\" mkdir "%PREFIX%\etc\conda\deactivate.d\"
