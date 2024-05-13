@@ -24,8 +24,8 @@ cd %SRC_DIR%\sbcl-source
   bash install.sh
 cd %SRC_DIR%
 
-copy %SRC_DIR%\COPYING %PREFIX%\COPYING
-copy %SRC_DIR%\CREDIT %PREFIX%\CREDIT
+copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING
+copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDITS
 
 if not exist "%PREFIX%\etc\conda\activate.d\" mkdir "%PREFIX%\etc\conda\activate.d\"
 if not exist "%PREFIX%\etc\conda\deactivate.d\" mkdir "%PREFIX%\etc\conda\deactivate.d\"
