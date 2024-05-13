@@ -49,7 +49,7 @@ requirements:
 
 test:
   source_files:
-    - sbcl-source\\tests  # [win]
+    - sbcl-source/tests  # [win]
   commands:
     - if not exist %PREFIX%\\bin\\sbcl.exe exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\asdf.fasl exit 1  # [win]
