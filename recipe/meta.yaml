@@ -48,6 +48,8 @@ requirements:
   run:
 
 test:
+  source_files:
+    - sbcl-source\\tests  # [win]
   commands:
     - if not exist %PREFIX%\\bin\\sbcl.exe exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\asdf.fasl exit 1  # [win]
@@ -76,9 +78,9 @@ test:
     - if not exist %PREFIX%\\share\\doc\\sbcl\\html exit 1  # [win]
 
     # Remove failing test - TEMPORARY
-    - rm -rf sbcl-source\\tests\\elfcore.test.sh
-    - rm -rf sbcl-source\\tests\\futex-wait.test.sh
-    - cd sbcl-source\\tests && bash run-tests.sh
+    - rm -rf sbcl-source\\tests\\elfcore.test.sh  # [win]
+    - rm -rf sbcl-source\\tests\\futex-wait.test.sh  # [win]
+    - cd sbcl-source\\tests && bash run-tests.sh  # [win]
 
     # Additional functionality tests
     - sbcl --version
