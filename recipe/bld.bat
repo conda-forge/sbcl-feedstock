@@ -19,7 +19,7 @@ cd %SRC_DIR%\sbcl-source
   copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING
   copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDIT
 
-  set INSTALL_ROOT=%PREFIX%
+  set "INSTALL_ROOT=%PREFIX%"
   set "SBCL_HOME=%INSTALL_ROOT%"
   bash install.sh
 cd %SRC_DIR%
