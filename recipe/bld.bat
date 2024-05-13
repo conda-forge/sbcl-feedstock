@@ -13,8 +13,6 @@ cd %SRC_DIR%\sbcl-source
   set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"
   set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
-  :: set "LDFLAGS=-L%BUILD_PREFIX%\Library\lib %LDFLAGS%"
-  :: set "LINKFLAGS=-L%PREFIX%\Library\lib"
 
   bash make.sh --fancy
 
