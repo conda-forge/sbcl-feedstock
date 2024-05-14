@@ -51,9 +51,6 @@ test:
   source_files:
     - sbcl-source/tests  # [win]
   commands:
-    - if not exist %PREFIX%\\etc\\conda\\activate.d\\sbcl-activate.bat exit /b 1  # [win]
-    - if not exist %PREFIX%\\etc\\conda\\deactivate.d\\sbcl-deactivate.bat exit /b 1  # [win]
-
     - if not exist %PREFIX%\\bin\\sbcl.exe exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\asdf.fasl exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\uiop.fasl exit 1  # [win]

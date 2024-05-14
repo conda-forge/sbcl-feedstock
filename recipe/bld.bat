@@ -1,5 +1,5 @@
 @echo off
-￼
+
 mkdir %SRC_DIR%\_bootstrap
 msiexec /a %MSI_FILE% /qb TARGETDIR="%SRC_DIR%\_bootstrap"
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
