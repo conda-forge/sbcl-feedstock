@@ -30,3 +30,13 @@ cd %SRC_DIR%
 
 copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING
 copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDITS
+
+set "ACTIVATE_DIR=%PREFIX%\etc\conda\activate.d"
+set "DEACTIVATE_DIR=%PREFIX%\etc\conda\deactivate.d"
+mkdir %ACTIVATE_DIR%
+mkdir %DEACTIVATE_DIR%
+
+copy %RECIPE_DIR%\scripts\activate.bat %ACTIVATE_DIR%\sbcl-activate.bat
+if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+copy %RECIPE_DIR%\scripts\deactivate.bat %DEACTIVATE_DIR%\sbcl-deactivate.bat
+if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
