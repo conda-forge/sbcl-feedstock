@@ -28,9 +28,9 @@ cd %SRC_DIR%
 copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING
 copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDITS
 
-if not exist "%PREFIX%\etc\conda\activate.d\" mkdir "%PREFIX%\etc\conda\activate.d\"
-if not exist "%PREFIX%\etc\conda\deactivate.d\" mkdir "%PREFIX%\etc\conda\deactivate.d\"
-
-copy %RECIPE_DIR%\scripts\activate.bat %PREFIX%\etc\conda\activate.d\sbcl-activate.bat > nul
-copy %RECIPE_DIR%\scripts\deactivate.bat %PREFIX%\etc\conda\deactivate.d\sbcl-deactivate.bat > nul
+:: if not exist "%PREFIX%\etc\conda\activate.d\" mkdir "%PREFIX%\etc\conda\activate.d\"
+:: if not exist "%PREFIX%\etc\conda\deactivate.d\" mkdir "%PREFIX%\etc\conda\deactivate.d\"
+::
+:: copy %RECIPE_DIR%\scripts\activate.bat %PREFIX%\etc\conda\activate.d\sbcl-activate.bat > nul
+:: copy %RECIPE_DIR%\scripts\deactivate.bat %PREFIX%\etc\conda\deactivate.d\sbcl-deactivate.bat > nul
 ￼
