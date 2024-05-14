@@ -23,7 +23,19 @@ cd %SRC_DIR%\sbcl-source
   copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDIT
 
   set "INSTALL_ROOT=%PREFIX%"
-  set "SBCL_HOME=%INSTALL_ROOT%\lib\sbcl"
+  set "SBCL_HOME=%INSTALL_ROOT%/lib/sbcl"
   bash install.sh
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 cd %SRC_DIR%
+
+copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING
+copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDITS
+
+if not exist "%PREFIX%\etc\conda\activate.d\" mkdir "%PREFIX%\etc\conda\activate.d\"
+if not exist "%PREFIX%\etc\conda\deactivate.d\" mkdir "%PREFIX%\etc\conda\deactivate.d\"
+
+copy "%RECIPE_DIR%\scripts\activate.bat" "%PREFIX%\etc\conda\activate.d\sbcl-activate.bat" > nul
+if errorlevel 1 exit 1
+￼copy "%RECIPE_DIR%\scripts\activate.bat" "%PREFIX%\etc\conda\activate.d\sbcl-deactivate.bat" > nul
+if errorlevel 1 exit 1
+￼
