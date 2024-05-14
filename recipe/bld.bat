@@ -36,7 +36,7 @@ set "DEACTIVATE_DIR=%PREFIX%\etc\conda\deactivate.d"
 mkdir %ACTIVATE_DIR%
 mkdir %DEACTIVATE_DIR%
 
-copy %RECIPE_DIR%\scripts\activate.bat %ACTIVATE_DIR%\sbcl-activate.bat
+copy %RECIPE_DIR%\activate.bat %ACTIVATE_DIR%\sbcl-activate.bat
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
-copy %RECIPE_DIR%\scripts\deactivate.bat %DEACTIVATE_DIR%\sbcl-deactivate.bat
+copy %RECIPE_DIR%\deactivate.bat %DEACTIVATE_DIR%\sbcl-deactivate.bat
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
