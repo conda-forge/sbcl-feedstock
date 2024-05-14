@@ -28,8 +28,8 @@ source:
     sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                               # [win and x86_64]
     folder: sbcl-source                                                                                    # [win and x86_64]
     patches:
-      - patches/0004-split-clean.sh.patch  # [win]
-      - patches/0005-update-flags-zstd.patch  # [win]
+      - 0004-split-clean.sh.patch  # [win]
+      - 0005-update-flags-zstd.patch  # [win]
 
 build:
   number: 3
