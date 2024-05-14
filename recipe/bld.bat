@@ -36,5 +36,5 @@ if not exist "%PREFIX%\etc\conda\deactivate.d\" mkdir "%PREFIX%\etc\conda\deacti
 
 copy "%RECIPE_DIR%\scripts\activate.bat" "%PREFIX%\etc\conda\activate.d\sbcl-activate.bat" > nul
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
-copy "%RECIPE_DIR%\scripts\activate.bat" "%PREFIX%\etc\conda\activate.d\sbcl-deactivate.bat" > nul
+copy "%RECIPE_DIR%\scripts\deactivate.bat" "%PREFIX%\etc\conda\deactivate.d\sbcl-deactivate.bat" > nul
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
