@@ -30,6 +30,7 @@ source:
     patches:
       - patches/0004-split-clean.sh.patch  # [win]
       - patches/0005-update-flags-zstd.patch  # [win]
+      - patches/0003-win-use-bash-tests.patch  # [win]
 
 build:
   number: 3

@@ -1,0 +1,11 @@
+--- tests/run-program.test.sh 2024-04-29 16:18:52.000000000 -0500
++++ tests/run-program.test.sh 2024-05-15 11:33:01.693303845 -0500
+@@ -65,7 +65,7 @@
+  #+unix
+  (flet ((try (sb-impl::*default-external-format* x y)
+          (let* ((process (run-program
+-                          "/bin/sh" (list "-c" (format nil "echo ~c, $SB_TEST_FOO." x))
++                          "/usr/bin/bash" (list "-c" (format nil "echo ~c, $SB_TEST_FOO." x))
+                           :environment (list (format nil "SB_TEST_FOO=~c" y))
+                           :output :stream
+                           :wait t))
