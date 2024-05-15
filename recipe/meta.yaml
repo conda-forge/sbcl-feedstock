@@ -57,7 +57,7 @@ test:
 
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\asdf.fasl exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\uiop.fasl exit 1  # [win]
-    -
+
     # Not all contribs are built on Windows
     # - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-perf.asd exit 1  # [unix]
     # - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-perf.fasl exit 1  # [unix]
