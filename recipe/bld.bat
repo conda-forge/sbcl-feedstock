@@ -23,7 +23,9 @@ cd %SRC_DIR%\sbcl-source
   cd tests
     set "file_ext=*.sh *.lisp"
     set "search_string=\"/bin/sh\""
-    set "replacement_string=\"/usr/bin/bash\""
+    set "replacement_string=\"bash\""
+
+    where bash
 
     :: Use for, findstr, and powershell to replace the string in the list of files
     for %%G in (%file_ext%) do (
