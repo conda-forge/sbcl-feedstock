@@ -16,15 +16,25 @@ cd %SRC_DIR%\sbcl-source
   set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
-  bash make.sh --fancy
+  bash make.sh --fancy > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   :: Test the build
   cd tests
+    set "search_string=\"/bin/sh\""
+    set "replacement_string=\"/usr/bin/bash\""
+
+    :: Use for, findstr, and powershell to replace the string in the list of files
+    for /R "." %%F in (%file_type%) do (
+        findstr /M /C:"%search_string%" "%%F" >nul && (
+            powershell -Command "(Get-Content '%%F') -replace '%search_string%', '%replacement_string%' | Set-Content '%%F'"
+        )
+    )
     bash run-tests.sh
     if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
   cd ..
 
+  :: Install
   copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING
   copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDIT
 
