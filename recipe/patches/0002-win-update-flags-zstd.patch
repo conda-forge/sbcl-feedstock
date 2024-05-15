@@ -1,0 +1,11 @@
+--- src/runtime/Config.x86-64-win32     2024-04-29 16:18:52.000000000 -0500
++++ src/runtime/Config.x86-64-win32     2024-05-12 13:26:58.119261982 -0500
+@@ -38,7 +38,7 @@
+
+ OS_LIBS = -l ws2_32 -ladvapi32 -lm
+ ifdef LISP_FEATURE_SB_CORE_COMPRESSION
+-  OS_LIBS += -lzstd
++  OS_LIBS +=  ${PREFIX}\\Library\\bin\\libzstd.dll
+ endif
+ ifdef LISP_FEATURE_SB_FUTEX
+   OS_LIBS += -lSynchronization
