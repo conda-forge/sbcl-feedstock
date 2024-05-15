@@ -16,7 +16,7 @@ cd %SRC_DIR%\sbcl-source
   set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
-  bash make.sh --fancy > nul
+  bash make.sh --fancy > nul 2>&1
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   :: Test the build
