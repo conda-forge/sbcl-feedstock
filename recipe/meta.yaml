@@ -58,6 +58,8 @@ test:
 
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\asdf.fasl exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\uiop.fasl exit 1  # [win]
+    -
+    # Not all contribs are built on Windows
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-perf.asd exit 1  # [unix]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-perf.fasl exit 1  # [unix]
     {% set contribs = [
@@ -77,10 +79,6 @@ test:
     - if not exist %PREFIX%\\share\\doc\\sbcl\\CREDITS exit 1  # [win]
     - if not exist %PREFIX%\\share\\doc\\sbcl\\NEWS exit 1  # [win]
     - if not exist %PREFIX%\\share\\man\\man1\\sbcl.1 exit 1  # [win]
-
-    # Empty due to TeX requirements unmet on conda-forge
-    - if not exist %PREFIX%\\share\\info exit 1  # [win]
-    - if not exist %PREFIX%\\share\\doc\\sbcl\\html exit 1  # [win]
 
     # Remove failing test - TEMPORARY
     - rm -rf sbcl-source\\tests\\elfcore.test.sh  # [win]
