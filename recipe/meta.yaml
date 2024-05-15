@@ -55,12 +55,14 @@ test:
     - if not exist %PREFIX%\\etc\\conda\\deactivate.d\\sbcl-deactivate.bat exit /b 1  # [win]
 
     - if not exist %PREFIX%\\bin\\sbcl.exe exit 1  # [win]
+
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\asdf.fasl exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\uiop.fasl exit 1  # [win]
-
+    - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-perf.asd exit 1  # [unix]
+    - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-perf.fasl exit 1  # [unix]
     {% set contribs = [
       "sb-aclrepl", "sb-bsd-sockets", "sb-capstone", "sb-cltl2", "sb-concurrency", "sb-cover",
-      "sb-executable", "sb-gmp", "sb-grovel", "sb-introspect", "sb-md5", "sb-mpfr", "sb-perf",
+      "sb-executable", "sb-gmp", "sb-grovel", "sb-introspect", "sb-md5", "sb-mpfr",
       "sb-posix", "sb-queue", "sb-rotate-byte", "sb-rt", "sb-simd", "sb-simple-streams", "sb-sprof",
     ] %}
     {% for contrib in contribs %}

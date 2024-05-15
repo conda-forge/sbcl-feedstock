@@ -28,6 +28,9 @@ cd %SRC_DIR%\sbcl-source
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 cd %SRC_DIR%
 
+dir %PREFIX%\lib\sbcl
+dir %PREFIX%\lib\sbcl\contrib
+
 copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING
 copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDITS
 
