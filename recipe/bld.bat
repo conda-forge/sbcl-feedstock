@@ -19,6 +19,12 @@ cd %SRC_DIR%\sbcl-source
   bash make.sh --fancy
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
+  :: Test the build
+  cd tests
+    bash run-tests.sh
+    if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+  cd ..
+
   copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING
   copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDIT
 
