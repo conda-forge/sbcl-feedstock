@@ -21,14 +21,17 @@ cd %SRC_DIR%\sbcl-source
 
   :: Test the build
   cd tests
+    set "file_ext=*.sh *.lisp"
     set "search_string=\"/bin/sh\""
     set "replacement_string=\"/usr/bin/bash\""
 
     :: Use for, findstr, and powershell to replace the string in the list of files
-    for /R "." %%F in (%file_type%) do (
-        findstr /M /C:"%search_string%" "%%F" >nul && (
-            powershell -Command "(Get-Content '%%F') -replace '%search_string%', '%replacement_string%' | Set-Content '%%F'"
-        )
+    for %%G in (%file_ext%) do (
+      for /R "." %%F in (%%G) do (
+          findstr /M /C:"%search_string%" "%%F" >nul && (
+              powershell -Command "(Get-Content '%%F') -replace '%search_string%', '%replacement_string%' | Set-Content '%%F'"
+          )
+      )
     )
     bash run-tests.sh
     if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
