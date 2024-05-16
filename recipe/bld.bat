@@ -30,21 +30,24 @@ cd %SRC_DIR%\sbcl-source
     :: del save7.test.sh save8.test.sh save9.test.sh script.test.sh stream.test.sh
     :: del threads.test.sh toplevel.test.sh undefined-classoid-bug.test.sh
 
-    :: set "file_ext=*.sh *.lisp"
-    :: set "search_string=\"/bin/sh\""
-    :: set "replacement_string=\"C:\\Windows\\System32\\bash.exe\""
+    where sh
+    where bash
 
-    :: :: Use for, findstr, and powershell to replace the string in the list of files
-    :: for %%G in (%file_ext%) do (
-    ::   for %%F in (%%G) do (
-    ::       findstr /M /C:"%search_string%" "%%F" >nul && (
-    ::           powershell -Command "(Get-Content '%%F') -replace '%search_string%', '%replacement_string%' | Set-Content '%%F'"
-    ::       )
-    ::   )
-    :: )
+    set "file_ext=*.sh *.lisp"
+    set "search_string=\"/bin/sh\""
+    set "replacement_string=\"C:\\Windows\\System32\\bash.exe\""
 
-    bash run-tests.sh
-    if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+    :: Use for, findstr, and powershell to replace the string in the list of files
+    for %%G in (%file_ext%) do (
+      for %%F in (%%G) do (
+          findstr /M /C:"%search_string%" "%%F" >nul && (
+              powershell -Command "(Get-Content '%%F') -replace '%search_string%', '%replacement_string%' | Set-Content '%%F'"
+          )
+      )
+    )
+
+    :: bash run-tests.sh
+    :: if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
   cd ..
 
   :: Install
