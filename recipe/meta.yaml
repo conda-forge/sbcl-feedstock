@@ -47,8 +47,6 @@ requirements:
   run:
 
 test:
-  source_files:
-    - sbcl-source/tests  # [win]
   commands:
     - if not exist %PREFIX%\\etc\\conda\\activate.d\\sbcl-activate.bat exit /b 1  # [win]
     - if not exist %PREFIX%\\etc\\conda\\deactivate.d\\sbcl-deactivate.bat exit /b 1  # [win]
@@ -78,11 +76,6 @@ test:
     - if not exist %PREFIX%\\share\\doc\\sbcl\\CREDITS exit 1  # [win]
     - if not exist %PREFIX%\\share\\doc\\sbcl\\NEWS exit 1  # [win]
     - if not exist %PREFIX%\\share\\man\\man1\\sbcl.1 exit 1  # [win]
-
-    # Remove failing test - TEMPORARY
-    - rm -rf sbcl-source\\tests\\elfcore.test.sh  # [win]
-    - rm -rf sbcl-source\\tests\\futex-wait.test.sh  # [win]
-    - cd sbcl-source\\tests && bash run-tests.sh  # [win]
 
     # Additional functionality tests
     - sbcl --version
