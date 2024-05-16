@@ -22,26 +22,26 @@ cd %SRC_DIR%\sbcl-source
   :: Test the build
   cd tests
     :: Remove these tests that rely upon /bin/sh or WSL
-    del banner.test.sh checkheap.test.sh chill.test.sh clos.test.sh compiler.test.sh
-    del elf-sans-immobile.test.sh elfcore.test.sh finalize.test.sh futex-wait.test.sh
-    del genheaders.test.sh hide-packages.test.sh init-hooks.test.sh init.test.sh interface.test.sh
-    del lzcore.test.sh relocation.test.sh room.test.sh run-program.test.sh save1.test.sh save10.test.sh
-    del save2.test.sh save3.test.sh save4.test.sh save5.test.sh save6.test.sh
-    del save7.test.sh save8.test.sh save9.test.sh script.test.sh stream.test.sh
-    del threads.test.sh toplevel.test.sh undefined-classoid-bug.test.sh
+    :: del banner.test.sh checkheap.test.sh chill.test.sh clos.test.sh compiler.test.sh
+    :: del elf-sans-immobile.test.sh elfcore.test.sh finalize.test.sh futex-wait.test.sh
+    :: del genheaders.test.sh hide-packages.test.sh init-hooks.test.sh init.test.sh interface.test.sh
+    :: del lzcore.test.sh relocation.test.sh room.test.sh run-program.test.sh save1.test.sh save10.test.sh
+    :: del save2.test.sh save3.test.sh save4.test.sh save5.test.sh save6.test.sh
+    :: del save7.test.sh save8.test.sh save9.test.sh script.test.sh stream.test.sh
+    :: del threads.test.sh toplevel.test.sh undefined-classoid-bug.test.sh
 
-    set "file_ext=*.sh *.lisp"
-    set "search_string=\"/bin/sh\""
-    set "replacement_string=\"C:\\Windows\\System32\\bash.exe\""
+    :: set "file_ext=*.sh *.lisp"
+    :: set "search_string=\"/bin/sh\""
+    :: set "replacement_string=\"C:\\Windows\\System32\\bash.exe\""
 
-    :: Use for, findstr, and powershell to replace the string in the list of files
-    for %%G in (%file_ext%) do (
-      for %%F in (%%G) do (
-          findstr /M /C:"%search_string%" "%%F" >nul && (
-              powershell -Command "(Get-Content '%%F') -replace '%search_string%', '%replacement_string%' | Set-Content '%%F'"
-          )
-      )
-    )
+    :: :: Use for, findstr, and powershell to replace the string in the list of files
+    :: for %%G in (%file_ext%) do (
+    ::   for %%F in (%%G) do (
+    ::       findstr /M /C:"%search_string%" "%%F" >nul && (
+    ::           powershell -Command "(Get-Content '%%F') -replace '%search_string%', '%replacement_string%' | Set-Content '%%F'"
+    ::       )
+    ::   )
+    :: )
 
     bash run-tests.sh
     if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
