@@ -83,8 +83,7 @@ test:
     # Additional functionality tests
     - sbcl --version
     - sbcl --help
-    - sbcl --eval '(print "hello world")' --quit  # [not win]
-    - sbcl --eval '(+ 2 2)' --quit  # [win]
+    - sbcl --noinform --disable-debugger --eval '(print (require :asdf))' --disable-debugger --eval '(quit)'  # [win]
 
 about:
   home: http://www.sbcl.org

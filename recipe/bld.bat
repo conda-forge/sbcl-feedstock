@@ -8,6 +8,11 @@ set "INSTALL_ROOT=%SRC_DIR%\_bootstrap\PFiles\Steel Bank Common Lisp"
 copy "%INSTALL_ROOT%\sbcl.exe" "%INSTALL_ROOT%\sbcl"
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
+:: Verify that the bootstrap runs the tests
+:: copy "%INSTALL_ROOT%\sbcl" "%SRC_DIR%\src\runtime\sbcl" > nul
+:: cd tests && bash run-tests.sh
+:: if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+
 set "SBCL_HOME=%INSTALL_ROOT%"
 set "PATH=%SBCL_HOME%;%PATH%"
 
@@ -35,7 +40,8 @@ cd %SRC_DIR%\sbcl-source
 
     set "file_ext=*.sh *.lisp"
     set "search_string=\"/bin/sh\""
-    set "replacement_string=\"C:\\Windows\\System32\\bash.exe\""
+    set "replacement_string=\"%BUILD_PREFIX%/Library/usr/bin/sh.exe\""
+    :: set "replacement_string=\"%BUILD_PREFIX%/Library/usr/bin/bash.exe\""
 
     :: Use for, findstr, and powershell to replace the string in the list of files
     for %%G in (%file_ext%) do (
