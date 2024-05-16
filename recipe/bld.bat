@@ -10,7 +10,7 @@ if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
 :: Verify that the bootstrap runs the tests
 copy "%INSTALL_ROOT%\sbcl" "%SRC_DIR%\src\runtime\sbcl" > nul
-cd tests && bash run-tests.sh
+cd %SRC_DIR%\sbcl-source\tests && bash run-tests.sh
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
 set "SBCL_HOME=%INSTALL_ROOT%"
