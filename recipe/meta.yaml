@@ -44,14 +44,12 @@ requirements:
     - {{ stdlib('c') }}
     - make
     - zstd
-    - posix
+    - posix  # [win]
   host:
     - zstd
   run:
 
 test:
-  requires:
-    - posix  # [win]
   commands:
     - if not exist %PREFIX%\\etc\\conda\\activate.d\\sbcl-activate.bat exit /b 1  # [win]
     - if not exist %PREFIX%\\etc\\conda\\deactivate.d\\sbcl-deactivate.bat exit /b 1  # [win]
@@ -85,7 +83,7 @@ test:
     # Additional functionality tests
     - sbcl --version
     - sbcl --help
-    - sbcl --eval '(print "hello world")' --quit
+    - bash -c sbcl --eval '(print "hello world")' --quit
 
 about:
   home: http://www.sbcl.org
