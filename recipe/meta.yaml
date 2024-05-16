@@ -83,7 +83,7 @@ test:
     # Additional functionality tests
     - sbcl --version
     - sbcl --help
-    - bash -c sbcl --eval '(print "hello world")' --quit
+    - sbcl --eval '(print "hello world")' --quit  # [not win]
 
 about:
   home: http://www.sbcl.org
