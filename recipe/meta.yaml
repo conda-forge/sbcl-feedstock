@@ -50,9 +50,8 @@ requirements:
   run:
 
 test:
-  source_files:
-    - sbcl-source/tests
-    - sbcl-source/sbcl-pwd.sh
+  requires:
+    - posix  # [win]
   commands:
     - if not exist %PREFIX%\\etc\\conda\\activate.d\\sbcl-activate.bat exit /b 1  # [win]
     - if not exist %PREFIX%\\etc\\conda\\deactivate.d\\sbcl-deactivate.bat exit /b 1  # [win]
