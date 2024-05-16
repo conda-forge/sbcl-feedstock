@@ -5,7 +5,7 @@ msiexec /a %MSI_FILE% /qb TARGETDIR="%SRC_DIR%\_bootstrap"
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
 set "INSTALL_ROOT=%SRC_DIR%\_bootstrap\PFiles\Steel Bank Common Lisp"
-copy "%INSTALL_ROOT%\sbcl.exe" "%INSTALL_ROOT%\sbcl"
+copy "%INSTALL_ROOT%\sbcl.exe" "%INSTALL_ROOT%\sbcl" > nul
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
 set "SBCL_HOME=%INSTALL_ROOT%"
@@ -16,20 +16,17 @@ cd %SRC_DIR%\sbcl-source
   set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
-  bash make.sh --fancy > nul 2>&1
+  bash make.sh --fancy > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
-
-  copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING
-  copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDIT
 
   set "INSTALL_ROOT=%PREFIX%"
   set "SBCL_HOME=%INSTALL_ROOT%/lib/sbcl"
-  bash install.sh > nul 2>&1
+  bash install.sh > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 cd %SRC_DIR%
 
-copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING
-copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDITS
+copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING > nul
+copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDITS > nul
 
 if not exist "%PREFIX%\etc\conda\activate.d\" mkdir "%PREFIX%\etc\conda\activate.d\"
 if not exist "%PREFIX%\etc\conda\deactivate.d\" mkdir "%PREFIX%\etc\conda\deactivate.d\"
