@@ -9,7 +9,7 @@
  endif
  ifdef LISP_FEATURE_SB_FUTEX
    OS_LIBS += -lSynchronization
-@@ -52,14 +52,10 @@
+@@ -52,14 +52,11 @@
 
  # -Wno-type-limits suppresses a ton of warnings from 'grovel-headers'
  # which seems to produce C code in which a comparison is always false.
