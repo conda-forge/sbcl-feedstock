@@ -41,7 +41,6 @@ requirements:
     - {{ compiler('c') }}
     - {{ stdlib('c') }}
     - make
-    - zstd
   host:
     - zstd
   run:
