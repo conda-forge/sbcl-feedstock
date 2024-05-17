@@ -43,6 +43,8 @@ requirements:
     - {{ stdlib('c') }}  # [not win]
     - {{ stdlib('m2w64_c') }}  # [win]
     - make
+    # zstd is required for SBCL to enable compressed core saves
+    - zstd
   host:
     - zstd
   run:
