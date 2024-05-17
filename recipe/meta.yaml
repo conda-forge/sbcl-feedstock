@@ -40,10 +40,11 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}
-    - {{ stdlib('c') }}
+    # - {{ compiler('c') }}
+    # - {{ stdlib('c') }}
+    - m2w64-gcc
+    - m2w64-gcc-libs
     - make
-    - libgcc >=12  # [win]
     - zstd
   host:
     - zstd
