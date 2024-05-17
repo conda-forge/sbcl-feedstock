@@ -43,7 +43,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ stdlib('c') }}
     - make
-    - m2w64-gcc-libs >=12 # [win]
+    - libgcc >=12  # [win]
     - zstd
     - posix  # [win]
   host:
