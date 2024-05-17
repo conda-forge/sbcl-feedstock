@@ -9,8 +9,16 @@
  endif
  ifdef LISP_FEATURE_SB_FUTEX
    OS_LIBS += -lSynchronization
-@@ -59,8 +59,8 @@
-        -O5 -m64 -DWINVER=0x0501 \
+@@ -52,14 +52,10 @@
+
+ # -Wno-type-limits suppresses a ton of warnings from 'grovel-headers'
+ # which seems to produce C code in which a comparison is always false.
+-CFLAGS += -g -W -Wall \
+-       -Wno-unused-function -Wno-unused-parameter -Wno-cast-function-type \
+-       -Wno-type-limits \
+-       -fno-omit-frame-pointer \
+-       -O5 -m64 -DWINVER=0x0501 \
++CFLAGS += -O5 -m64 -DWINVER=0x0501 \
         -D__W32API_USE_DLLIMPORT__
 
 -CC = gcc
