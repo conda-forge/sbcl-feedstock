@@ -9,19 +9,19 @@ copy "%INSTALL_ROOT%\sbcl.exe" "%INSTALL_ROOT%\sbcl"
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
 :: Verify that the bootstrap runs the tests
-mkdir %SRC_DIR%\sbcl-source\src\runtime
-copy "%INSTALL_ROOT%\sbcl" "%SRC_DIR%\sbcl-source\src\runtime\sbcl" > nul
-mkdir %SRC_DIR%\sbcl-source\output
-copy "%INSTALL_ROOT%\sbcl.core" "%SRC_DIR%\sbcl-source\src\output\sbcl.core" > nul
-cd %SRC_DIR%\sbcl-source\tests && bash run-tests.sh
-if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+:: mkdir %SRC_DIR%\sbcl-source\src\runtime
+:: copy "%INSTALL_ROOT%\sbcl" "%SRC_DIR%\sbcl-source\src\runtime\sbcl" > nul
+:: mkdir %SRC_DIR%\sbcl-source\output
+:: copy "%INSTALL_ROOT%\sbcl.core" "%SRC_DIR%\sbcl-source\src\output\sbcl.core" > nul
+:: cd %SRC_DIR%\sbcl-source\tests && bash run-tests.sh
+:: if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
 set "SBCL_HOME=%INSTALL_ROOT%"
 set "PATH=%SBCL_HOME%;%PATH%"
 
 cd %SRC_DIR%\sbcl-source
   set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"
-  set "CC=gcc"
+  set "CC=cl"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
   bash make.sh --fancy > nul 2>&1

@@ -14,7 +14,7 @@
         -D__W32API_USE_DLLIMPORT__
 
 -CC = gcc
-+CC = gcc
++CC = cl
 
  ifeq ($(shell $(LD) --disable-dynamicbase 2>&1 | grep disable-dynamicbase),)
 -LINKFLAGS += -Wl,--disable-dynamicbase

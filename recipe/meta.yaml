@@ -44,7 +44,6 @@ requirements:
     - {{ stdlib('c') }}
     - make
     - zstd
-    - posix  # [win]
   host:
     - zstd
   run:
