@@ -11,6 +11,8 @@ if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 :: Verify that the bootstrap runs the tests
 mkdir %SRC_DIR%\sbcl-source\src\runtime
 copy "%INSTALL_ROOT%\sbcl" "%SRC_DIR%\sbcl-source\src\runtime\sbcl" > nul
+mkdir %SRC_DIR%\sbcl-source\src\output
+copy "%INSTALL_ROOT%\sbcl.core" "%SRC_DIR%\sbcl-source\src\output\sbcl.core" > nul
 cd %SRC_DIR%\sbcl-source\tests && bash run-tests.sh
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
