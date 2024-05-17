@@ -45,7 +45,6 @@ requirements:
     - make
     - libgcc >=12  # [win]
     - zstd
-    - posix  # [win]
   host:
     - zstd
   run:
