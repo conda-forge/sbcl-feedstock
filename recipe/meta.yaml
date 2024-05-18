@@ -40,10 +40,14 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}
-    - {{ stdlib('c') }}
+    - {{ compiler('c') }}  # [not win]
+    - {{ stdlib('c') }}  # [not win]
     - make
-    - zstd
+    - zstd  # [not win]
+    - m2w64-experimental::mingw-sysroot_win-64  # [win]
+    - m2w64-experimental::mingw-w64-ucrt-x86_64-gcc  # [win]
+    - m2w64-experimental::mingw-w64-ucrt-x86_64-gcc-libs  # [win]
+    - m2w64-experimental::mingw-w64-ucrt-x86_64-zstd  # [win]
   host:
     - zstd
   run:
