@@ -44,7 +44,7 @@ requirements:
     - {{ stdlib('c') }}  # [not win]
     - make
     - zstd  # [not win]
-    - mingw-sysroot  # [win]
+    # - mingw-sysroot  # [win]
     - mingw-w64-ucrt-x86_64-gcc  # [win]
     - mingw-w64-ucrt-x86_64-gcc-libs  # [win]
     - mingw-w64-ucrt-x86_64-zstd  # [win]
