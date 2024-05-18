@@ -1,5 +1,6 @@
 channel_sources:
-- conda-forge
+- conda-forge m2w64-experimental
+- conda-forge main
 channel_targets:
 - conda-forge m2w64-experimental
 target_platform:
