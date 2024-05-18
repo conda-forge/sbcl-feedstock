@@ -60,14 +60,14 @@ Current release info
 Installing sbcl
 ===============
 
-Installing `sbcl` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `sbcl` from the `conda-forge/label/m2w64-experimental` channel can be achieved by adding `conda-forge/label/m2w64-experimental` to your channels with:
 
 ```
-conda config --add channels conda-forge
+conda config --add channels conda-forge/label/m2w64-experimental
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `sbcl` can be installed with `conda`:
+Once the `conda-forge/label/m2w64-experimental` channel has been enabled, `sbcl` can be installed with `conda`:
 
 ```
 conda install sbcl
@@ -82,26 +82,26 @@ mamba install sbcl
 It is possible to list all of the versions of `sbcl` available on your platform with `conda`:
 
 ```
-conda search sbcl --channel conda-forge
+conda search sbcl --channel conda-forge/label/m2w64-experimental
 ```
 
 or with `mamba`:
 
 ```
-mamba search sbcl --channel conda-forge
+mamba search sbcl --channel conda-forge/label/m2w64-experimental
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search sbcl --channel conda-forge
+mamba repoquery search sbcl --channel conda-forge/label/m2w64-experimental
 
 # List packages depending on `sbcl`:
-mamba repoquery whoneeds sbcl --channel conda-forge
+mamba repoquery whoneeds sbcl --channel conda-forge/label/m2w64-experimental
 
 # List dependencies of `sbcl`:
-mamba repoquery depends sbcl --channel conda-forge
+mamba repoquery depends sbcl --channel conda-forge/label/m2w64-experimental
 ```
 
 
