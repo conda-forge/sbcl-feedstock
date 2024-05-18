@@ -44,10 +44,10 @@ requirements:
     - {{ stdlib('c') }}  # [not win]
     - make
     - zstd  # [not win]
-    - conda-forge/label/m2w64-experimental::mingw-sysroot_win-64  # [win]
-    - conda-forge/label/m2w64-experimental::mingw-w64-ucrt-x86_64-gcc  # [win]
-    - conda-forge/label/m2w64-experimental::mingw-w64-ucrt-x86_64-gcc-libs  # [win]
-    - conda-forge/label/m2w64-experimental::mingw-w64-ucrt-x86_64-zstd  # [win]
+    - m2w64-experimental::mingw-sysroot_win-64  # [win]
+    - m2w64-experimental::mingw-w64-ucrt-x86_64-gcc  # [win]
+    - m2w64-experimental::mingw-w64-ucrt-x86_64-gcc-libs  # [win]
+    - m2w64-experimental::mingw-w64-ucrt-x86_64-zstd  # [win]
   host:
     - zstd
   run:
