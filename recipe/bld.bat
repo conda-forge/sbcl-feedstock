@@ -13,10 +13,13 @@ set "PATH=%SBCL_HOME%;%PATH%"
 
 cd %SRC_DIR%\sbcl-source
   set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"
-  dir %BUILD_PREFIX%\Library\include
-  dir %BUILD_PREFIX%\include
-  dir %PREFIX%\include
-  dir %PREFIX%\Library\include
+  echo "Where?"
+  dir "%BUILD_PREFIX%\Library\include"
+  dir "%BUILD_PREFIX%\include"
+  dir "%BUILD_PREFIX%"
+  dir "%PREFIX%"
+  dir "%PREFIX%\include"
+  dir "%PREFIX%\Library\include"
   set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
