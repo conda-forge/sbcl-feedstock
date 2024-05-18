@@ -14,7 +14,7 @@ set "PATH=%SBCL_HOME%;%PATH%"
 cd %SRC_DIR%\sbcl-source
   set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"
   dir %BUILD_PREFIX%\Library\mingw-w64\bin
-  set "CC=cl"
+  set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
   echo "Building SBCL from source in %SRC_DIR%\sbcl-source"
