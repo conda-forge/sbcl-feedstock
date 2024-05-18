@@ -49,7 +49,7 @@ requirements:
     - mingw-w64-ucrt-x86_64-gcc-libs  # [win]
     - mingw-w64-ucrt-x86_64-zstd  # [win]
   host:
-    - zstd
+    - mingw-w64-ucrt-x86_64-zstd  # [win]
   run:
 
 test:
