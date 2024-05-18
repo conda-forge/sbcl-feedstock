@@ -13,7 +13,7 @@
         -Wno-type-limits \
         -fno-omit-frame-pointer \
         -O5 -m64 -DWINVER=0x0501 \
-+       -I${PREFIX}\\Library\\include -I${PREFIX}\\include -I${BUILD_PREFIX}\\include -I${BUILD_PREFIX}\\Library\\include \
++       -I${PREFIX}\\Library\\include -I${PREFIX}\\x86_64-w64-mingw32\\sysroot\\ucrt64\\include \
         -D__W32API_USE_DLLIMPORT__
 
  CC = gcc

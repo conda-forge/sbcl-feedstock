@@ -20,6 +20,7 @@ cd %SRC_DIR%\sbcl-source
   dir "%PREFIX%"
   dir "%PREFIX%\include"
   dir "%PREFIX%\Library\include"
+  dir "%PREFIX%\x86_64-w64-mingw32\sysroot\ucrt64\include"
   set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
