@@ -42,9 +42,9 @@ test:
     - test -f ${PREFIX}/lib/sbcl/contrib/asdf.fasl  # [unix]
     - test -f ${PREFIX}/lib/sbcl/contrib/uiop.fasl  # [unix]
 
-    # Not all contribs are built on Windows - Note this is for when unix builds from source
-    - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.asd  # [unix]
-    - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.fasl  # [unix]
+    # Extra contribs on Linux
+    - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.asd  # [linux]
+    - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.fasl  # [linux]
     {% set contribs = [
       "sb-aclrepl", "sb-bsd-sockets", "sb-capstone", "sb-cltl2", "sb-concurrency", "sb-cover",
       "sb-executable", "sb-gmp", "sb-grovel", "sb-introspect", "sb-md5", "sb-mpfr",
