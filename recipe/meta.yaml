@@ -64,8 +64,8 @@ test:
     - test -f ${PREFIX}/share/man/man1/sbcl.1  # [unix]
 
     # Empty due to TeX requirements unmet on conda-forge
-    - test -d ${PREFIX}/share/info  # [unix]
-    - test -d ${PREFIX}/share/doc/sbcl/html  # [unix]
+    - test -d ${PREFIX}/share/info  # [linux]
+    - test -d ${PREFIX}/share/doc/sbcl/html  # [linux]
 
     # Additional functionality tests
     - sbcl --version
