@@ -86,12 +86,16 @@ function build_stage() {
     export INSTALL_ROOT SBCL_HOME PATH=${INSTALL_ROOT}/bin:${PATH}
     bash install.sh
 
-    # Oddly, the executable fails to be parsed correctly by LIEF
-    if [[ "${final}" == "true" ]]; then
-      patchelf_rpath "${INSTALL_ROOT}"/bin/sbcl
-    else
-      patchelf_rpath "${INSTALL_ROOT}"/bin/sbcl "${BUILD_PREFIX}"
-    fi
+    case "$(uname)" in
+      Linux)
+        # Oddly, the executable fails to be parsed correctly by LIEF
+        if [[ "${final}" == "true" ]]; then
+          patchelf_rpath "${INSTALL_ROOT}"/bin/sbcl
+        else
+          patchelf_rpath "${INSTALL_ROOT}"/bin/sbcl "${BUILD_PREFIX}"
+        fi
+      ;;
+    esac
   cd "${current_dir}"
 }
 
@@ -108,7 +112,11 @@ function install_sbcl() {
 
   INSTALL_ROOT=${PREFIX}
   SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
-  patchelf_rpath "${INSTALL_ROOT}"/bin/sbcl
+  case "$(uname)" in
+    Linux)
+      patchelf_rpath "${INSTALL_ROOT}"/bin/sbcl
+      ;;
+  esac
 
   export INSTALL_ROOT SBCL_HOME PATH=${INSTALL_ROOT}/bin:${PATH}
 }
@@ -121,13 +129,23 @@ function install_sbcl() {
 # bootstrap_sbcl "${SRC_DIR}/bootstrapping" "${BUILD_PREFIX}" "${SRC_DIR}/_conda_bootstrapped"
 # elf_debug "_bootstrapped"
 build_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${SRC_DIR}/_conda_stage1-install" false
-elf_debug "_stage1"
+
+case "$(uname)" in
+  Linux)
+    elf_debug "_stage1"
+    ;;
+esac
+
 build_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage2-build" "${SRC_DIR}/_conda_stage2-install"
 
 strip "${INSTALL_ROOT}"/bin/sbcl
 cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
 
-elf_debug "_stage2"
+case "$(uname)" in
+  Linux)
+    elf_debug "_stage2"
+    ;;
+esac
 install_sbcl
 
 # Install SBCL in conda-forge environment
