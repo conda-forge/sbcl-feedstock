@@ -14,15 +14,18 @@ set "PATH=%SBCL_HOME%;%PATH%"
 cd %SRC_DIR%\sbcl-source
   set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"
   echo "Where?"
-  dir "%BUILD_PREFIX%\Library\ucrt64\include"
-  dir "%BUILD_PREFIX%\Library\ucrt64\x86_64-w64-mingw32"
-  dir "%BUILD_PREFIX%\Library\ucrt64\x86_64-w64-mingw32\include"
-  dir "%PREFIX%\Library\ucrt64\include"
+  dir "%BUILD_PREFIX%\Library\ucrt64\lib"
+  dir "%BUILD_PREFIX%\Library\ucrt64\x86_64-w64-mingw32\bin"
+  dir "%BUILD_PREFIX%\Library\ucrt64\x86_64-w64-mingw32\lib"
+  dir "%PREFIX%\Library\ucrt64\lib"
+  dir "%PREFIX%\Library\ucrt64\bin"
+  dir "%PREFIX%\Library\ucrt64\x86_64-w64-mingw32\lib"
+  dir "%PREFIX%\Library\ucrt64\x86_64-w64-mingw32\lib"
   set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
   echo "Building SBCL from source in %SRC_DIR%\sbcl-source"
-  bash make.sh --fancy > nul
+  bash make.sh --fancy > nul 2>&1
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   :: Test the build
