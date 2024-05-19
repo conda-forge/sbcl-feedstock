@@ -5,7 +5,15 @@
  OS_LIBS = -l ws2_32 -ladvapi32 -lm
  ifdef LISP_FEATURE_SB_CORE_COMPRESSION
 -  OS_LIBS += -lzstd
-+  OS_LIBS +=  ${PREFIX}\\Library\\bin\\libzstd.dll
++  OS_LIBS += -L${BUILD_PREFIX}\\Library\\ucrt64\\lib -lzstd
  endif
  ifdef LISP_FEATURE_SB_FUTEX
    OS_LIBS += -lSynchronization
+@@ -57,6 +57,7 @@
+        -Wno-type-limits \
+        -fno-omit-frame-pointer \
+        -O5 -m64 -DWINVER=0x0501 \
++       -I${BUILD_PREFIX}\\Library\\ucrt64\\include -I${PREFIX}\\ucrt64\\include \
+        -D__W32API_USE_DLLIMPORT__
+
+ CC = gcc
