@@ -26,30 +26,38 @@ source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-x86-64-windows-binary.msi              # [win and x86_64]
     sha256: 2cf132de1688b6e7d108128525446ae3de0fb7b98e3af016a1278593878be5a2                               # [win and x86_64]
 
-  - url: https://downloads.sourceforge.net/project/sbcl/sbcl/{{ version }}/sbcl-{{ version }}-source.tar.bz2
+  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-source.tar.bz2
     sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5
     folder: sbcl-source
-    # patches:
-    #   - 0001-add-patchelf-sbcl.patch  # [linux]
+    patches:
+      - patches/0001-win-use-env-xargs.sh.patch  # [win]
+      - patches/0002-win-update-flags-zstd.patch  # [win]
 
 build:
   number: 4
-  skip: true  # [not x86_64]
+  skip: true  # [not x86_64 and not win]
+  script_env:
+    - MSI_FILE=sbcl-{{ win_64_version }}-x86-64-windows-binary.msi  # [win and x86_64]
 
 requirements:
   build:
-    - {{ compiler('c') }}
-    - {{ stdlib("c") }}
+    - {{ compiler('c') }}  # [not win]
+    - {{ stdlib('c') }}  # [not win]
     - make
-    - zstd
+    # zstd is required to compile SBCL with 'compressed core saves' enabled
+    - zstd  # [not win]
+
+    # Current windows gcc toolchain (v5.3) segfaulta when building SBCL, need >=12
+    # Using experimental msys2 toolchain for now
+    - mingw-w64-ucrt-x86_64-gcc  # [win]
+    - mingw-w64-ucrt-x86_64-gcc-libs  # [win]
+    - mingw-w64-ucrt-x86_64-zstd  # [win]
     # This is for debugging purposes only
     - conda-build
   host:
     - zstd
 
 test:
-  source_files:
-    - sbcl-from-source/tests
   commands:
     - test -f ${PREFIX}/etc/conda/activate.d/sbcl-activate.sh  # [unix]
     - test -f ${PREFIX}/etc/conda/deactivate.d/sbcl-deactivate.sh  # [unix]
@@ -57,15 +65,19 @@ test:
     - if not exist %PREFIX%\\etc\\conda\\deactivate.d\\sbcl-deactivate.bat exit 1  # [win]
 
     - test -f ${PREFIX}/bin/sbcl  # [unix]
+    - if not exist %PREFIX%\\bin\\sbcl.exe exit 1  # [win]
+
     - test -f ${PREFIX}/lib/sbcl/contrib/asdf.fasl  # [unix]
     - test -f ${PREFIX}/lib/sbcl/contrib/uiop.fasl  # [unix]
-    - if not exist %PREFIX%\\bin\\sbcl.exe exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\asdf.fasl exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\uiop.fasl exit 1  # [win]
 
+    # Not all contribs are built on Windows - Note this is for when unix builds from source
+    - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-perf.asd exit 1  # [not win]
+    - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-perf.fasl exit 1  # [not win]
     {% set contribs = [
       "sb-aclrepl", "sb-bsd-sockets", "sb-capstone", "sb-cltl2", "sb-concurrency", "sb-cover",
-      "sb-executable", "sb-gmp", "sb-grovel", "sb-introspect", "sb-md5", "sb-mpfr", "sb-perf",
+      "sb-executable", "sb-gmp", "sb-grovel", "sb-introspect", "sb-md5", "sb-mpfr",
       "sb-posix", "sb-queue", "sb-rotate-byte", "sb-rt", "sb-simd", "sb-simple-streams", "sb-sprof",
     ] %}
     {% for contrib in contribs %}
@@ -104,7 +116,7 @@ test:
     # Additional functionality tests
     - sbcl --version
     - sbcl --help
-    - sbcl --eval '(print "hello world")' --quit
+    - sbcl --noinform --disable-debugger --eval "(print (require :asdf))" --disable-debugger --eval "(quit)"
 
 about:
   home: http://www.sbcl.org

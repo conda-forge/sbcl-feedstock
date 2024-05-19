@@ -1,40 +1,37 @@
 @echo off
 
-dir "%SRC_DIR%"
-
-mkdir "%SRC_DIR%\_bootstrap"
+mkdir %SRC_DIR%\_bootstrap
 msiexec /a %MSI_FILE% /qb TARGETDIR="%SRC_DIR%\_bootstrap"
-
-dir "%SRC_DIR%\_bootstrap"
-dir "%SRC_DIR%\_bootstrap\PFiles"
-dir "%SRC_DIR%\_bootstrap\PFiles\Steel Bank Common Lisp"
+if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
 set "INSTALL_ROOT=%SRC_DIR%\_bootstrap\PFiles\Steel Bank Common Lisp"
-copy %INSTALL_ROOT%\sbcl.exe %INSTALL_ROOT%\sbcl
+copy "%INSTALL_ROOT%\sbcl.exe" "%INSTALL_ROOT%\sbcl" > nul
+if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+
 set "SBCL_HOME=%INSTALL_ROOT%"
 set "PATH=%SBCL_HOME%;%PATH%"
 
-echo "%PATH%"
-
-dir %SBCL_HOME%
-where sbcl
-where sbcl.exe
-
 cd %SRC_DIR%\sbcl-source
-  bash make.sh --fancy
+  set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"
+  set "CC=gcc"
+  set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
-  copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING
-  copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDIT
+  bash make.sh --fancy > nul
+  if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
-  set INSTALL_ROOT=%PREFIX%
-  bash install.sh
-cd ..
+  set "INSTALL_ROOT=%PREFIX%"
+  set "SBCL_HOME=%INSTALL_ROOT%/lib/sbcl"
+  bash install.sh > nul
+  if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+cd %SRC_DIR%
+
+copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING > nul
+copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDITS > nul
 
 if not exist "%PREFIX%\etc\conda\activate.d\" mkdir "%PREFIX%\etc\conda\activate.d\"
 if not exist "%PREFIX%\etc\conda\deactivate.d\" mkdir "%PREFIX%\etc\conda\deactivate.d\"
 
-echo @echo off > "%PREFIX%\etc\conda\activate.d\activate_sbcl.bat"
-echo set SBCL_HOME=%CONDA_PREFIX%\lib\sbcl >> "%PREFIX%\etc\conda\activate.d\activate_sbcl.bat"
-
-echo @echo off > "%PREFIX%\etc\conda\deactivate.d\deactivate_sbcl.bat"
-echo set SBCL_HOME= >> "%PREFIX%\etc\conda\deactivate.d\deactivate_sbcl.bat"
+copy "%RECIPE_DIR%\scripts\activate.bat" "%PREFIX%\etc\conda\activate.d\sbcl-activate.bat" > nul
+if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+copy "%RECIPE_DIR%\scripts\deactivate.bat" "%PREFIX%\etc\conda\deactivate.d\sbcl-deactivate.bat" > nul
+if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
