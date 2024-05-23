@@ -40,17 +40,16 @@ requirements:
   build:
     - {{ compiler('c') }}  # [not win]
     - {{ stdlib('c') }}  # [not win]
-    - make
-    # zstd is required to compile SBCL with 'compressed core saves' enabled
-    - zstd
     # Current windows gcc toolchain (v5.3) segfaulta when building SBCL, need >=12
     # Using experimental msys2 toolchain for now
     - mingw-w64-ucrt-x86_64-gcc  # [win]
     - mingw-w64-ucrt-x86_64-gcc-libs  # [win]
     - mingw-w64-ucrt-x86_64-zstd  # [win]
+    - make
+    # zstd is required to compile SBCL with 'compressed core saves' enabled
+    # - zstd  # [win]
   host:
-    - zstd
-  run:
+    - zstd  # [win]
 
 test:
   commands:
