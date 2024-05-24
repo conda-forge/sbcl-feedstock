@@ -3,6 +3,7 @@
 mamba install -y sbcl
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
+echo "Building SBCL with: %SBCL% in %SRC_DIR%\sbcl-source"
 cd %SRC_DIR%\sbcl-source
   set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"
   set "CC=gcc"
@@ -17,6 +18,7 @@ cd %SRC_DIR%\sbcl-source
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 cd %SRC_DIR%
 
+echo "Copying SBCL licenses to %SRC_DIR%"
 copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING > nul
 copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDITS > nul
 
