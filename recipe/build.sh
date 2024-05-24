@@ -128,7 +128,7 @@ function install_sbcl() {
 
 # bootstrap_sbcl "${SRC_DIR}/bootstrapping" "${BUILD_PREFIX}" "${SRC_DIR}/_conda_bootstrapped"
 # elf_debug "_bootstrapped"
-build_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${SRC_DIR}/_conda_stage1-install" false
+build_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${SRC_DIR}/_conda_stage1-install" "true"
 
 case "$(uname)" in
   Linux)
