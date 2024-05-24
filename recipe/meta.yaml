@@ -1,31 +1,28 @@
 {% set linux_version = "2.2.11" %}
 {% set aarch64_version = "1.4.2" %}
-{% set osx_version = "2.2.9" %}
 {% set osx_arm64_version = "2.4.0" %}
-{% set win_64_version = "2.4.4" %}
+{% set version = "2.4.4" %}
 
 package:
   name: sbcl
   version: {{ linux_version }}       # [linux64]
   version: {{ aarch64_version }}     # [aarch64]
-  version: {{ osx_version }}         # [osx and x86_64]
   version: {{ osx_arm64_version }}   # [osx and arm64]
-  version: {{ win_64_version }}      # [win and x86_64]
+  version: {{ version }}             # [(win or osx) and x86_64]
 
 source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ linux_version }}-x86-64-linux-binary.tar.bz2      # [linux64]
     sha256: 477a885b260c8cf8c794e0c9af0769303706f11e51367dad48e5b402ad0a9493                               # [linux64]
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ aarch64_version }}-arm64-linux-binary.tar.bz2     # [aarch64]
     sha256: ddac6499f36c18ecbce9822a53ef3914c0def5276a457446a456c62999b16d36                               # [aarch64]
-  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_version }}-x86-64-darwin-binary.tar.bz2       # [osx and x86_64]
-    sha256: 6f504b9282c83842c0601600f5e0663209b53b133125ec3334ff7a0bd0037ca6                               # [osx and x86_64]
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
     sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117                               # [osx and arm64]
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ win_64_version }}-x86-64-windows-binary.msi       # [win and x86_64]
     sha256: 2cf132de1688b6e7d108128525446ae3de0fb7b98e3af016a1278593878be5a2                               # [win and x86_64]
-  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ win_64_version }}-source.tar.bz2                  # [win and x86_64]
-    sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                               # [win and x86_64]
-    folder: sbcl-source                                                                                    # [win and x86_64]
+
+  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-source.tar.bz2                         # [(win or osx) and x86_64]
+    sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                               # [(win or osx) and x86_64]
+    folder: sbcl-source                                                                                    # [(win or osx) and x86_64]
     patches:
       - patches/0001-win-use-env-xargs.sh.patch  # [win]
       - patches/0002-win-update-flags-zstd.patch  # [win]
@@ -51,27 +48,41 @@ requirements:
 
 test:
   commands:
+    - test -f ${PREFIX}/etc/conda/activate.d/sbcl-activate.sh  # [osx and x86_64]
+    - test -f ${PREFIX}/etc/conda/deactivate.d/sbcl-deactivate.sh  # [osx and x86_64]
     - if not exist %PREFIX%\\etc\\conda\\activate.d\\sbcl-activate.bat exit /b 1  # [win]
     - if not exist %PREFIX%\\etc\\conda\\deactivate.d\\sbcl-deactivate.bat exit /b 1  # [win]
 
+    - test -f ${PREFIX}/bin/sbcl  # [osx and x86_64]
     - if not exist %PREFIX%\\bin\\sbcl.exe exit 1  # [win]
 
+    - test -f ${PREFIX}/lib/sbcl/contrib/asdf.fasl  # [osx and x86_64]
+    - test -f ${PREFIX}/lib/sbcl/contrib/uiop.fasl  # [osx and x86_64]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\asdf.fasl exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\uiop.fasl exit 1  # [win]
 
     # Not all contribs are built on Windows - Note this is for when unix builds from source
-    # - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-perf.asd exit 1  # [not win]
-    # - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-perf.fasl exit 1  # [not win]
+    - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.asd  # [linux]
+    - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.fasl  # [linux]
     {% set contribs = [
       "sb-aclrepl", "sb-bsd-sockets", "sb-capstone", "sb-cltl2", "sb-concurrency", "sb-cover",
       "sb-executable", "sb-gmp", "sb-grovel", "sb-introspect", "sb-md5", "sb-mpfr",
       "sb-posix", "sb-queue", "sb-rotate-byte", "sb-rt", "sb-simd", "sb-simple-streams", "sb-sprof",
     ] %}
     {% for contrib in contribs %}
+    - test -f ${PREFIX}/lib/sbcl/contrib/{{ contrib }}.asd  # [osx and x86_64]
+    - test -f ${PREFIX}/lib/sbcl/contrib/{{ contrib }}.fasl  # [osx and x86_64]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\{{ contrib }}.asd exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\{{ contrib }}.fasl exit 1  # [win]
     {% endfor %}
 
+    - test -f ${PREFIX}/lib/sbcl/sbcl.core  # [osx and x86_64]
+    - test -f ${PREFIX}/lib/sbcl/sbcl.mk  # [osx and x86_64]
+    - test -f ${PREFIX}/share/doc/sbcl/BUGS  # [osx and x86_64]
+    - test -f ${PREFIX}/share/doc/sbcl/COPYING  # [osx and x86_64]
+    - test -f ${PREFIX}/share/doc/sbcl/CREDITS  # [osx and x86_64]
+    - test -f ${PREFIX}/share/doc/sbcl/NEWS  # [osx and x86_64]
+    - test -f ${PREFIX}/share/man/man1/sbcl.1  # [osx and x86_64]
     - if not exist %PREFIX%\\lib\\sbcl\\sbcl.core exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\sbcl.mk exit 1  # [win]
     - if not exist %PREFIX%\\share\\doc\\sbcl\\BUGS exit 1  # [win]
@@ -83,8 +94,7 @@ test:
     # Additional functionality tests
     - sbcl --version
     - sbcl --help
-    - sbcl --eval '(print "hello world")' --quit  # [not win]
-    - sbcl --noinform --disable-debugger --eval "(print (require :asdf))" --disable-debugger --eval "(quit)"  # [win]
+    - sbcl --noinform --disable-debugger --eval "(print (require :asdf))" --disable-debugger --eval "(quit)"
 
 about:
   home: http://www.sbcl.org

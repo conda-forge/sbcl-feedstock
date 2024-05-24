@@ -1,19 +1,60 @@
-export INSTALL_ROOT=$PREFIX
+#!/usr/bin/env bash
 
-sh install.sh
+set -ex
 
-mkdir -p $PREFIX/etc/conda/activate.d/
-mkdir -p $PREFIX/etc/conda/deactivate.d/
+function conda_bootstrap() {
+  mamba install -y sbcl
+  INSTALL_ROOT="${BUILD_PREFIX}"
+  SBCL_HOME="${INSTALL_ROOT}/lib/sbcl"
+  export INSTALL_ROOT SBCL_HOME PATH="${INSTALL_ROOT}/bin:${PATH}"
+}
 
-cat >$PREFIX/etc/conda/activate.d/activate_sbcl.sh <<EOL
-#!/bin/sh
-export SBCL_HOME=\$CONDA_PREFIX/lib/sbcl
-EOL
+function build_install_stage() {
+  local src_dir=$1
+  local stage_dir=$2
+  local install_dir=$3
+  local final=${4:-false}
+  local current_dir
 
-cat >$PREFIX/etc/conda/deactivate.d/deactivate_sbcl.sh <<EOL
-#!/bin/sh
-unset SBCL_HOME
-EOL
+  current_dir=$(pwd)
 
-chmod u+x $PREFIX/etc/conda/activate.d/activate_sbcl.sh
-chmod u+x $PREFIX/etc/conda/deactivate.d/deactivate_sbcl.sh
+  mkdir -p "${stage_dir}"
+  cp -r "${src_dir}"/* "${stage_dir}"
+
+  cd "${stage_dir}"
+    if [[ "${final}" == "true" ]]; then
+      bash make.sh --fancy > _sbcl_build_log.txt 2>&1
+    else
+      bash make.sh > _sbcl_build_log.txt 2>&1
+    fi
+
+    INSTALL_ROOT=${install_dir}
+    SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
+    export INSTALL_ROOT SBCL_HOME PATH=${INSTALL_ROOT}/bin:${PATH}
+    bash install.sh
+  cd "${current_dir}"
+}
+
+case $(uname) in
+  Darwin)
+    conda_bootstrap
+    build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${SRC_DIR}/_conda_stage1-install" "true"
+    cp -r "${INSTALL_ROOT}"/* "${PREFIX}" > /dev/null 2>&1
+    ;;
+  *)
+    export INSTALL_ROOT=$PREFIX
+    sh install.sh
+    ;;
+esac
+
+# Install SBCL in conda-forge environment
+ACTIVATE_DIR=${PREFIX}/etc/conda/activate.d
+DEACTIVATE_DIR=${PREFIX}/etc/conda/deactivate.d
+mkdir -p "${ACTIVATE_DIR}"
+mkdir -p "${DEACTIVATE_DIR}"
+
+cp "${RECIPE_DIR}"/scripts/activate.sh "${ACTIVATE_DIR}"/sbcl-activate.sh
+cp "${RECIPE_DIR}"/scripts/deactivate.sh "${DEACTIVATE_DIR}"/sbcl-deactivate.sh
+
+chmod +x "${ACTIVATE_DIR}"/sbcl-activate.sh
+chmod +x "${DEACTIVATE_DIR}"/sbcl-deactivate.sh
