@@ -1,7 +1,6 @@
 @echo off
 
 mamba install -y sbcl
-if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
 echo "Building SBCL with: %SBCL% in %SRC_DIR%\sbcl-source"
 cd %SRC_DIR%\sbcl-source
