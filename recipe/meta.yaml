@@ -2,7 +2,7 @@
 {% set aarch64_version = "1.4.2" %}
 {% set osx_version = "2.2.9" %}
 {% set osx_arm64_version = "2.4.0" %}
-{% set win_64_version = "2.4.4" %}
+{% set win_64_version = "2.4.3" %}
 
 package:
   name: sbcl
@@ -22,7 +22,7 @@ source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
     sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117                               # [osx and arm64]
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ win_64_version }}-source.tar.bz2                  # [win and x86_64]
-    sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                               # [win and x86_64]
+    sha256: 89c9aadf92b82ad3c74a3d4f158a038893dea0e4f394dcafc963583c30b7c3f2                               # [win and x86_64]
     folder: sbcl-source                                                                                    # [win and x86_64]
     patches:
       - patches/0001-win-use-env-xargs.sh.patch  # [win]
