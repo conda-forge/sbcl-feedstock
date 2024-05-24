@@ -31,7 +31,7 @@ source:
       - patches/0002-win-update-flags-zstd.patch  # [win]
 
 build:
-  number: 3
+  number: 4
   script_env:
     - MSI_FILE=sbcl-{{ win_64_version }}-x86-64-windows-binary.msi  # [win and x86_64]
 
