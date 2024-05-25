@@ -2,7 +2,8 @@
 {% set aarch64_version = "1.4.2" %}
 {% set osx_version = "2.2.9" %}
 {% set osx_arm64_version = "2.4.0" %}
-{% set win_64_version = "2.4.4" %}
+
+{% set version = "2.4.4" %}
 
 package:
   name: sbcl
@@ -10,7 +11,7 @@ package:
   version: {{ aarch64_version }}     # [aarch64]
   version: {{ osx_version }}         # [osx and x86_64]
   version: {{ osx_arm64_version }}   # [osx and arm64]
-  version: {{ win_64_version }}      # [win and x86_64]
+  version: {{ version }}             # [win and x86_64]
 
 source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ linux_version }}-x86-64-linux-binary.tar.bz2      # [linux64]
@@ -21,7 +22,7 @@ source:
     sha256: 6f504b9282c83842c0601600f5e0663209b53b133125ec3334ff7a0bd0037ca6                               # [osx and x86_64]
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
     sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117                               # [osx and arm64]
-  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ win_64_version }}-source.tar.bz2                  # [win and x86_64]
+  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-source.tar.bz2                         # [win and x86_64]
     sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                               # [win and x86_64]
     folder: sbcl-source                                                                                    # [win and x86_64]
     patches:
