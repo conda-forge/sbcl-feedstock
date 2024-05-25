@@ -23,7 +23,7 @@ function build_install_stage() {
 
   cd "${stage_dir}"
     if [[ "${final}" == "true" ]]; then
-      bash make.sh > _sbcl_build_log.txt 2>&1
+      bash make.sh --fancy
     else
       bash make.sh > _sbcl_build_log.txt 2>&1
     fi
@@ -46,6 +46,8 @@ case $(uname) in
     sh install.sh
     ;;
 esac
+
+cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
 
 # Install SBCL in conda-forge environment
 ACTIVATE_DIR=${PREFIX}/etc/conda/activate.d
