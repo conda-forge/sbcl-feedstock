@@ -2,13 +2,6 @@
 
 set -ex
 
-function conda_bootstrap() {
-  mamba install -y sbcl
-  INSTALL_ROOT="${BUILD_PREFIX}"
-  SBCL_HOME="${INSTALL_ROOT}/lib/sbcl"
-  export INSTALL_ROOT SBCL_HOME PATH="${INSTALL_ROOT}/bin:${PATH}"
-}
-
 function build_install_stage() {
   local src_dir=$1
   local stage_dir=$2
@@ -37,7 +30,7 @@ function build_install_stage() {
 
 case $(uname) in
   Darwin)
-    conda_bootstrap
+    mamba install -y sbcl
     build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${SRC_DIR}/_conda_stage1-install" "true"
     cp -r "${INSTALL_ROOT}"/* "${PREFIX}" > /dev/null 2>&1
     ;;
