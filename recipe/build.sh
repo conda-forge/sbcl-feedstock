@@ -28,17 +28,14 @@ function build_install_stage() {
   cd "${current_dir}"
 }
 
-case $(uname) in
-  Darwin)
-    mamba install -y sbcl
-    build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${SRC_DIR}/_conda_stage1-install" "true"
-    cp -r "${INSTALL_ROOT}"/* "${PREFIX}" > /dev/null 2>&1
-    ;;
-  *)
-    export INSTALL_ROOT=$PREFIX
-    sh install.sh
-    ;;
-esac
+if [[ "${target_platform}" == "osx-64" ]]; then
+  mamba install -y sbcl
+  build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${SRC_DIR}/_conda_stage1-install" "true"
+  cp -r "${INSTALL_ROOT}"/* "${PREFIX}" > /dev/null 2>&1
+else
+  export INSTALL_ROOT=$PREFIX
+  sh install.sh
+fi
 
 cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
 cp "${SRC_DIR}"/sbcl-source/CREDITS "${SRC_DIR}"
