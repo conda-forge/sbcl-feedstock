@@ -5,9 +5,8 @@
 package:
   name: sbcl
   version: {{ linux_version }}       # [linux64]
-  version: {{ aarch64_version }}     # [aarch64]
   version: {{ osx_arm64_version }}   # [osx and arm64]
-  version: {{ version }}             # [(win or osx) and x86_64]
+  version: {{ version }}             # [(win or osx) and x86_64 or aarch64]
 
 source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ linux_version }}-x86-64-linux-binary.tar.bz2      # [linux64]
@@ -15,9 +14,9 @@ source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
     sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117                               # [osx and arm64]
 
-  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-source.tar.bz2                         # [(win or osx or aarch64) and x86_64]
-    sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                               # [(win or osx or aarch64) and x86_64]
-    folder: sbcl-source                                                                                    # [(win or osx or aarch64) and x86_64]
+  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-source.tar.bz2                         # [(win or osx) and x86_64 or aarch64]
+    sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                               # [(win or osx) and x86_64 or aarch64]
+    folder: sbcl-source                                                                                    # [(win or osx) and x86_64 or aarch64]
     patches:
       - patches/0001-win-use-env-xargs.sh.patch  # [win]
       - patches/0002-win-update-flags-zstd.patch  # [win]
@@ -36,8 +35,7 @@ requirements:
     - mingw-w64-ucrt-x86_64-gcc-libs  # [win]
     - mingw-w64-ucrt-x86_64-zstd  # [win]
     - make
-    # zstd is required to compile SBCL with 'compressed core saves' enabled
-    - zstd  # [build_platform != target_platform]
+    - sbcl  # [build_platform != target_platform]
   host:
     - zstd
 
