@@ -1,12 +1,7 @@
 @echo off
 
-echo "Copying SBCL licenses to %SRC_DIR%"
-copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING > nul
-copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDITS > nul
-
 call mamba install -y sbcl
 
-echo "Building SBCL with: %SBCL% in %SRC_DIR%\sbcl-source"
 cd %SRC_DIR%\sbcl-source
   set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"
   set "CC=gcc"
@@ -20,6 +15,9 @@ cd %SRC_DIR%\sbcl-source
   bash install.sh > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 cd %SRC_DIR%
+
+copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING > nul
+copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDITS > nul
 
 if not exist "%PREFIX%\etc\conda\activate.d\" mkdir "%PREFIX%\etc\conda\activate.d\"
 if not exist "%PREFIX%\etc\conda\deactivate.d\" mkdir "%PREFIX%\etc\conda\deactivate.d\"
