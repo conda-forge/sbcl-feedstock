@@ -6,7 +6,6 @@ XC_HOST="--xc-host='sbcl --disable-debugger --no-userinit --no-sysinit'"
 if [[ "${target_platform}" == "linux-ppc64le" ]]; then
   SBCL_ARGS="${XC_HOST}  --arch=ppc64le"
 elif [[ "${target_platform}" == "linux-aarch64" ]]; then
-  echo "Building for aarch64"
   SBCL_ARGS="${XC_HOST}  --arch=arm64"
 elif [[ "${target_platform}" == "osx-arm64" ]]; then
   SBCL_ARGS="${XC_HOST}  --arch=arm64"

@@ -5,7 +5,6 @@
 package:
   name: sbcl
   version: {{ linux_version }}       # [linux64]
-  version: {{ aarch64_version }}     # [aarch64]
   version: {{ osx_arm64_version }}   # [osx and arm64]
   version: {{ version }}             # [(win or osx) and x86_64]
 
