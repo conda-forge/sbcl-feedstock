@@ -42,7 +42,6 @@ requirements:
     # zstd is required to compile SBCL with 'compressed core saves' enabled
     - zstd  # [win]
   host:
-    # zstd is required to compile SBCL with 'compressed core saves' enabled
     - zstd  # [win]
 
 test:
