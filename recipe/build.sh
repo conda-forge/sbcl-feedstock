@@ -32,13 +32,12 @@ if [[ "${target_platform}" == "osx-64" ]]; then
   mamba install -y sbcl
   build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${SRC_DIR}/_conda_stage1-install" "true"
   cp -r "${INSTALL_ROOT}"/* "${PREFIX}" > /dev/null 2>&1
+  cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
+  cp "${SRC_DIR}"/sbcl-source/CREDITS "${SRC_DIR}"
 else
   export INSTALL_ROOT=$PREFIX
   sh install.sh
 fi
-
-cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
-cp "${SRC_DIR}"/sbcl-source/CREDITS "${SRC_DIR}"
 
 # Install SBCL in conda-forge environment
 ACTIVATE_DIR=${PREFIX}/etc/conda/activate.d
