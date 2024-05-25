@@ -23,7 +23,7 @@ function build_install_stage() {
 
   cd "${stage_dir}"
     if [[ "${final}" == "true" ]]; then
-      bash make.sh --fancy > _sbcl_build_log.txt 2>&1
+      bash make.sh > _sbcl_build_log.txt 2>&1
     else
       bash make.sh > _sbcl_build_log.txt 2>&1
     fi
