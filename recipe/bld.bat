@@ -4,7 +4,7 @@ echo "Copying SBCL licenses to %SRC_DIR%"
 copy %SRC_DIR%\sbcl-source\COPYING %SRC_DIR%\COPYING > nul
 copy %SRC_DIR%\sbcl-source\CREDITS %SRC_DIR%\CREDITS > nul
 
-mamba install -y sbcl
+call mamba install -y sbcl
 
 echo "Building SBCL with: %SBCL% in %SRC_DIR%\sbcl-source"
 cd %SRC_DIR%\sbcl-source
