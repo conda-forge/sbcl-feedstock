@@ -42,8 +42,7 @@ requirements:
     - mingw-w64-ucrt-x86_64-zstd  # [win]
     - make
   host:
-    # zstd is required to compile SBCL with 'compressed core saves' enabled
-    - zstd  # [win]
+    - zstd
 
 test:
   commands:
@@ -56,8 +55,8 @@ test:
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\uiop.fasl exit 1  # [win]
 
     # Not all contribs are built on Windows - Note this is for when unix builds from source
-    # - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-perf.asd exit 1  # [not win]
-    # - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-perf.fasl exit 1  # [not win]
+    # - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.asd  # [linux]
+    # - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.fasl  # [linux]
     {% set contribs = [
       "sb-aclrepl", "sb-bsd-sockets", "sb-capstone", "sb-cltl2", "sb-concurrency", "sb-cover",
       "sb-executable", "sb-gmp", "sb-grovel", "sb-introspect", "sb-md5", "sb-mpfr",
@@ -79,8 +78,7 @@ test:
     # Additional functionality tests
     - sbcl --version
     - sbcl --help
-    - sbcl --eval '(print "hello world")' --quit  # [not win]
-    - sbcl --noinform --disable-debugger --eval "(print (require :asdf))" --disable-debugger --eval "(quit)"  # [win]
+    - sbcl --noinform --disable-debugger --eval "(print (require :asdf))" --disable-debugger --eval "(quit)"
 
 about:
   home: http://www.sbcl.org
