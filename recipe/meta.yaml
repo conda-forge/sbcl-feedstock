@@ -22,8 +22,9 @@ source:
     sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                               # [(win or osx) and x86_64]
     folder: sbcl-source                                                                                    # [(win or osx) and x86_64]
     patches:
-      - patches/0001-win-use-env-xargs.sh.patch  # [win and x86_64]
       - patches/0001-osx-update-flags-zstd.patch  # [osx and x86_64]
+      - patches/0002-osx-update-rpath-sbcl.patch  # [osx and x86_64]
+      - patches/0001-win-use-env-xargs.sh.patch  # [win and x86_64]
       - patches/0002-win-update-flags-zstd.patch  # [win and x86_64]
 
 build:
@@ -40,8 +41,6 @@ requirements:
     - mingw-w64-ucrt-x86_64-gcc-libs  # [win]
     - mingw-w64-ucrt-x86_64-zstd  # [win]
     - make
-    # zstd is required to compile SBCL with 'compressed core saves' enabled
-    - zstd
   host:
     - zstd
 
