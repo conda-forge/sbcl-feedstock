@@ -2,15 +2,16 @@
 
 set -ex
 
+XC_HOST="--xc-host='sbcl --disable-debugger --no-userinit --no-sysinit'"
 if [[ "${target_platform}" == "linux-ppc64le" ]]; then
-  XC_HOST=" --xc-host=x86_64-linux"
+  SBCL_ARGS="${XC_HOST}  --arch=ppc64le"
 elif [[ "${target_platform}" == "linux-aarch64" ]]; then
   echo "Building for aarch64"
-  XC_HOST=" --xc-host=x86_64-linux"
+  SBCL_ARGS="${XC_HOST}  --arch=arm64"
 elif [[ "${target_platform}" == "osx-arm64" ]]; then
-  XC_HOST=" --xc-host=arm64-darwin"
+  SBCL_ARGS="${XC_HOST}  --arch=arm64"
 else
-  XC_HOST=""
+  SBCL_ARGS=""
 fi
 
 # if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
@@ -34,7 +35,7 @@ function build_install_stage() {
 
   cd "${stage_dir}"
     if [[ "${final}" == "true" ]]; then
-      bash make.sh --fancy
+      bash make.sh --fancy ${SBCL_ARGS}
     else
       bash make.sh > _sbcl_build_log.txt 2>&1
     fi
