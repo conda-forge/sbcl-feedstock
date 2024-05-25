@@ -40,9 +40,9 @@ requirements:
     - mingw-w64-ucrt-x86_64-zstd  # [win]
     - make
     # zstd is required to compile SBCL with 'compressed core saves' enabled
-    - zstd  # [win]
+    # - zstd  # [build_platform != target_platform]
   host:
-    - zstd  # [win]
+    - zstd
 
 test:
   commands:
