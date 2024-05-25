@@ -41,6 +41,7 @@ case $(uname) in
 esac
 
 cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
+cp "${SRC_DIR}"/sbcl-source/CREDITS "${SRC_DIR}"
 
 # Install SBCL in conda-forge environment
 ACTIVATE_DIR=${PREFIX}/etc/conda/activate.d
