@@ -17,7 +17,6 @@ source:
     sha256: ddac6499f36c18ecbce9822a53ef3914c0def5276a457446a456c62999b16d36                               # [aarch64]
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
     sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117                               # [osx and arm64]
-
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-source.tar.bz2                         # [(win or osx) and x86_64]
     sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                               # [(win or osx) and x86_64]
     folder: sbcl-source                                                                                    # [(win or osx) and x86_64]
@@ -41,7 +40,7 @@ requirements:
     - mingw-w64-ucrt-x86_64-zstd  # [win]
     - make
   host:
-    - zstd
+    - zstd  # [win or (osx and x86_64)]
 
 test:
   commands:
