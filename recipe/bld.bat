@@ -1,15 +1,6 @@
 @echo off
 
-mkdir %SRC_DIR%\_bootstrap
-msiexec /a %MSI_FILE% /qb TARGETDIR="%SRC_DIR%\_bootstrap"
-if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
-
-set "INSTALL_ROOT=%SRC_DIR%\_bootstrap\PFiles\Steel Bank Common Lisp"
-copy "%INSTALL_ROOT%\sbcl.exe" "%INSTALL_ROOT%\sbcl" > nul
-if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
-
-set "SBCL_HOME=%INSTALL_ROOT%"
-set "PATH=%SBCL_HOME%;%PATH%"
+call mamba install -y sbcl
 
 cd %SRC_DIR%\sbcl-source
   set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"

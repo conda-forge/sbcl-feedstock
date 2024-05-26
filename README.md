@@ -201,6 +201,5 @@ Feedstock Maintainers
 
 * [@MementoRC](https://github.com/MementoRC/)
 * [@Tobias-Fischer](https://github.com/Tobias-Fischer/)
-* [@lesteve](https://github.com/lesteve/)
 * [@wolfv](https://github.com/wolfv/)
 
