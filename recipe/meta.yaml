@@ -43,7 +43,7 @@ requirements:
     - mingw-w64-ucrt-x86_64-zstd  # [win]
     - make
   host:
-    - zstd
+    - zstd  # [win]
 
 test:
   commands:
