@@ -42,21 +42,17 @@ function build_install_stage() {
   if [[ "${target_platform}" == "linux-ppc64le" ]]; then
     SBCL_ARGS="--arch=ppc64le"
   elif [[ "${target_platform}" == "linux-aarch64" ]]; then
-    SBCL_ARGS="--arch=arm64"
+    SBCL_ARGS="--fancy --arch=arm64"
   elif [[ "${target_platform}" == "osx-arm64" ]]; then
-    SBCL_ARGS="--arch=arm64"
+    SBCL_ARGS="--fancy --arch=arm64"
     echo $CROSSCOMPILING_EMULATOR
     export CROSSCOMPILING_EMULATOR=""
   else
-    SBCL_ARGS=""
+    SBCL_ARGS="--fancy"
   fi
 
   cd "${stage_dir}"
-    if [[ "${final}" == "true" ]]; then
-      bash make.sh --fancy ${SBCL_ARGS}
-    else
-      bash make.sh ${SBCL_ARGS} > _sbcl_build_log.txt 2>&1
-    fi
+    bash make.sh "${SBCL_ARGS}"
 
     INSTALL_ROOT=${install_dir}
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
@@ -83,7 +79,7 @@ then
     export CROSSCOMPILING_EMULATOR=""
   fi
 
-  build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${SRC_DIR}/_conda_stage1-install" "true"
+  build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda-build" "${SRC_DIR}/_conda-install"
   cp -r "${INSTALL_ROOT}"/* "${PREFIX}" > /dev/null 2>&1
 
   cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
