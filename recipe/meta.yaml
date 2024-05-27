@@ -19,7 +19,7 @@ source:
       - patches/0001-win-use-env-xargs.sh.patch  # [win and x86_64]
       - patches/0002-win-update-flags-zstd.patch  # [win and x86_64]
 
-      - patches/0001-cross-use-qemu.patch  # [aarch64 or (osx and arm64)]
+      - patches/0001-cross-use-qemu.patch  # [aarch64]
 
       - patches/0001-osx_arm64-update-flags-zstd.patch  # [osx and arm64]
       - patches/0001-aarch64-update-flags-zstd.patch  # [aarch64]
