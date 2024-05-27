@@ -40,21 +40,21 @@ function build_install_stage() {
   cp -r "${src_dir}"/* "${stage_dir}"
 
   if [[ "${target_platform}" == "linux-ppc64le" ]]; then
-    SBCL_ARGS="--arch=ppc64le"
+    SBCL_ARGS=(--arch=ppc64 --dynamic-space-size=1Gb --without-sb-thread)
   elif [[ "${target_platform}" == "linux-aarch64" ]]; then
-    SBCL_ARGS="--fancy --arch=arm64"
+    SBCL_ARGS=(--fancy --arch=arm64)
   elif [[ "${target_platform}" == "osx-arm64" ]]; then
-    SBCL_ARGS="--fancy --arch=arm64"
+    SBCL_ARGS=(--fancy --arch=arm64)
   elif [[ "${target_platform}" == "linux-64" ]]; then
-    SBCL_ARGS="--fancy"
+    SBCL_ARGS=(--fancy)
     export LIBC_INTERPRETER="${BUILD_PREFIX}/x86_64-conda-linux-gnu/sysroot/lib64/ld-2.28.so"
     export LIBC_RPATH="${BUILD_PREFIX}/x86_64-conda-linux-gnu/sysroot/lib64"
   else
-    SBCL_ARGS="--fancy"
+    SBCL_ARGS=(--fancy)
   fi
 
   cd "${stage_dir}"
-    bash make.sh "${SBCL_ARGS}"
+    bash make.sh "${SBCL_ARGS[@]}"
 
     INSTALL_ROOT=${install_dir}
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
