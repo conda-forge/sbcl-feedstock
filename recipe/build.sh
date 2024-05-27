@@ -2,23 +2,30 @@
 
 set -ex
 
-XC_HOST="--xc-host='sbcl --disable-debugger --no-userinit --no-sysinit'"
-if [[ "${target_platform}" == "linux-ppc64le" ]]; then
-  SBCL_ARGS="${XC_HOST}  --arch=ppc64le"
-elif [[ "${target_platform}" == "linux-aarch64" ]]; then
-  SBCL_ARGS="${XC_HOST}  --arch=arm64"
-elif [[ "${target_platform}" == "osx-arm64" ]]; then
-  SBCL_ARGS="${XC_HOST}  --arch=arm64"
-else
-  SBCL_ARGS=""
-fi
+function patchelf_rpath() {
+  local bin_path=$1
+  local abspath=${2:-false}
 
-# if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
-#   CMAKE_ARGS="${CMAKE_ARGS} -DLLVM_TABLEGEN_EXE=$BUILD_PREFIX/bin/llvm-tblgen -DNATIVE_LLVM_DIR=$BUILD_PREFIX/lib/cmake/llvm"
-#   CMAKE_ARGS="${CMAKE_ARGS} -DCROSS_TOOLCHAIN_FLAGS_NATIVE=-DCMAKE_C_COMPILER=$CC_FOR_BUILD;-DCMAKE_CXX_COMPILER=$CXX_FOR_BUILD;-DCMAKE_C_FLAGS=-O2;-DCMAKE_CXX_FLAGS=-O2;-DCMAKE_EXE_LINKER_FLAGS=\"-L$BUILD_PREFIX/lib\";-DCMAKE_MODULE_LINKER_FLAGS=;-DCMAKE_SHARED_LINKER_FLAGS=;-DCMAKE_STATIC_LINKER_FLAGS=;-DCMAKE_AR=$(which ${AR});-DCMAKE_RANLIB=$(which ${RANLIB});-DCMAKE_PREFIX_PATH=${BUILD_PREFIX}"
-# else
-#   rm -rf $BUILD_PREFIX/bin/llvm-tblgen
-# fi
+  if [[ "${abspath}" == "false" ]]; then
+    run_path="\$ORIGIN/.."
+  elif [[ -d "${abspath}" ]]; then
+    run_path=${abspath}
+  else
+    echo "Error: ${abspath} is not a directory"
+    exit 1
+  fi
+
+  patchelf --set-interpreter "/lib64/ld-linux-x86-64.so.2" "${bin_path}"
+  # patchelf --remove-rpath "${bin_path}"
+  run_path="\$ORIGIN/.."
+  patchelf --set-rpath "${run_path}/lib" "${bin_path}"
+
+  # patchelf --add-rpath "${run_path}/x86_64-conda-linux-gnu/sysroot/lib64" "${bin_path}"
+  # patchelf --add-rpath "${run_path}/lib" "${bin_path}"
+  # patchelf --add-rpath "${run_path}/x86_64-conda-linux-gnu/sysroot/usr/lib64" "${bin_path}"
+  # patchelf --add-needed librt.so.1 "${bin_path}"
+  patchelf --remove-needed ld-linux-x86-64.so.2 "${bin_path}"
+}
 
 function build_install_stage() {
   local src_dir=$1
@@ -32,33 +39,55 @@ function build_install_stage() {
   mkdir -p "${stage_dir}"
   cp -r "${src_dir}"/* "${stage_dir}"
 
+  if [[ "${target_platform}" == "linux-ppc64le" ]]; then
+    SBCL_ARGS="--arch=ppc64le"
+  elif [[ "${target_platform}" == "linux-aarch64" ]]; then
+    SBCL_ARGS="--arch=arm64"
+  elif [[ "${target_platform}" == "osx-arm64" ]]; then
+    SBCL_ARGS="--arch=arm64"
+  else
+    SBCL_ARGS=""
+  fi
+
   cd "${stage_dir}"
     if [[ "${final}" == "true" ]]; then
-      bash make.sh --fancy ${SBCL_ARGS}
+      bash make.sh --fancy ${SBCL_ARGS} > _sbcl_build_log.txt 2>&1
     else
-      bash make.sh > _sbcl_build_log.txt 2>&1
+      bash make.sh ${SBCL_ARGS} > _sbcl_build_log.txt 2>&1
     fi
 
     INSTALL_ROOT=${install_dir}
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
     export INSTALL_ROOT SBCL_HOME PATH=${INSTALL_ROOT}/bin:${PATH}
     bash install.sh
+
+    # Patch the rpath of the installed binaries
+    if [[ "${target_platform}" == "linux-x86_64" ]]; then
+      patchelf_rpath "${INSTALL_ROOT}/bin/sbcl"
+    fi
   cd "${current_dir}"
 }
 
 if [[ "${target_platform}" == "osx-64" ]] || \
+   [[ "${target_platform}" == "linux-x86_64" ]] || \
+   [[ "${target_platform}" == "linux-ppc64le" ]] || \
    [[ "${target_platform}" == "linux-aarch64" ]]
 then
-  mamba install -y sbcl
+  # sbcl is installed in the host environment if x-compiling
+  if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
+    mamba install -y sbcl
+    export CROSSCOMPILING_EMULATOR=""
+  fi
+
   build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${SRC_DIR}/_conda_stage1-install" "true"
   cp -r "${INSTALL_ROOT}"/* "${PREFIX}" > /dev/null 2>&1
+
+  cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
+  cp "${SRC_DIR}"/sbcl-source/CREDITS "${SRC_DIR}"
 else
   export INSTALL_ROOT=$PREFIX
   sh install.sh
 fi
-
-cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
-cp "${SRC_DIR}"/sbcl-source/CREDITS "${SRC_DIR}"
 
 # Install SBCL in conda-forge environment
 ACTIVATE_DIR=${PREFIX}/etc/conda/activate.d
