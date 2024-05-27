@@ -60,7 +60,7 @@ function build_install_stage() {
     bash install.sh
 
     # Patch the rpath of the installed binaries
-    if [[ "${target_platform}" == "linux-x86_64" ]] || [[ "${target_platform}" == "linux-64" ]]; then
+    if [[ "${target_platform}" == "linux-64" ]]; then
       patchelf_rpath "${INSTALL_ROOT}/bin/sbcl"
     fi
   cd "${current_dir}"
@@ -69,7 +69,6 @@ function build_install_stage() {
 if [[ "${target_platform}" == "osx-64" ]] || \
    [[ "${target_platform}" == "osx-arm64" ]] || \
    [[ "${target_platform}" == "linux-64" ]] || \
-   [[ "${target_platform}" == "linux-x86_64" ]] || \
    [[ "${target_platform}" == "linux-ppc64le" ]] || \
    [[ "${target_platform}" == "linux-aarch64" ]]
 then
