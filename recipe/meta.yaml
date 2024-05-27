@@ -41,6 +41,7 @@ requirements:
     - make
     - patchelf  # [linux and (build_platform != target_platform)]
     - sbcl  # [build_platform != target_platform]
+    - emacs  # [arm64]
   host:
     - zstd  # [(win or osx) and x86_64 or aarch64 or (osx and arm64)]
 
