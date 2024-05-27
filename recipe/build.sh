@@ -86,6 +86,7 @@ then
   cp "${SRC_DIR}"/sbcl-source/CREDITS "${SRC_DIR}"
 else
   export INSTALL_ROOT=$PREFIX
+  export SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
   sh install.sh
 fi
 
