@@ -1,33 +1,31 @@
 {% set linux_version = "2.2.11" %}
-{% set osx_arm64_version = "2.4.0" %}
 {% set version = "2.4.4" %}
 
 package:
   name: sbcl
   version: {{ linux_version }}       # [linux64]
-  version: {{ osx_arm64_version }}   # [osx and arm64]
-  version: {{ version }}             # [(win or osx) and x86_64 or aarch64]
+  version: {{ version }}             # [(win or osx) and x86_64 or aarch64 or (osx and arm64)]
 
 source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ linux_version }}-x86-64-linux-binary.tar.bz2      # [linux64]
     sha256: 477a885b260c8cf8c794e0c9af0769303706f11e51367dad48e5b402ad0a9493                               # [linux64]
-  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
-    sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117                               # [osx and arm64]
 
-  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-source.tar.bz2                         # [(win or osx) and x86_64 or aarch64]
-    sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                               # [(win or osx) and x86_64 or aarch64]
-    folder: sbcl-source                                                                                    # [(win or osx) and x86_64 or aarch64]
+  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-source.tar.bz2                         # [(win or osx) and x86_64 or aarch64 or (osx and arm64)]
+    sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                               # [(win or osx) and x86_64 or aarch64 or (osx and arm64)]
+    folder: sbcl-source                                                                                    # [(win or osx) and x86_64 or aarch64 or (osx and arm64)]
     patches:
+      - patches/0001-osx-update-flags-zstd.patch  # [osx and x86_64]
+      - patches/0002-osx-update-rpath-sbcl.patch  # [osx and x86_64]
       - patches/0001-win-use-env-xargs.sh.patch  # [win and x86_64]
       - patches/0002-win-update-flags-zstd.patch  # [win and x86_64]
 
-      - patches/0001-cross-use-qemu.patch  # [aarch64]
+      - patches/0001-cross-use-qemu.patch  # [aarch64 or (osx and arm64)]
 
       - patches/0001-aarch64-update-flags-zstd.patch  # [aarch64]
       - patches/0002-aarch64-add-dlopen.patch  # [aarch64]
 
 build:
-  skip: true  # [not (aarch64)]
+  skip: true  # [not (osx and arm64)]
   number: 6
 
 requirements:
@@ -43,20 +41,20 @@ requirements:
     - patchelf  # [linux and (build_platform != target_platform)]
     - sbcl  # [build_platform != target_platform]
   host:
-    - zstd  # [(win or osx) and x86_64 or aarch64]
+    - zstd  # [(win or osx) and x86_64 or aarch64 or (osx and arm64)]
 
 test:
   commands:
-    - test -f ${PREFIX}/etc/conda/activate.d/sbcl-activate.sh  # [(osx and x86_64) or aarch64]
-    - test -f ${PREFIX}/etc/conda/deactivate.d/sbcl-deactivate.sh  # [(osx and x86_64) or aarch64]
+    - test -f ${PREFIX}/etc/conda/activate.d/sbcl-activate.sh  # [(osx and x86_64) or aarch64 or (osx and arm64)]
+    - test -f ${PREFIX}/etc/conda/deactivate.d/sbcl-deactivate.sh  # [(osx and x86_64) or aarch64 or (osx and arm64)]
     - if not exist %PREFIX%\\etc\\conda\\activate.d\\sbcl-activate.bat exit /b 1  # [win]
     - if not exist %PREFIX%\\etc\\conda\\deactivate.d\\sbcl-deactivate.bat exit /b 1  # [win]
 
-    - test -f ${PREFIX}/bin/sbcl  # [(osx and x86_64) or aarch64]
+    - test -f ${PREFIX}/bin/sbcl  # [(osx and x86_64) or aarch64 or (osx and arm64)]
     - if not exist %PREFIX%\\bin\\sbcl.exe exit 1  # [win]
 
-    - test -f ${PREFIX}/lib/sbcl/contrib/asdf.fasl  # [(osx and x86_64) or aarch64]
-    - test -f ${PREFIX}/lib/sbcl/contrib/uiop.fasl  # [(osx and x86_64) or aarch64]
+    - test -f ${PREFIX}/lib/sbcl/contrib/asdf.fasl  # [(osx and x86_64) or aarch64 or (osx and arm64)]
+    - test -f ${PREFIX}/lib/sbcl/contrib/uiop.fasl  # [(osx and x86_64) or aarch64 or (osx and arm64)]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\asdf.fasl exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\uiop.fasl exit 1  # [win]
 
@@ -69,19 +67,19 @@ test:
       "sb-posix", "sb-queue", "sb-rotate-byte", "sb-rt", "sb-simd", "sb-simple-streams", "sb-sprof",
     ] %}
     {% for contrib in contribs %}
-    - test -f ${PREFIX}/lib/sbcl/contrib/{{ contrib }}.asd  # [(osx and x86_64) or aarch64]
-    - test -f ${PREFIX}/lib/sbcl/contrib/{{ contrib }}.fasl  # [(osx and x86_64) or aarch64]
+    - test -f ${PREFIX}/lib/sbcl/contrib/{{ contrib }}.asd  # [(osx and x86_64) or aarch64 or (osx and arm64)]
+    - test -f ${PREFIX}/lib/sbcl/contrib/{{ contrib }}.fasl  # [(osx and x86_64) or aarch64 or (osx and arm64)]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\{{ contrib }}.asd exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\{{ contrib }}.fasl exit 1  # [win]
     {% endfor %}
 
-    - test -f ${PREFIX}/lib/sbcl/sbcl.core  # [(osx and x86_64) or aarch64]
-    - test -f ${PREFIX}/lib/sbcl/sbcl.mk  # [(osx and x86_64) or aarch64]
-    - test -f ${PREFIX}/share/doc/sbcl/BUGS  # [(osx and x86_64) or aarch64]
-    - test -f ${PREFIX}/share/doc/sbcl/COPYING  # [(osx and x86_64) or aarch64]
-    - test -f ${PREFIX}/share/doc/sbcl/CREDITS  # [(osx and x86_64) or aarch64]
-    - test -f ${PREFIX}/share/doc/sbcl/NEWS  # [(osx and x86_64) or aarch64]
-    - test -f ${PREFIX}/share/man/man1/sbcl.1  # [(osx and x86_64) or aarch64]
+    - test -f ${PREFIX}/lib/sbcl/sbcl.core  # [(osx and x86_64) or aarch64 or (osx and arm64)]
+    - test -f ${PREFIX}/lib/sbcl/sbcl.mk  # [(osx and x86_64) or aarch64 or (osx and arm64)]
+    - test -f ${PREFIX}/share/doc/sbcl/BUGS  # [(osx and x86_64) or aarch64 or (osx and arm64)]
+    - test -f ${PREFIX}/share/doc/sbcl/COPYING  # [(osx and x86_64) or aarch64 or (osx and arm64)]
+    - test -f ${PREFIX}/share/doc/sbcl/CREDITS  # [(osx and x86_64) or aarch64 or (osx and arm64)]
+    - test -f ${PREFIX}/share/doc/sbcl/NEWS  # [(osx and x86_64) or aarch64 or (osx and arm64)]
+    - test -f ${PREFIX}/share/man/man1/sbcl.1  # [(osx and x86_64) or aarch64 or (osx and arm64)]
     - if not exist %PREFIX%\\lib\\sbcl\\sbcl.core exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\sbcl.mk exit 1  # [win]
     - if not exist %PREFIX%\\share\\doc\\sbcl\\BUGS exit 1  # [win]

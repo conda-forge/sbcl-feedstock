@@ -45,6 +45,8 @@ function build_install_stage() {
     SBCL_ARGS="--arch=arm64"
   elif [[ "${target_platform}" == "osx-arm64" ]]; then
     SBCL_ARGS="--arch=arm64"
+    echo $CROSSCOMPILING_EMULATOR
+    export CROSSCOMPILING_EMULATOR=""
   else
     SBCL_ARGS=""
   fi
@@ -62,13 +64,15 @@ function build_install_stage() {
     bash install.sh
 
     # Patch the rpath of the installed binaries
-    if [[ "${target_platform}" == "linux-x86_64" ]]; then
+    if [[ "${target_platform}" == "linux-x86_64" ]] || [[ "${target_platform}" == "linux-64" ]]; then
       patchelf_rpath "${INSTALL_ROOT}/bin/sbcl"
     fi
   cd "${current_dir}"
 }
 
 if [[ "${target_platform}" == "osx-64" ]] || \
+   [[ "${target_platform}" == "osx-arm64" ]] || \
+   [[ "${target_platform}" == "linux-64" ]] || \
    [[ "${target_platform}" == "linux-x86_64" ]] || \
    [[ "${target_platform}" == "linux-ppc64le" ]] || \
    [[ "${target_platform}" == "linux-aarch64" ]]
