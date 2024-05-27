@@ -41,7 +41,7 @@ requirements:
     - patchelf  # [linux and (build_platform != target_platform)]
     - sbcl  # [build_platform != target_platform]
     # zstd header is needed on linux64 (-I${PREFIX}/include results in fatal error: zstd.h: No such file or directory)
-    - zstd  # [linux64]
+    - zstd  # [linux and x86_64]
   host:
     - zstd  # [(win or osx) and x86_64 or aarch64]
 
