@@ -44,16 +44,16 @@ requirements:
 
 test:
   commands:
-    - test -f ${PREFIX}/etc/conda/activate.d/sbcl-activate.sh  # [not (osx and arm64 or ppc64le)]
-    - test -f ${PREFIX}/etc/conda/deactivate.d/sbcl-deactivate.sh  # [not (osx and arm64 or ppc64le)]
+    - test -f ${PREFIX}/etc/conda/activate.d/sbcl-activate.sh  # [not (osx and arm64 or ppc64le or win)]
+    - test -f ${PREFIX}/etc/conda/deactivate.d/sbcl-deactivate.sh  # [not (osx and arm64 or ppc64le or win)]
     - if not exist %PREFIX%\\etc\\conda\\activate.d\\sbcl-activate.bat exit /b 1  # [win]
     - if not exist %PREFIX%\\etc\\conda\\deactivate.d\\sbcl-deactivate.bat exit /b 1  # [win]
 
-    - test -f ${PREFIX}/bin/sbcl  # [not (osx and arm64 or ppc64le)]
+    - test -f ${PREFIX}/bin/sbcl  # [not (osx and arm64 or ppc64le or win)]
     - if not exist %PREFIX%\\bin\\sbcl.exe exit 1  # [win]
 
-    - test -f ${PREFIX}/lib/sbcl/contrib/asdf.fasl  # [not (osx and arm64 or ppc64le)]
-    - test -f ${PREFIX}/lib/sbcl/contrib/uiop.fasl  # [not (osx and arm64 or ppc64le)]
+    - test -f ${PREFIX}/lib/sbcl/contrib/asdf.fasl  # [not (osx and arm64 or ppc64le or win)]
+    - test -f ${PREFIX}/lib/sbcl/contrib/uiop.fasl  # [not (osx and arm64 or ppc64le or win)]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\asdf.fasl exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\uiop.fasl exit 1  # [win]
 
@@ -66,19 +66,19 @@ test:
       "sb-posix", "sb-queue", "sb-rotate-byte", "sb-rt", "sb-simd", "sb-simple-streams", "sb-sprof",
     ] %}
     {% for contrib in contribs %}
-    - test -f ${PREFIX}/lib/sbcl/contrib/{{ contrib }}.asd  # [not (osx and arm64 or ppc64le)]
-    - test -f ${PREFIX}/lib/sbcl/contrib/{{ contrib }}.fasl  # [not (osx and arm64 or ppc64le)]
+    - test -f ${PREFIX}/lib/sbcl/contrib/{{ contrib }}.asd  # [not (osx and arm64 or ppc64le or win)]
+    - test -f ${PREFIX}/lib/sbcl/contrib/{{ contrib }}.fasl  # [not (osx and arm64 or ppc64le or win)]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\{{ contrib }}.asd exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\{{ contrib }}.fasl exit 1  # [win]
     {% endfor %}
 
-    - test -f ${PREFIX}/lib/sbcl/sbcl.core  # [not (osx and arm64 or ppc64le)]
-    - test -f ${PREFIX}/lib/sbcl/sbcl.mk  # [not (osx and arm64 or ppc64le)]
-    - test -f ${PREFIX}/share/doc/sbcl/BUGS  # [not (osx and arm64 or ppc64le)]
-    - test -f ${PREFIX}/share/doc/sbcl/COPYING  # [not (osx and arm64 or ppc64le)]
-    - test -f ${PREFIX}/share/doc/sbcl/CREDITS  # [not (osx and arm64 or ppc64le)]
-    - test -f ${PREFIX}/share/doc/sbcl/NEWS  # [not (osx and arm64 or ppc64le)]
-    - test -f ${PREFIX}/share/man/man1/sbcl.1  # [not (osx and arm64 or ppc64le)]
+    - test -f ${PREFIX}/lib/sbcl/sbcl.core  # [not (osx and arm64 or ppc64le or win)]
+    - test -f ${PREFIX}/lib/sbcl/sbcl.mk  # [not (osx and arm64 or ppc64le or win)]
+    - test -f ${PREFIX}/share/doc/sbcl/BUGS  # [not (osx and arm64 or ppc64le or win)]
+    - test -f ${PREFIX}/share/doc/sbcl/COPYING  # [not (osx and arm64 or ppc64le or win)]
+    - test -f ${PREFIX}/share/doc/sbcl/CREDITS  # [not (osx and arm64 or ppc64le or win)]
+    - test -f ${PREFIX}/share/doc/sbcl/NEWS  # [not (osx and arm64 or ppc64le or win)]
+    - test -f ${PREFIX}/share/man/man1/sbcl.1  # [not (osx and arm64 or ppc64le or win)]
     - if not exist %PREFIX%\\lib\\sbcl\\sbcl.core exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\sbcl.mk exit 1  # [win]
     - if not exist %PREFIX%\\share\\doc\\sbcl\\BUGS exit 1  # [win]
