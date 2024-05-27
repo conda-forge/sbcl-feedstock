@@ -14,6 +14,7 @@ source:
     sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                               # [not (osx and arm64 or ppc64le)]
     folder: sbcl-source                                                                                    # [not (osx and arm64 or ppc64le)]
     patches:
+      - patches/0001-linux64-patchelf.patch  # [linux and x86_64]
       - patches/0001-osx-update-flags-zstd.patch  # [osx and x86_64]
       - patches/0002-osx-update-rpath-sbcl.patch  # [osx and x86_64]
       - patches/0001-win-use-env-xargs.sh.patch  # [win and x86_64]

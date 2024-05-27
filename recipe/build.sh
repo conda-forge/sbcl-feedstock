@@ -45,19 +45,23 @@ function build_install_stage() {
     SBCL_ARGS="--fancy --arch=arm64"
   elif [[ "${target_platform}" == "osx-arm64" ]]; then
     SBCL_ARGS="--fancy --arch=arm64"
+  elif [[ "${target_platform}" == "linux-64" ]]; then
+    SBCL_ARGS="--fancy"
+    export LIBC_INTERPRETER="${BUILD_PREFIX}/x86_64-conda-linux-gnu/sysroot/lib64/ld-2.28.so"
+    export LIBC_RPATH="${BUILD_PREFIX}/x86_64-conda-linux-gnu/sysroot/lib64"
   else
     SBCL_ARGS="--fancy"
   fi
 
   cd "${stage_dir}"
-    bash make.sh "${SBCL_ARGS}" > _sbcl_build_log.txt 2>&1
+    bash make.sh "${SBCL_ARGS}"
 
     INSTALL_ROOT=${install_dir}
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
     export INSTALL_ROOT SBCL_HOME PATH=${INSTALL_ROOT}/bin:${PATH}
     bash install.sh
 
-    # Patch the rpath of the installed binaries
+    # Patch the rpath of the installed binaries - Actually, this should not be needed since it is done in build
     if [[ "${target_platform}" == "linux-64" ]]; then
       patchelf_rpath "${INSTALL_ROOT}/bin/sbcl"
     fi
