@@ -13,7 +13,7 @@
  endif
 
 -CFLAGS += -Wunused-parameter -fno-omit-frame-pointer -momit-leaf-frame-pointer
-+CFLAGS += -Wunused-parameter -fno-omit-frame-pointer -momit-leaf-frame-pointer -I${PREFIX}/include
++CFLAGS += -Wunused-parameter -fno-omit-frame-pointer -momit-leaf-frame-pointer -I$CONDA_PREFIX/include
  DISABLE_PIE=no
 
  ifdef LISP_FEATURE_IMMOBILE_SPACE
