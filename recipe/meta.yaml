@@ -21,10 +21,10 @@ source:
       - patches/0001-win-update-flags-zstd.patch  # [win and x86_64]
 
       - patches/0001-cross-use-qemu.patch  # [aarch64 or ppc64le]
+      - patches/0001-cross-add-dlopen.patch  # [aarch64 or ppc64le]
 
       - patches/0002-linux-patchelf.patch  # [linux]
       - patches/0002-aarch64-update-flags-zstd.patch  # [aarch64]
-      - patches/0002-aarch64-add-dlopen.patch  # [aarch64]
 
 build:
   number: 6
