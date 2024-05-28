@@ -7,7 +7,12 @@ cd %SRC_DIR%\sbcl-source
   set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
-  bash make.sh --fancy > nul
+
+  if "%PROCESSOR_ARCHITECTURE%"=="ARM64" (
+    bash make.sh --fancy --arch=arm64 > nul
+  ) else (
+    bash make.sh --fancy > nul
+  )
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   set "INSTALL_ROOT=%PREFIX%"

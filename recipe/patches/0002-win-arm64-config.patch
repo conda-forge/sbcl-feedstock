@@ -1,0 +1,268 @@
+--- /dev/null	2024-05-26 13:36:38.304686460 -0500
++++ src/runtime/Config.arm64-win32	2024-05-28 18:08:34.667839432 -0500
+@@ -0,0 +1,66 @@
++# This software is part of the SBCL system. See the README file for
++# more information.
++#
++# This software is derived from the CMU CL system, which was
++# written at Carnegie Mellon University and released into the
++# public domain. The software is in the public domain and is
++# provided with absolutely no warranty. See the COPYING and CREDITS
++# files for more information.
++
++TARGET=sbcl.exe
++
++ASSEM_SRC = arm64-assem.S
++ARCH_SRC = arm64-arch.c
++
++OS_SRC = win32-os.c arm64-win32-os.c
++
++ifdef LISP_FEATURE_SB_LINKABLE_RUNTIME
++  LIBSBCL = libsbcl.a
++  USE_LIBSBCL = -Wl,--whole-archive libsbcl.a -Wl,--no-whole-archive
++endif
++
++# The "--Wl,--export-dynamic" flags are here to help people
++# experimenting with callbacks from C to SBCL, by allowing linkage to
++# SBCL src/runtime/*.c symbols from C. Work on this is good, but it's
++# definitely bleeding edge and not particularly stable. In particular,
++# not only are the workarounds for the GC relocating Lisp code and
++# data unstable, but even the basic calling convention might end up
++# being unstable. Unless you want to do some masochistic maintenance
++# work when new releases of SBCL come out, please don't try to build
++# real code on this until a coherent stable interface has been added.
++# (You *are* encouraged to design and implement a coherent stable
++# interface, though.:-| As far as I (WHN 2002-05-19) know, no one is
++# working on one and it would be a nice thing to have.)
++LINKFLAGS = -Wl,-export-all-symbols
++LIBSBCL += mswin64.def mswin.def
++USE_LIBSBCL += -Wl,mswin64.def -Wl,mswin.def
++__LDFLAGS__ =
++
++OS_LIBS = -l ws2_32 -ladvapi32 -lm
++ifdef LISP_FEATURE_SB_CORE_COMPRESSION
++  OS_LIBS += -lzstd
++endif
++ifdef LISP_FEATURE_SB_FUTEX
++  OS_LIBS += -lSynchronization
++endif
++
++ifdef LISP_FEATURE_IMMOBILE_SPACE
++  GC_SRC = fullcgc.c gencgc.c traceroot.c immobile-space.c
++else
++  GC_SRC = fullcgc.c gencgc.c traceroot.c
++endif
++
++# -Wno-type-limits suppresses a ton of warnings from 'grovel-headers'
++# which seems to produce C code in which a comparison is always false.
++CFLAGS += -g -W -Wall \
++       -Wno-unused-function -Wno-unused-parameter -Wno-cast-function-type \
++       -Wno-type-limits \
++       -fno-omit-frame-pointer \
++       -O5 -m64 -DWINVER=0x0501 \
++       -D__W32API_USE_DLLIMPORT__
++
++CC = gcc
++
++ifeq ($(shell $(LD) --disable-dynamicbase 2>&1 | grep disable-dynamicbase),)
++LINKFLAGS += -Wl,--disable-dynamicbase
++endif
+--- /dev/null	2024-05-26 13:36:38.304686460 -0500
++++ src/runtime/arm64-win32-os.c	2024-05-28 18:08:24.911717320 -0500
+@@ -0,0 +1,170 @@
++/*
++ * The arm64 Win32 incarnation of arch-dependent OS-dependent routines.
++ * See also "win32-os.c".
++ */
++
++/*
++ * This software is part of the SBCL system. See the README file for
++ * more information.
++ *
++ * This software is derived from the CMU CL system, which was
++ * written at Carnegie Mellon University and released into the
++ * public domain. The software is in the public domain and is
++ * provided with absolutely no warranty. See the COPYING and CREDITS
++ * files for more information.
++ */
++
++#include <stdio.h>
++#include <stddef.h>
++#include <sys/param.h>
++#include <sys/file.h>
++#include <sys/types.h>
++#include <unistd.h>
++#include <errno.h>
++
++#include "os.h"
++#include "arch.h"
++#include "globals.h"
++#include "interrupt.h"
++#include "interr.h"
++#include "lispregs.h"
++#include "genesis/sbcl.h"
++
++#include <sys/types.h>
++#include "runtime.h"
++#include <sys/time.h>
++#include <sys/stat.h>
++#include <unistd.h>
++#include "thread.h"             /* dynamic_values_bytes */
++#include "align.h"
++
++#include "validate.h"
++
++int arch_os_thread_init(struct thread *thread)
++{
++#ifndef LISP_FEATURE_OS_THREAD_STACK
++    void *cur_stack_end;
++    MEMORY_BASIC_INFORMATION stack_memory;
++
++    asm volatile ("mov %%gs:8,%0": "=r" (cur_stack_end));
++
++    /* Can't pull stack start from fs:4 or fs:8 or whatever,
++     * because that's only what currently has memory behind
++     * it from being used, so do a quick VirtualQuery() and
++     * grab the AllocationBase. -AB 2006/11/25
++     */
++
++    /* This memset is probably not really necessary but it shuts up a warning
++     * about uninitialized memory. Compiler might be confused that stack_memory
++     * is both the address being queried, and the address of the result */
++    memset(&stack_memory, 0, sizeof(stack_memory));
++    if (!VirtualQuery(&stack_memory, &stack_memory, sizeof(stack_memory))) {
++        fprintf(stderr, "VirtualQuery: 0x%lx.\n", GetLastError());
++        lose("Could not query stack memory information.");
++    }
++
++    thread->control_stack_start = stack_memory.AllocationBase;
++    thread->control_stack_end = cur_stack_end;
++#endif
++
++    extern void win32_set_stack_guarantee(void);
++    win32_set_stack_guarantee();
++
++    return 1;
++}
++
++/* free any arch/os-specific resources used by thread, which is now
++ * defunct.  Not called on live threads
++ */
++
++int arch_os_thread_cleanup(struct thread *thread) {
++    return 0;
++}
++
++sigset_t *os_context_sigmask_addr(os_context_t *context)
++{
++  return &context->sigmask;
++}
++
++void visit_context_registers(void (*proc)(os_context_register_t,void*),
++                             os_context_t *context, void* arg)
++{
++    proc(context->win32_context->Rip, arg);
++    proc(context->win32_context->Rax, arg);
++    proc(context->win32_context->Rcx, arg);
++    proc(context->win32_context->Rdx, arg);
++    proc(context->win32_context->Rbx, arg);
++    // don't bother with rsp or rbp
++    proc(context->win32_context->Rsi, arg);
++    proc(context->win32_context->Rdi, arg);
++    proc(context->win32_context->R8,  arg);
++    proc(context->win32_context->R9,  arg);
++    proc(context->win32_context->R10, arg);
++    proc(context->win32_context->R11, arg);
++    proc(context->win32_context->R12, arg);
++    proc(context->win32_context->R13, arg);
++    proc(context->win32_context->R14, arg);
++    proc(context->win32_context->R15, arg);
++}
++
++os_context_register_t *
++os_context_register_addr(os_context_t *context, int offset)
++{
++    static const size_t offsets[16] = {
++        offsetof(CONTEXT,Rax),
++        offsetof(CONTEXT,Rcx),
++        offsetof(CONTEXT,Rdx),
++        offsetof(CONTEXT,Rbx),
++        offsetof(CONTEXT,Rsp),
++        offsetof(CONTEXT,Rbp),
++        offsetof(CONTEXT,Rsi),
++        offsetof(CONTEXT,Rdi),
++        offsetof(CONTEXT,R8),
++        offsetof(CONTEXT,R9),
++        offsetof(CONTEXT,R10),
++        offsetof(CONTEXT,R11),
++        offsetof(CONTEXT,R12),
++        offsetof(CONTEXT,R13),
++        offsetof(CONTEXT,R14),
++        offsetof(CONTEXT,R15),
++    };
++    return (void*)
++       ((offset >= 0 && offset < 16) ?
++        ((char*)(context->win32_context)) + offsets[offset] : 0);
++}
++
++os_context_register_t *
++os_context_sp_addr(os_context_t *context)
++{
++    return (void*)&context->win32_context->Rsp; /* REG_UESP */
++}
++
++os_context_register_t *
++os_context_fp_addr(os_context_t *context)
++{
++    return (void*)&context->win32_context->Rbp; /* REG_EBP */
++}
++
++unsigned long
++os_context_fp_control(os_context_t *context)
++{
++    return ((((context->win32_context->FloatSave.ControlWord) & 0xffff) ^ 0x3f) |
++            (((context->win32_context->FloatSave.StatusWord) & 0xffff) << 16));
++}
++
++void
++os_restore_fp_control(os_context_t *context)
++{
++    asm ("fldcw %0" : : "m" (context->win32_context->FloatSave.ControlWord));
++}
++
++os_context_register_t *
++os_context_float_register_addr(os_context_t *context, int offset)
++{
++    return (os_context_register_t*)&context->win32_context->FloatSave.XmmRegisters[offset];
++}
++
++void
++os_flush_icache(os_vm_address_t address, os_vm_size_t length)
++{
++}
+--- /dev/null	2024-05-26 13:36:38.304686460 -0500
++++ src/runtime/arm64-win32-os.h	2024-05-28 18:08:16.035606170 -0500
+@@ -0,0 +1,23 @@
++#ifndef _ARM64_WIN32_OS_H
++#define _ARM64_WIN32_OS_H
++
++typedef struct os_context_t {
++  CONTEXT* win32_context;
++  sigset_t sigmask;
++} os_context_t;
++
++typedef intptr_t os_context_register_t;
++
++#include "arch-os-generic.inc"
++
++static inline DWORD NT_GetLastError() {
++    return GetLastError();
++}
++
++unsigned long os_context_fp_control(os_context_t *context);
++void os_restore_fp_control(os_context_t *context);
++os_context_register_t * os_context_fp_addr(os_context_t *context);
++
++#define OS_CONTEXT_PC(context) context->win32_context->Rip
++
++#endif /* _ARM64_WIN32_OS_H */

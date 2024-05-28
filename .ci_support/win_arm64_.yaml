@@ -3,6 +3,6 @@ channel_sources:
 channel_targets:
 - conda-forge main
 target_platform:
-- win-64
+- win-arm64
 zstd:
 - '1.5'
