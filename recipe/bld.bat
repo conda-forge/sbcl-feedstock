@@ -1,6 +1,8 @@
 @echo off
 
-call mamba install -y sbcl
+if "%PROCESSOR_ARCHITECTURE%"=="ARM64" (
+  call mamba install -y sbcl
+)
 
 cd %SRC_DIR%\sbcl-source
   set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"
