@@ -15,6 +15,7 @@ source:
     folder: sbcl-source                                                                                    # [not (osx and arm64 or ppc64le)]
     patches:
       - patches/0001-linux64-patchelf.patch  # [linux and x86_64]
+      - patches/0002-linux64-update-flags-zstd.patch  # [linux and x86_64]
       - patches/0001-osx-update-flags-zstd.patch  # [osx and x86_64]
       - patches/0002-osx-update-rpath-sbcl.patch  # [osx and x86_64]
       - patches/0001-win-use-env-xargs.sh.patch  # [win and x86_64]
@@ -40,8 +41,6 @@ requirements:
     - make
     - patchelf  # [linux and (build_platform != target_platform)]
     - sbcl  # [build_platform != target_platform]
-    # zstd header is needed on linux64 (-I${PREFIX}/include results in fatal error: zstd.h: No such file or directory)
-    - zstd  # [linux and x86_64]
   host:
     - zstd  # [(win or osx) and x86_64 or aarch64]
 
