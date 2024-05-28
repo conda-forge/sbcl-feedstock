@@ -42,7 +42,7 @@ requirements:
     - patchelf  # [linux and (build_platform != target_platform)]
     - sbcl  # [build_platform != target_platform]
   host:
-    - zstd  # [(win or osx) and x86_64 or aarch64]
+    - zstd  # [not (osx and arm64 or ppc64le)]
 
 test:
   commands:
