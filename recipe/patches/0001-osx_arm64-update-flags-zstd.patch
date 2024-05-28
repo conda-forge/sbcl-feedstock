@@ -1,0 +1,11 @@
+--- src/runtime/Config.arm64-darwin     2024-04-29 16:18:52.000000000 -0500
++++ src/runtime/Config.arm64-darwin     2024-05-25 12:03:08.715711216 -0500
+@@ -18,7 +18,7 @@
+   OS_LIBS += -lpthread
+ endif
+ ifdef LISP_FEATURE_SB_CORE_COMPRESSION
+-  OS_LIBS += -lzstd
++  OS_LIBS += -L${PREFIX}/lib -lzstd
+ endif
+ ifdef LISP_FEATURE_SB_LINKABLE_RUNTIME
+   LIBSBCL = libsbcl.a
