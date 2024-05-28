@@ -27,6 +27,7 @@ source:
       - patches/0002-aarch64-update-flags-zstd.patch  # [aarch64]
 
 build:
+  skip: true  # [not ppc64le]
   number: 6
 
 requirements:

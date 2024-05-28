@@ -39,7 +39,7 @@ function build_install_stage() {
   cp -r "${src_dir}"/* "${stage_dir}"
 
   if [[ "${target_platform}" == "linux-ppc64le" ]]; then
-    SBCL_ARGS=(--arch=ppc64 --dynamic-space-size=1Gb --without-sb-thread)
+    SBCL_ARGS=()
   elif [[ "${target_platform}" == "linux-aarch64" ]]; then
     SBCL_ARGS=(--fancy --arch=arm64)
   elif [[ "${target_platform}" == "osx-arm64" ]]; then

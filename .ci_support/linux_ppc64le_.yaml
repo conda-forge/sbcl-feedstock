@@ -15,7 +15,7 @@ channel_targets:
 docker_image:
 - quay.io/condaforge/linux-anvil-alma-x86_64:8
 target_platform:
-- linux-64
+- linux-ppc64le
 zip_keys:
 - - c_stdlib_version
   - cdt_name
