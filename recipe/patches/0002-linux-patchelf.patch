@@ -1,0 +1,10 @@
+--- make-target-2.sh    2024-03-29 12:02:12.000000000 -0500
++++ make-target-2.sh    2024-04-28 19:10:54.914542271 -0500
+@@ -50,6 +50,7 @@
+     echo Unknown option \'"$1"\' to make-target-2
+     exit 1
+ fi
++patchelf --add-rpath $PREFIX/lib ./src/runtime/sbcl
+ if [ "$warm_compile" = yes ]; then
+     echo //doing warm init - compilation phase
+     ./src/runtime/sbcl --core output/cold-sbcl.core \
