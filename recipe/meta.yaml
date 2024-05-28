@@ -4,15 +4,15 @@
 package:
   name: sbcl
   version: {{ osx_arm64_version }}   # [osx and arm64]
-  version: {{ version }}             # [not (osx and arm64 or ppc64le)]
+  version: {{ version }}             # [not ((osx and arm64) or ppc64le)]
 
 source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
     sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117                               # [osx and arm64]
 
-  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-source.tar.bz2                         # [not (osx and arm64 or ppc64le)]
-    sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                               # [not (osx and arm64 or ppc64le)]
-    folder: sbcl-source                                                                                    # [not (osx and arm64 or ppc64le)]
+  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-source.tar.bz2                         # [not ((osx and arm64) or ppc64le)]
+    sha256: 8a932627b3f1d8e9618f1cdc225edcb002456804697e2c87d140683764a106d5                               # [not ((osx and arm64) or ppc64le)]
+    folder: sbcl-source                                                                                    # [not ((osx and arm64) or ppc64le)]
     patches:
       - patches/0001-linux64-update-flags-zstd.patch  # [linux and x86_64]
       - patches/0001-osx-update-flags-zstd.patch  # [osx and x86_64]
@@ -39,10 +39,9 @@ requirements:
     - mingw-w64-ucrt-x86_64-gcc-libs  # [win and x86_64]
     - mingw-w64-ucrt-x86_64-zstd  # [win and x86_64]
     - make
-    - patchelf  # [linux and (build_platform != target_platform)]
     - sbcl  # [build_platform != target_platform]
   host:
-    - zstd  # [not (osx and arm64 or ppc64le)]
+    - zstd  # [not ((osx and arm64) or ppc64le)]
 
 test:
   commands:
