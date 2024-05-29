@@ -9,7 +9,7 @@ cd %SRC_DIR%\sbcl-source
   set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
-  echo "$CROSSCOMPILING_EMULATOR"
+  echo "%CROSSCOMPILING_EMULATOR%"
 
   if "%PROCESSOR_ARCHITECTURE%"=="ARM64" (
     bash make.sh --fancy --arch=arm64 > nul
