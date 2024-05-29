@@ -34,6 +34,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}  # [not (win and x86_64)]
+    - {{ compiler('m2w64_c') }}  # [(win and arm64)]
     - {{ stdlib('c') }}  # [not (win and x86_64)]
     # Current windows gcc toolchain (v5.3) segfaults when building SBCL, need >=12
     # Using experimental msys2 toolchain for now

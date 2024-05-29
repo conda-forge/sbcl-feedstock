@@ -1,6 +1,6 @@
 @echo off
 
-if "%PROCESSOR_ARCHITECTURE%"=="ARM64" (
+if not "%target-platform%"=="win-arm64" (
   call mamba install -y sbcl
 )
 
@@ -11,8 +11,8 @@ cd %SRC_DIR%\sbcl-source
 
   echo "%CROSSCOMPILING_EMULATOR%"
 
-  if "%PROCESSOR_ARCHITECTURE%"=="ARM64" (
-    bash make.sh --fancy --arch=arm64 > nul
+  if "%target-platform%"=="win-arm64" (
+    bash make.sh --fancy --arch=arm64
   ) else (
     bash make.sh --fancy > nul
   )
