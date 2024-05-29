@@ -20,7 +20,7 @@ source:
       - patches/0001-win-use-env-xargs.sh.patch  # [win]
       - patches/0001-win-update-flags-zstd.patch  # [win]
 
-      - patches/0001-cross-use-qemu.patch  # [aarch64 or ppc64le or (win and arm64)]
+      - patches/0001-cross-use-qemu.patch  # [aarch64 or ppc64le]
       - patches/0001-cross-add-dlopen.patch  # [aarch64 or ppc64le]
 
       - patches/0002-win-arm64-config.patch  # [win and arm64]
