@@ -62,8 +62,10 @@ test:
     # - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.asd  # [linux]
     # - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.fasl  # [linux]
     # Not all contribs are built on linux-aarch64
-    - test -f  ${PREFIX}/lib/sbcl/contrib/sb-simd.asd  # [not aarch64]
-    - test -f  ${PREFIX}/lib/sbcl/contrib/sb-simd.fasl  # [not aarch64]
+    - test -f  ${PREFIX}/lib/sbcl/contrib/sb-simd.asd  # [not (aarch64 or win)]
+    - test -f  ${PREFIX}/lib/sbcl/contrib/sb-simd.fasl  # [not (aarch64 or win)]
+    - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-simd..asd exit 1  # [win]
+    - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-simd..fasl exit 1  # [win]
     {% set contribs = [
       "sb-aclrepl", "sb-bsd-sockets", "sb-capstone", "sb-cltl2", "sb-concurrency", "sb-cover",
       "sb-executable", "sb-gmp", "sb-grovel", "sb-introspect", "sb-md5", "sb-mpfr",
