@@ -9,8 +9,6 @@ cd %SRC_DIR%\sbcl-source
   set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
-  echo "%CROSSCOMPILING_EMULATOR%"
-
   if "%target-platform%"=="win-arm64" (
     bash make.sh --fancy --arch=arm64
   ) else (

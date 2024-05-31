@@ -68,10 +68,15 @@ test:
     # Not all contribs are built on Windows - Note this is for when unix builds from source
     # - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.asd  # [linux]
     # - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.fasl  # [linux]
+    # Not all contribs are built on linux-aarch64
+    # - test -f  ${PREFIX}/lib/sbcl/contrib/sb-simd.asd  # [not (aarch64 or win)]
+    # - test -f  ${PREFIX}/lib/sbcl/contrib/sb-simd.fasl  # [not (aarch64 or win)]
+    - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-simd.asd exit 1  # [win]
+    - if not exist %PREFIX%\\lib\\sbcl\\contrib\\sb-simd.fasl exit 1  # [win]
     {% set contribs = [
       "sb-aclrepl", "sb-bsd-sockets", "sb-capstone", "sb-cltl2", "sb-concurrency", "sb-cover",
       "sb-executable", "sb-gmp", "sb-grovel", "sb-introspect", "sb-md5", "sb-mpfr",
-      "sb-posix", "sb-queue", "sb-rotate-byte", "sb-rt", "sb-simd", "sb-simple-streams", "sb-sprof",
+      "sb-posix", "sb-queue", "sb-rotate-byte", "sb-rt", "sb-simple-streams", "sb-sprof",
     ] %}
     {% for contrib in contribs %}
     - test -f ${PREFIX}/lib/sbcl/contrib/{{ contrib }}.asd  # [not (osx and arm64 or ppc64le or win)]
