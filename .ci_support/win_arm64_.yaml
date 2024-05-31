@@ -1,8 +1,12 @@
+c_compiler:
+- vs2022
+c_stdlib:
+- vs
 channel_sources:
 - conda-forge/label/m2w64-experimental,conda-forge
 channel_targets:
 - conda-forge main
 target_platform:
-- win-64
+- win-arm64
 zstd:
 - '1.5'

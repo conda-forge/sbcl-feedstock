@@ -1,13 +1,19 @@
 @echo off
 
-call mamba install -y sbcl
+if not "%target-platform%"=="win-arm64" (
+  call mamba install -y sbcl
+)
 
 cd %SRC_DIR%\sbcl-source
   set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"
   set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
-  bash make.sh --fancy > nul
+  if "%target-platform%"=="win-arm64" (
+    bash make.sh --fancy --arch=arm64
+  ) else (
+    bash make.sh --fancy > nul
+  )
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   set "INSTALL_ROOT=%PREFIX%"
