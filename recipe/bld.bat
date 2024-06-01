@@ -6,7 +6,7 @@ call mamba install -y sbcl
 :: Build and install SBCL (builds in srouce dir and installs in PREFIX)
 cd %SRC_DIR%\sbcl-source
   :: set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"
-  :: set "CC=gcc"
+  set "CC=gcc"
   :: set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
   bash make.sh --fancy > nul
