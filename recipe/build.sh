@@ -29,6 +29,13 @@ function build_install_stage() {
   # Build and install SBCL
   cd "${stage_dir}"
     bash make.sh "${SBCL_ARGS[@]}" > _sbcl_build.log 2>&1
+    echo "Info for cross-compiling - Temporary"
+    echo "   output/stuff-groveled-from-headers.lisp"
+    cat output/stuff-groveled-from-headers.lisp
+    echo "   src/runtime/ppc-linux-mcontext.h"
+    cat src/runtime/ppc-linux-mcontext.h
+    echo "   local-target-features.lisp-expr"
+    cat local-target-features.lisp-expr
 
     INSTALL_ROOT=${install_dir}
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
