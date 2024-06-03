@@ -67,7 +67,10 @@ elif [[ "${target_platform}" == "linux-ppc64le" ]]; then
   export SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
   sh install.sh
 
+  export PATH=${INSTALL_ROOT}/bin:${PATH}
+
   # Build SBCL from source
+  sbcl --version
   build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${PREFIX}"
 
   # Copy the license and credits for conda-recipe packaging
