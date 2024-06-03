@@ -19,6 +19,7 @@
 +  OS_LIBS += -L${PREFIX}/lib -lzstd
  endif
  CFLAGS += -std=gnu99
+
 --- src/runtime/Config.ppc64-linux      2024-04-29 16:18:52.000000000 -0500
 +++ src/runtime/Config.ppc64-linux      2024-05-27 12:36:22.145078325 -0500
 @@ -26,5 +26,5 @@
@@ -28,4 +29,3 @@
 -  OS_LIBS += -lzstd
 +  OS_LIBS += -L${PREFIX}/lib -lzstd
  endif
-
