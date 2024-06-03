@@ -1,0 +1,22 @@
+--- src/runtime/Config.x86-64-linux     2024-04-29 16:18:52.000000000 -0500
++++ src/runtime/Config.x86-64-linux     2024-05-27 18:47:57.623786724 -0500
+@@ -37,7 +37,7 @@
+ endif
+
+ ifdef LISP_FEATURE_SB_CORE_COMPRESSION
+-  OS_LIBS += -lzstd
++  OS_LIBS += -L${PREFIX}/lib -lzstd
+ endif
+
+ ifdef HAVE_LIBUNWIND
+--- src/runtime/Config.arm64-linux      2024-04-29 16:18:52.000000000 -0500
++++ src/runtime/Config.arm64-linux      2024-05-26 12:40:15.948971695 -0500
+@@ -29,7 +29,7 @@
+   OS_LIBS += -lpthread
+ endif
+ ifdef LISP_FEATURE_SB_CORE_COMPRESSION
+-  OS_LIBS += -lzstd
++  OS_LIBS += -L${PREFIX}/lib -lzstd
+ endif
+ CFLAGS += -std=gnu99
+
