@@ -28,7 +28,7 @@ function build_install_stage() {
 
   # Build and install SBCL
   cd "${stage_dir}"
-    bash make.sh "${SBCL_ARGS[@]}"
+    bash make.sh "${SBCL_ARGS[@]}" > _sbcl_build.log 2>&1
 
     INSTALL_ROOT=${install_dir}
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
@@ -70,7 +70,6 @@ elif [[ "${target_platform}" == "linux-ppc64le" ]]; then
   export PATH=${INSTALL_ROOT}/bin:${PATH}
 
   # Build SBCL from source
-  sbcl --version
   build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${PREFIX}"
 
   # Copy the license and credits for conda-recipe packaging

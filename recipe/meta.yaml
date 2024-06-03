@@ -41,6 +41,9 @@ requirements:
     - sbcl  # [build_platform != target_platform]
   host:
     - zstd  # [not (osx and arm64)]
+  run:
+    - {{ stdlib('c') }}  # [not win]
+    - zstd  # [not (osx and arm64)]
 
 test:
   commands:
