@@ -55,8 +55,8 @@ test:
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\uiop.fasl exit 1  # [win]
 
     # Not all contribs are built on Windows - Note this is for when unix builds from source
-    # - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.asd  # [linux]
-    # - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.fasl  # [linux]
+    - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.asd  # [linux]
+    - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.fasl  # [linux]
     # Not all contribs are built on linux-aarch64
     - test -f  ${PREFIX}/lib/sbcl/contrib/sb-simd.asd  # [not (aarch64 or win)]
     - test -f  ${PREFIX}/lib/sbcl/contrib/sb-simd.fasl  # [not (aarch64 or win)]
