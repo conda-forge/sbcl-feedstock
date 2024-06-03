@@ -72,7 +72,7 @@ elif [[ "${target_platform}" == "linux-ppc64le" ]]; then
   # Install the bootstrap binary in a temporary location
   export INSTALL_ROOT=${SRC_DIR}/_conda_bootstrap-install
   export SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
-  sh install.sh
+  sh install.sh > _sbcl_bootstrap-install.log 2>&1
 
   export PATH=${INSTALL_ROOT}/bin:${PATH}
 
