@@ -4,7 +4,7 @@
 package:
   name: sbcl
   version: {{ osx_arm64_version }}   # [osx and arm64]
-  version: {{ version }}             # [not (osx and arm64]
+  version: {{ version }}             # [not (osx and arm64)]
 
 source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
