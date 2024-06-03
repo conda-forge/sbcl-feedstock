@@ -2,31 +2,6 @@
 
 set -ex
 
-function patchelf_rpath() {
-  local bin_path=$1
-  local abspath=${2:-false}
-
-  if [[ "${abspath}" == "false" ]]; then
-    run_path="\$ORIGIN/.."
-  elif [[ -d "${abspath}" ]]; then
-    run_path=${abspath}
-  else
-    echo "Error: ${abspath} is not a directory"
-    exit 1
-  fi
-
-  patchelf --set-interpreter "/lib64/ld-linux-x86-64.so.2" "${bin_path}"
-  # patchelf --remove-rpath "${bin_path}"
-  run_path="\$ORIGIN/.."
-  patchelf --set-rpath "${run_path}/lib" "${bin_path}"
-
-  # patchelf --add-rpath "${run_path}/x86_64-conda-linux-gnu/sysroot/lib64" "${bin_path}"
-  # patchelf --add-rpath "${run_path}/lib" "${bin_path}"
-  # patchelf --add-rpath "${run_path}/x86_64-conda-linux-gnu/sysroot/usr/lib64" "${bin_path}"
-  # patchelf --add-needed librt.so.1 "${bin_path}"
-  patchelf --remove-needed ld-linux-x86-64.so.2 "${bin_path}"
-}
-
 function build_install_stage() {
   local src_dir=$1
   local stage_dir=$2
@@ -38,9 +13,7 @@ function build_install_stage() {
   mkdir -p "${stage_dir}"
   cp -r "${src_dir}"/* "${stage_dir}"
 
-  if [[ "${target_platform}" == "linux-ppc64le" ]]; then
-    SBCL_ARGS=()
-  elif [[ "${target_platform}" == "linux-aarch64" ]]; then
+  if [[ "${target_platform}" == "linux-aarch64" ]]; then
     SBCL_ARGS=(--fancy --arch=arm64)
   elif [[ "${target_platform}" == "osx-arm64" ]]; then
     SBCL_ARGS=(--fancy --arch=arm64)
@@ -55,17 +28,11 @@ function build_install_stage() {
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
     export INSTALL_ROOT SBCL_HOME PATH=${INSTALL_ROOT}/bin:${PATH}
     bash install.sh
-
-    # Patch the rpath of the installed binaries - Actually, this should not be needed since it is done in build
-    if [[ "${target_platform}" == "linux-64" ]]; then
-      patchelf_rpath "${INSTALL_ROOT}/bin/sbcl"
-    fi
   cd "${current_dir}"
 }
 
 if [[ "${target_platform}" == "osx-64" ]] || \
    [[ "${target_platform}" == "linux-64" ]] || \
-   [[ "${target_platform}" == "linux-ppc64le" ]] || \
    [[ "${target_platform}" == "linux-aarch64" ]]
 then
   # sbcl is installed in the host environment if x-compiling
@@ -74,6 +41,18 @@ then
     export CROSSCOMPILING_EMULATOR=""
   fi
 
+  build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${SRC_DIR}/_conda_stage1-install"
+  cp -r "${INSTALL_ROOT}"/* "${PREFIX}" > /dev/null 2>&1
+
+  cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
+  cp "${SRC_DIR}"/sbcl-source/CREDITS "${SRC_DIR}"
+elif [[ "${target_platform}" == "linux-ppc64le" ]]; then
+  # Install the bootstrap binary in a temporary location
+  export INSTALL_ROOT=${SRC_DIR}/_conda_bootstrap-install
+  export SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
+  sh install.sh
+
+  # Build SBCL from source
   build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${SRC_DIR}/_conda_stage1-install"
   cp -r "${INSTALL_ROOT}"/* "${PREFIX}" > /dev/null 2>&1
 
