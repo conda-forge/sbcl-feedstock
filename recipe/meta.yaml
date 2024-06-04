@@ -43,7 +43,8 @@ requirements:
     - zstd  # [not (osx and arm64)]
 
 test:
-
+  requires:
+    - {{ stdlib('c') }}
   commands:
     - test -f ${PREFIX}/etc/conda/activate.d/sbcl-activate.sh  # [not (osx and arm64 or win)]
     - test -f ${PREFIX}/etc/conda/deactivate.d/sbcl-deactivate.sh  # [not (osx and arm64 or win)]
