@@ -31,14 +31,19 @@ function build_install_stage() {
     bash make.sh "${SBCL_ARGS[@]}"
 
     echo "Info for cross-compiling - Temporary"
-    echo "   output/stuff-groveled-from-headers.lisp"
-    cat output/stuff-groveled-from-headers.lisp
-    echo "   src/runtime/ppc-linux-mcontext.h"
-    cat src/runtime/ppc-linux-mcontext.h
-    echo "   local-target-features.lisp-expr"
-    cat local-target-features.lisp-expr
-    echo "   local-target-features.lisp-expr"
-    cat local-target-features.lisp-expr
+    ls -l xperfect*
+    echo ""
+    echo "   xperfecthash30.lisp-expr"
+    echo ""
+    cat xperfecthash30.lisp-expr
+    echo ""
+    echo "   xperfecthash61.lisp-expr"
+    echo ""
+    cat xperfecthash30.lisp-expr
+    echo ""
+    echo "   xperfecthash63.lisp-expr"
+    echo ""
+    cat xperfecthash30.lisp-expr
 
     INSTALL_ROOT=${install_dir}
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
