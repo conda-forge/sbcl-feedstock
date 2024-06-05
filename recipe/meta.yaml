@@ -27,6 +27,7 @@ source:
 build:
   skip: true  # [not ppc64le]
   number: 6
+  ignore_run_exports: true
 
 requirements:
   build:
@@ -39,6 +40,8 @@ requirements:
     - mingw-w64-ucrt-x86_64-zstd  # [win and x86_64]
     - make
   host:
+    - zstd  # [not (osx and arm64)]
+  run:
     - zstd  # [not (osx and arm64)]
 
 test:
