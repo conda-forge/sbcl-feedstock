@@ -34,8 +34,7 @@ function build_install_stage() {
     echo ""
     echo "   xperfecthash30.lisp-expr"
     echo ""
-    ls output
-    cat output/xfloat*.lisp
+    cat output/xfloat-math.lisp-expr
     echo ""
 
     INSTALL_ROOT=${install_dir}
