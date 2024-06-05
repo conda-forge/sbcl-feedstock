@@ -38,13 +38,10 @@ requirements:
     - mingw-w64-ucrt-x86_64-gcc-libs  # [win and x86_64]
     - mingw-w64-ucrt-x86_64-zstd  # [win and x86_64]
     - make
-    - sbcl  # [build_platform != target_platform]
   host:
     - zstd  # [not (osx and arm64)]
 
 test:
-  requires:
-    - {{ stdlib('c') }}
   commands:
     - test -f ${PREFIX}/etc/conda/activate.d/sbcl-activate.sh  # [not (osx and arm64 or win)]
     - test -f ${PREFIX}/etc/conda/deactivate.d/sbcl-deactivate.sh  # [not (osx and arm64 or win)]

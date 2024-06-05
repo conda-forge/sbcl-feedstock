@@ -37,6 +37,8 @@ function build_install_stage() {
     cat src/runtime/ppc-linux-mcontext.h
     echo "   local-target-features.lisp-expr"
     cat local-target-features.lisp-expr
+    echo "   local-target-features.lisp-expr"
+    cat local-target-features.lisp-expr
 
     INSTALL_ROOT=${install_dir}
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
