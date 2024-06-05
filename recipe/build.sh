@@ -31,19 +31,12 @@ function build_install_stage() {
     bash make.sh "${SBCL_ARGS[@]}"
 
     echo "Info for cross-compiling - Temporary"
-    ls -l xperfect*
     echo ""
     echo "   xperfecthash30.lisp-expr"
     echo ""
-    cat xperfecthash30.lisp-expr
+    ls output
+    cat output/xfloat*.lisp
     echo ""
-    echo "   xperfecthash61.lisp-expr"
-    echo ""
-    cat xperfecthash30.lisp-expr
-    echo ""
-    echo "   xperfecthash63.lisp-expr"
-    echo ""
-    cat xperfecthash30.lisp-expr
 
     INSTALL_ROOT=${install_dir}
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
