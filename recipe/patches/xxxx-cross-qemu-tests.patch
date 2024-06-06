@@ -1,0 +1,33 @@
+--- tests/subr.sh   2024-05-30 02:25:20.000000000 -0500
++++ tests/subr.sh   2024-06-06 15:52:30.285336852 -0500
+@@ -63,15 +63,15 @@
+ run_sbcl () (
+     set -u
+     if [ $# -gt 0 ]; then
+-       "$SBCL_RUNTIME" --lose-on-corruption --core "$SBCL_CORE" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})" "$@"
++       "$CROSSCOMPILING_EMULATOR" "$SBCL_RUNTIME" --lose-on-corruption --core "$SBCL_CORE" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})" "$@"
+     else
+-       "$SBCL_RUNTIME" --lose-on-corruption --core "$SBCL_CORE" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})"
++       "$CROSSCOMPILING_EMULATOR" "$SBCL_RUNTIME" --lose-on-corruption --core "$SBCL_CORE" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})"
+     fi
+ )
+
+ run_sbcl_with_args () (
+     set -u
+-    "$SBCL_RUNTIME" --lose-on-corruption --core "$SBCL_CORE" "$@"
++    "$CROSSCOMPILING_EMULATOR" "$SBCL_RUNTIME" --lose-on-corruption --core "$SBCL_CORE" "$@"
+ )
+
+ run_sbcl_with_core () (
+@@ -79,9 +79,9 @@
+     core="$1"
+     shift
+     if [ $# -gt 0 ]; then
+-       "$SBCL_RUNTIME" --lose-on-corruption --core "$core" "$@"
++       "$CROSSCOMPILING_EMULATOR" "$SBCL_RUNTIME" --lose-on-corruption --core "$core" "$@"
+     else
+-       "$SBCL_RUNTIME" --lose-on-corruption --core "$core" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})"
++       "$CROSSCOMPILING_EMULATOR" "$SBCL_RUNTIME" --lose-on-corruption --core "$core" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})"
+     fi
+ )
+

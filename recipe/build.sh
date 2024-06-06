@@ -34,6 +34,16 @@ function build_install_stage() {
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
     export INSTALL_ROOT SBCL_HOME PATH=${INSTALL_ROOT}/bin:${PATH}
     bash install.sh
+
+    # The testsuite is not engineered to run on the installed SBCL within the test_env
+    if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
+      # This script contains tab and fails the patch mechanism of meta.yaml
+      expand -t 8 tests/subr.sh > tests/subr.sh.tmp
+      mv tests/subr.sh.tmp tests/subr.sh
+      patch -Np0 --binary < "${RECIPE_DIR}/patches/xxxx-cross-qemu-tests.patch"
+    fi
+
+    cd tests && bash run-tests.sh > _sbcl_tests.log 2>&1 && cd ..
   cd "${current_dir}"
 }
 
@@ -54,7 +64,7 @@ then
   fi
   # When cross-compiling, the build SBCL is installed in the build environment as a dependency
 
-  build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${PREFIX}"
+  build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda-build" "${PREFIX}"
 
   # Copy the license and credits for conda-recipe packaging
   cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
