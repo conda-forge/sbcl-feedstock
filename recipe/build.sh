@@ -49,6 +49,7 @@ then
   # When not cross-compiling, the existing SBCL needs to be installed in the build environment
   if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
     mamba install -y sbcl
+    export SBCL_HOME=${BUILD_PREFIX}/lib/sbcl
     export CROSSCOMPILING_EMULATOR=""
   fi
   # When cross-compiling, the build SBCL is installed in the build environment as a dependency
