@@ -41,8 +41,6 @@ requirements:
     - make
   host:
     - zstd  # [not (osx and arm64)]
-  run:
-    - zstd  # [not (osx and arm64)]
 
 test:
   commands:
