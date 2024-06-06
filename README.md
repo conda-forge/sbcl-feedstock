@@ -1,7 +1,7 @@
 About sbcl-feedstock
 ====================
 
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/sbcl-feedstock-osx-feedstock/blob/main/LICENSE.txt)
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/sbcl-feedstock/blob/main/LICENSE.txt)
 
 Home: http://www.sbcl.org
 
@@ -25,8 +25,8 @@ Current build status
 <table><tr>
     <td>Travis</td>
     <td>
-      <a href="https://app.travis-ci.com/conda-forge/sbcl-feedstock-osx-feedstock">
-        <img alt="linux" src="https://img.shields.io/travis/com/conda-forge/sbcl-feedstock-osx-feedstock/main.svg?label=Linux">
+      <a href="https://app.travis-ci.com/conda-forge/sbcl-feedstock">
+        <img alt="linux" src="https://img.shields.io/travis/com/conda-forge/sbcl-feedstock/main.svg?label=Linux">
       </a>
     </td>
   </tr>
