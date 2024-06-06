@@ -27,7 +27,6 @@ source:
 build:
   skip: true  # [not ppc64le]
   number: 6
-  ignore_run_exports: true
 
 requirements:
   build:
