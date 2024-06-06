@@ -4,11 +4,11 @@
  run_sbcl () (
      set -u
      if [ $# -gt 0 ]; then
--       "$SBCL_RUNTIME" --lose-on-corruption --core "$SBCL_CORE" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})" "$@"
-+       "$CROSSCOMPILING_EMULATOR" "$SBCL_RUNTIME" --lose-on-corruption --core "$SBCL_CORE" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})" "$@"
+-        "$SBCL_RUNTIME" --lose-on-corruption --core "$SBCL_CORE" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})" "$@"
++        "$CROSSCOMPILING_EMULATOR" "$SBCL_RUNTIME" --lose-on-corruption --core "$SBCL_CORE" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})" "$@"
      else
--       "$SBCL_RUNTIME" --lose-on-corruption --core "$SBCL_CORE" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})"
-+       "$CROSSCOMPILING_EMULATOR" "$SBCL_RUNTIME" --lose-on-corruption --core "$SBCL_CORE" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})"
+-        "$SBCL_RUNTIME" --lose-on-corruption --core "$SBCL_CORE" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})"
++        "$CROSSCOMPILING_EMULATOR" "$SBCL_RUNTIME" --lose-on-corruption --core "$SBCL_CORE" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})"
      fi
  )
 
@@ -23,11 +23,12 @@
      core="$1"
      shift
      if [ $# -gt 0 ]; then
--       "$SBCL_RUNTIME" --lose-on-corruption --core "$core" "$@"
-+       "$CROSSCOMPILING_EMULATOR" "$SBCL_RUNTIME" --lose-on-corruption --core "$core" "$@"
+-        "$SBCL_RUNTIME" --lose-on-corruption --core "$core" "$@"
++        "$CROSSCOMPILING_EMULATOR" "$SBCL_RUNTIME" --lose-on-corruption --core "$core" "$@"
      else
--       "$SBCL_RUNTIME" --lose-on-corruption --core "$core" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})"
-+       "$CROSSCOMPILING_EMULATOR" "$SBCL_RUNTIME" --lose-on-corruption --core "$core" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})"
+-        "$SBCL_RUNTIME" --lose-on-corruption --core "$core" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})"
++        "$CROSSCOMPILING_EMULATOR" "$SBCL_RUNTIME" --lose-on-corruption --core "$core" $SBCL_ARGS --eval "(setf sb-ext:*evaluator-mode* :${TEST_SBCL_EVALUATOR_MODE:-compile})"
      fi
  )
+
 
