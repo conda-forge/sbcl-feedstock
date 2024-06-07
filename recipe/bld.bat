@@ -3,8 +3,11 @@
 :: Use existing conda sbcl as bootstrap
 call mamba install -y sbcl
 
-:: Build and install SBCL (builds in srouce dir and installs in PREFIX)
-cd %SRC_DIR%\sbcl-source
+:: Build and install SBCL (builds in _conda-build dir and installs in PREFIX)
+mkdir %SRC_DIR%\_conda-build
+cd %SRC_DIR%\_conda-build
+  xcopy /E %SRC_DIR%\sbcl-source\* . > nul
+
   set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"
   set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"

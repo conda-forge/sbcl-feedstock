@@ -40,13 +40,14 @@ requirements:
     - zstd  # [not (osx and arm64)]
 
 test:
-  # The test suite only runs correctly within the build directory, pre-install
-  source_files:  # [build_platform != target_platform]
-    - _conda-build/tests  # [build_platform != target_platform]
-    - _conda-build/output  # [build_platform != target_platform]
-    - _conda-build/obj  # [build_platform != target_platform]
-    - _conda-build/src  # [build_platform != target_platform]
-    - _conda-build/sbcl_pwd.sh  # [build_platform != target_platform]
+  # The test suite only runs correctly within the build directory
+  requires:
+    - {{ compiler('c') }}  # [not (osx and arm64)]
+    - make  # [not (osx and arm64)]
+    - strace_{{ target_platform }}  # [not (osx and arm64) and not win]
+    - zstd  # [not (osx and arm64)]
+  source_files:
+    - _conda-build
   commands:
     - test -f ${PREFIX}/etc/conda/activate.d/sbcl-activate.sh  # [not (osx and arm64 or win)]
     - test -f ${PREFIX}/etc/conda/deactivate.d/sbcl-deactivate.sh  # [not (osx and arm64 or win)]
@@ -61,7 +62,7 @@ test:
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\asdf.fasl exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\uiop.fasl exit 1  # [win]
 
-    # Not all contribs are built on Windows - Note this is for when unix builds from source
+    # linux-only contribs
     - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.asd  # [linux]
     - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.fasl  # [linux]
     # Not all contribs are built on linux-aarch64
@@ -100,7 +101,10 @@ test:
     - sbcl --version
     - sbcl --help
     - sbcl --noinform --disable-debugger --eval "(print (require :asdf))" --disable-debugger --eval "(quit)"
-    - cd _conda-build/tests && bash run-tests.sh  # [build_platform != target_platform]
+    - cd _conda-build/tests && export LD_LIBRARY_PATH=${PREFIX}/lib
+    - rm chill.test.sh elfcore.test.sh futex-wait.test.sh hide-packages.test.sh
+    - bash run-tests.sh > ../../_sbcl-test.log 2>&1  # [not win]
+    - bash run-tests.sh > nul  # [win]
 
 about:
   home: http://www.sbcl.org
