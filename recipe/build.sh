@@ -35,16 +35,10 @@ function build_install_stage() {
     export INSTALL_ROOT SBCL_HOME PATH=${INSTALL_ROOT}/bin:${PATH}
     bash install.sh
 
-# Running the tests takes too long with QEMU - Try to export build artifacts to test env
-#    # The testsuite is not engineered to run on the installed SBCL within the test_env
-#    if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
-#      # This script contains tab and fails the patch mechanism of meta.yaml
-#      expand -t 8 tests/subr.sh > tests/subr.sh.tmp
-#      mv tests/subr.sh.tmp tests/subr.sh
-#      patch -Np0 --binary < "${RECIPE_DIR}/patches/xxxx-cross-qemu-tests.patch"
-#    fi
-#
-#    cd tests && bash run-tests.sh > _sbcl_tests.log 2>&1 && cd ..
+    if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
+      # Only run full testsuite when not cross-compiling
+      cd tests && bash run-tests.sh > _sbcl_tests.log 2>&1 && cd ..
+    fi
   cd "${current_dir}"
 }
 

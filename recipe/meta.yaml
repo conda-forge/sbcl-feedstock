@@ -40,11 +40,13 @@ requirements:
     - zstd  # [not (osx and arm64)]
 
 test:
-  source_files:
-    - sbcl-source/tests
-    # The test suite only runs correctly within the build directory, pre-install
-    - sbcl-source/output
-    - sbcl-source/obj
+  # The test suite only runs correctly within the build directory, pre-install
+  source_files:  # [build_platform != target_platform]
+    - _conda-build/tests  # [build_platform != target_platform]
+    - _conda-build/output  # [build_platform != target_platform]
+    - _conda-build/obj  # [build_platform != target_platform]
+    - _conda-build/src  # [build_platform != target_platform]
+    - _conda-build/sbcl_pwd.sh  # [build_platform != target_platform]
   commands:
     - test -f ${PREFIX}/etc/conda/activate.d/sbcl-activate.sh  # [not (osx and arm64 or win)]
     - test -f ${PREFIX}/etc/conda/deactivate.d/sbcl-deactivate.sh  # [not (osx and arm64 or win)]
@@ -98,7 +100,7 @@ test:
     - sbcl --version
     - sbcl --help
     - sbcl --noinform --disable-debugger --eval "(print (require :asdf))" --disable-debugger --eval "(quit)"
-    - cd sbcl-source/tests && bash run-tests.sh
+    - cd _conda-build/tests && bash run-tests.sh  # [build_platform != target_platform]
 
 about:
   home: http://www.sbcl.org
