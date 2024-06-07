@@ -41,13 +41,13 @@ requirements:
 
 test:
   # The test suite only runs correctly within the build directory
-  requires:
+  requires:  # [not (osx and arm64)]
     - {{ compiler('c') }}  # [not (osx and arm64)]
     - make  # [not (osx and arm64)]
     - strace_{{ target_platform }}  # [linux]
     - zstd  # [not (osx and arm64)]
-  source_files:
-    - _conda-build
+  source_files:  # [not (osx and arm64)]
+    - _conda-build  # [not (osx and arm64)]
   commands:
     - test -f ${PREFIX}/etc/conda/activate.d/sbcl-activate.sh  # [not (osx and arm64 or win)]
     - test -f ${PREFIX}/etc/conda/deactivate.d/sbcl-deactivate.sh  # [not (osx and arm64 or win)]
@@ -101,9 +101,12 @@ test:
     - sbcl --version
     - sbcl --help
     - sbcl --noinform --disable-debugger --eval "(print (require :asdf))" --disable-debugger --eval "(quit)"
-    - cd _conda-build/tests && export LD_LIBRARY_PATH=${PREFIX}/lib
-    - rm chill.test.sh elfcore.test.sh futex-wait.test.sh hide-packages.test.sh
-    - bash run-tests.sh > ../../_sbcl-test.log 2>&1  # [not win]
+
+    # Run the test suite
+    - cd _conda-build/tests  # [not (osx and arm64)]
+    - export LD_LIBRARY_PATH=${PREFIX}/lib  # [not (osx and arm64) and not win]
+    - rm chill.test.sh elfcore.test.sh futex-wait.test.sh hide-packages.test.sh  # [not (osx and arm64)]
+    - bash run-tests.sh  # [not (osx and arm64) and not win]
     - bash run-tests.sh > nul  # [win]
 
 about:

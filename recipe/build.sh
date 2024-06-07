@@ -34,7 +34,10 @@ function build_install_stage() {
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
     export INSTALL_ROOT SBCL_HOME PATH=${INSTALL_ROOT}/bin:${PATH}
     bash install.sh
-    strip "${install_dir}"/bin/sbcl
+
+    if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
+      strip "${install_dir}"/bin/sbcl
+    fi
   cd "${current_dir}"
 }
 
