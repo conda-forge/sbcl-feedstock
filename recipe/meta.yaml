@@ -42,6 +42,14 @@ requirements:
     - zstd  # [not (osx and arm64)]
 
 test:
+  # The test suite only runs correctly within the build directory
+  requires:
+    - {{ compiler('c') }}  # [not ((osx and arm64) or win or aarch64)]
+    - make  # [not ((osx and arm64) or win or aarch64)]
+    - strace_{{ target_platform }}  # [linux]
+    - zstd  # [not ((osx and arm64) or win or aarch64)]
+  source_files:
+    - _conda-build  # [not ((osx and arm64) or win or aarch64)]
   commands:
     - test -f ${PREFIX}/etc/conda/activate.d/sbcl-activate.sh  # [not (osx and arm64 or win)]
     - test -f ${PREFIX}/etc/conda/deactivate.d/sbcl-deactivate.sh  # [not (osx and arm64 or win)]
@@ -56,7 +64,7 @@ test:
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\asdf.fasl exit 1  # [win]
     - if not exist %PREFIX%\\lib\\sbcl\\contrib\\uiop.fasl exit 1  # [win]
 
-    # Not all contribs are built on Windows - Note this is for when unix builds from source
+    # linux-only contribs
     - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.asd  # [linux]
     - test -f  ${PREFIX}/lib/sbcl/contrib/sb-perf.fasl  # [linux]
     # Not all contribs are built on aarch64 or ppc64le
@@ -95,6 +103,12 @@ test:
     - sbcl --version
     - sbcl --help
     - sbcl --noinform --disable-debugger --eval "(print (require :asdf))" --disable-debugger --eval "(quit)"
+
+    # Run the test suite - It fails for windows
+    - cd _conda-build/tests  # [not ((osx and arm64) or win or aarch64)]
+    - export LD_LIBRARY_PATH=${PREFIX}/lib  # [not (osx or win or aarch64)]
+    - export DYLD_LIBRARY_PATH=${PREFIX}/lib  # [osx and x86_64]
+    - bash run-tests.sh || true # [not ((osx and arm64) or win or aarch64)]
 
 about:
   home: http://www.sbcl.org

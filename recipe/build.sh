@@ -34,6 +34,10 @@ function build_install_stage() {
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
     export INSTALL_ROOT SBCL_HOME PATH=${INSTALL_ROOT}/bin:${PATH}
     bash install.sh
+
+    if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
+      strip "${install_dir}"/bin/sbcl
+    fi
   cd "${current_dir}"
 }
 
@@ -49,17 +53,18 @@ then
   # When not cross-compiling, the existing SBCL needs to be installed in the build environment
   if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
     mamba install -y sbcl
+    export SBCL_HOME=${BUILD_PREFIX}/lib/sbcl
     export CROSSCOMPILING_EMULATOR=""
   fi
   # When cross-compiling, the build SBCL is installed in the build environment as a dependency
 
-  build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${PREFIX}"
+  build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda-build" "${PREFIX}"
 
   # Copy the license and credits for conda-recipe packaging
   cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
   cp "${SRC_DIR}"/sbcl-source/CREDITS "${SRC_DIR}"
 
-# No previous conda version: Need to bootstrap. Once a version is released
+# PPC64LE: no previous conda version: Need to bootstrap. Once a version is released
 # this special case will be merged to the above
 elif [[ "${target_platform}" == "linux-ppc64le" ]]; then
   # Install the bootstrap binary in a temporary location
@@ -70,7 +75,7 @@ elif [[ "${target_platform}" == "linux-ppc64le" ]]; then
   export PATH=${INSTALL_ROOT}/bin:${PATH}
 
   # Build SBCL from source
-  build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda_stage1-build" "${PREFIX}"
+  build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda-build" "${PREFIX}"
 
   # Copy the license and credits for conda-recipe packaging
   cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
