@@ -1,3 +1,4 @@
 channel_sources:
   - conda-forge/label/m2w64-experimental,conda-forge  # [win]
-  - conda-forge,defaults  # [not win]
+  # This is for strace on linux for the a test in the full testsuite
+  - conda-forge,defaults  # [linux]

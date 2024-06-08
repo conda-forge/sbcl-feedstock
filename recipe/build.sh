@@ -64,6 +64,23 @@ then
   cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
   cp "${SRC_DIR}"/sbcl-source/CREDITS "${SRC_DIR}"
 
+# PPC64LE: no previous conda version: Need to bootstrap. Once a version is released
+# this special case will be merged to the above
+elif [[ "${target_platform}" == "linux-ppc64le" ]]; then
+  # Install the bootstrap binary in a temporary location
+  export INSTALL_ROOT=${SRC_DIR}/_conda_bootstrap-install
+  export SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
+  sh install.sh > _sbcl_bootstrap-install.log 2>&1
+
+  export PATH=${INSTALL_ROOT}/bin:${PATH}
+
+  # Build SBCL from source
+  build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda-build" "${PREFIX}"
+
+  # Copy the license and credits for conda-recipe packaging
+  cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
+  cp "${SRC_DIR}"/sbcl-source/CREDITS "${SRC_DIR}"
+
 # All other architectures install the pre-built SBCL (downloaded in SRC_DIR
 else
   export INSTALL_ROOT=$PREFIX
