@@ -18,9 +18,7 @@ function build_install_stage() {
   cp -r "${src_dir}"/* "${stage_dir}"
 
   # Configure SBCL build arguments, like host architecture, enable fancy features
-  if [[ "${target_platform}" == "linux-aarch64" ]]; then
-    SBCL_ARGS=(--fancy --arch=arm64)
-  elif [[ "${target_platform}" == "osx-arm64" ]]; then
+  if [[ "${target_platform}" == "osx-arm64" ]]; then
     SBCL_ARGS=(--fancy --arch=arm64)
   else
     SBCL_ARGS=(--fancy)
@@ -28,7 +26,7 @@ function build_install_stage() {
 
   # Build and install SBCL
   cd "${stage_dir}"
-    bash make.sh "${SBCL_ARGS[@]}" > _sbcl_build.log 2>&1
+    bash make.sh "${SBCL_ARGS[@]}"
 
     INSTALL_ROOT=${install_dir}
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
@@ -69,7 +67,7 @@ elif [[ "${target_platform}" == "linux-aarch64" ]]; then
   # Install the bootstrap binary in a temporary location
   export INSTALL_ROOT=${SRC_DIR}/_conda_bootstrap-install
   export SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
-  sh install.sh > _sbcl_bootstrap-install.log 2>&1
+  sh install.sh
 
   export PATH=${INSTALL_ROOT}/bin:${PATH}
 
