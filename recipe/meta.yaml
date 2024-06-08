@@ -41,13 +41,13 @@ requirements:
 
 test:
   # The test suite only runs correctly within the build directory
-  requires:  # [not (osx and arm64) and not win]
-    - {{ compiler('c') }}  # [not (osx and arm64) and not win]
-    - make  # [not (osx and arm64) and not win]
+  requires:  # [not ((osx and arm64) or win or aarch64)]
+    - {{ compiler('c') }}  # [not ((osx and arm64) or win or aarch64)]
+    - make  # [not ((osx and arm64) or win or aarch64)]
     - strace_{{ target_platform }}  # [linux]
-    - zstd  # [not (osx and arm64) and not win]
-  source_files:  # [not (osx and arm64) and not win]
-    - _conda-build  # [not (osx and arm64) and not win]
+    - zstd  # [not ((osx and arm64) or win or aarch64)]
+  source_files:  # [not ((osx and arm64) or win or aarch64)]
+    - _conda-build  # [not ((osx and arm64) or win or aarch64)]
   commands:
     - test -f ${PREFIX}/etc/conda/activate.d/sbcl-activate.sh  # [not (osx and arm64 or win)]
     - test -f ${PREFIX}/etc/conda/deactivate.d/sbcl-deactivate.sh  # [not (osx and arm64 or win)]
@@ -103,11 +103,11 @@ test:
     - sbcl --noinform --disable-debugger --eval "(print (require :asdf))" --disable-debugger --eval "(quit)"
 
     # Run the test suite - It fails for windows
-    - cd _conda-build/tests  # [not (osx and arm64) and not win]
-    - export LD_LIBRARY_PATH=${PREFIX}/lib  # [not (osx and arm64) and not win]
-    - export DYLD_LIBRARY_PATH=${PREFIX}/lib  # [not (osx and arm64) and not win]
-    - rm chill.test.sh elfcore.test.sh futex-wait.test.sh hide-packages.test.sh  # [not (osx and arm64) and not win]
-    - bash run-tests.sh  # [not (osx and arm64) and not win]
+    - cd _conda-build/tests  # [not ((osx and arm64) or win or aarch64)]
+    - export LD_LIBRARY_PATH=${PREFIX}/lib  # [not ((osx and arm64) or win or aarch64)]
+    - export DYLD_LIBRARY_PATH=${PREFIX}/lib  # [not ((osx and arm64) or win or aarch64)]
+    - rm chill.test.sh elfcore.test.sh futex-wait.test.sh hide-packages.test.sh  # [not ((osx and arm64) or win or aarch64)]
+    - bash run-tests.sh  # [not ((osx and arm64) or win or aarch64)]
 
 about:
   home: http://www.sbcl.org
