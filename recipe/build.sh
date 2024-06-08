@@ -18,9 +18,7 @@ function build_install_stage() {
   cp -r "${src_dir}"/* "${stage_dir}"
 
   # Configure SBCL build arguments, like host architecture, enable fancy features
-  if [[ "${target_platform}" == "linux-aarch64" ]]; then
-    SBCL_ARGS=(--fancy --arch=arm64)
-  elif [[ "${target_platform}" == "osx-arm64" ]]; then
+  if [[ "${target_platform}" == "osx-arm64" ]]; then
     SBCL_ARGS=(--fancy --arch=arm64)
   else
     SBCL_ARGS=(--fancy)
@@ -47,8 +45,7 @@ set -ex
 
 # Select the conda architectures that build from source
 if [[ "${target_platform}" == "osx-64" ]] || \
-   [[ "${target_platform}" == "linux-64" ]] || \
-   [[ "${target_platform}" == "linux-aarch64" ]]
+   [[ "${target_platform}" == "linux-64" ]]
 then
   # When not cross-compiling, the existing SBCL needs to be installed in the build environment
   if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
@@ -66,7 +63,7 @@ then
 
 # PPC64LE: no previous conda version: Need to bootstrap. Once a version is released
 # this special case will be merged to the above
-elif [[ "${target_platform}" == "linux-ppc64le" ]]; then
+elif [[ "${target_platform}" == "linux-ppc64le" ]] || [[ "${target_platform}" == "linux-aarch64" ]]; then
   # Install the bootstrap binary in a temporary location
   export INSTALL_ROOT=${SRC_DIR}/_conda_bootstrap-install
   export SBCL_HOME=${INSTALL_ROOT}/lib/sbcl

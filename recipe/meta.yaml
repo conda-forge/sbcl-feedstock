@@ -9,6 +9,8 @@ package:
 source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
     sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117                               # [osx and arm64]
+  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-1.4.2-arm64-linux-binary.tar.bz2                     # [aarch64]
+    sha256: ddac6499f36c18ecbce9822a53ef3914c0def5276a457446a456c62999b16d36                               # [aarch64]
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-1.5.8-ppc64le-linux-binary.tar.bz2                   # [ppc64le]
     sha256: d8fc313d4198a2e83d6bfa0de47d0a1d809ec26a0755cb7eb1fb7f957d58dda9                               # [ppc64le]
 
@@ -19,8 +21,6 @@ source:
       - patches/0001-linux-x86_64-aarch64-ppc64le-zstd.patch  # [linux and (x86_64 or aarch64 or ppc64le)]
       - patches/0001-osx-update-rpath-zstd.patch  # [osx and x86_64]
       - patches/0001-win-xargs-zstd.sh.patch  # [win and x86_64]
-
-      - patches/0001-cross-use-qemu-dlopen.patch  # [aarch64]
 
       - patches/0002-linux-patchelf.patch  # [linux]
 
@@ -44,12 +44,12 @@ requirements:
 test:
   # The test suite only runs correctly within the build directory
   requires:
-    - {{ compiler('c') }}  # [not ((osx and arm64) or win or aarch64)]
-    - make  # [not ((osx and arm64) or win or aarch64)]
+    - {{ compiler('c') }}  # [not ((osx and arm64) or win)]
+    - make  # [not ((osx and arm64) or win)]
     - strace_{{ target_platform }}  # [linux]
-    - zstd  # [not ((osx and arm64) or win or aarch64)]
+    - zstd  # [not ((osx and arm64) or win)]
   source_files:
-    - _conda-build  # [not ((osx and arm64) or win or aarch64)]
+    - _conda-build  # [not ((osx and arm64) or win)]
   commands:
     - test -f ${PREFIX}/etc/conda/activate.d/sbcl-activate.sh  # [not (osx and arm64 or win)]
     - test -f ${PREFIX}/etc/conda/deactivate.d/sbcl-deactivate.sh  # [not (osx and arm64 or win)]
@@ -106,10 +106,10 @@ test:
 
     # Run the test suite - Several platform have few failing tests. This is to have a documentation of the failures
     # The majority of tests in the suite succeed
-    - cd _conda-build/tests  # [not ((osx and arm64) or win or aarch64)]
-    - export LD_LIBRARY_PATH=${PREFIX}/lib  # [not (osx or win or aarch64)]
+    - cd _conda-build/tests  # [not ((osx and arm64) or win)]
+    - export LD_LIBRARY_PATH=${PREFIX}/lib  # [not (osx or win)]
     - export DYLD_LIBRARY_PATH=${PREFIX}/lib  # [osx and x86_64]
-    - bash run-tests.sh || true  # [not ((osx and arm64) or win or aarch64)]
+    - bash run-tests.sh || true  # [not ((osx and arm64) or win)]
 
 about:
   home: http://www.sbcl.org
