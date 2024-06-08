@@ -108,7 +108,7 @@ test:
     - cd _conda-build/tests  # [not ((osx and arm64) or win or aarch64)]
     - export LD_LIBRARY_PATH=${PREFIX}/lib  # [not (osx or win or aarch64)]
     - export DYLD_LIBRARY_PATH=${PREFIX}/lib  # [osx and x86_64]
-    - bash run-tests.sh || true # [not ((osx and arm64) or win or aarch64)]
+    - bash run-tests.sh || true  # [not ((osx and arm64) or win or aarch64)]
 
 about:
   home: http://www.sbcl.org
