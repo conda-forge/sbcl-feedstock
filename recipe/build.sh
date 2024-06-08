@@ -45,7 +45,7 @@ set -ex
 
 # Select the conda architectures that build from source
 if [[ "${target_platform}" == "osx-64" ]] || \
-   [[ "${target_platform}" == "linux-64" ]] ||
+   [[ "${target_platform}" == "linux-64" ]]
 then
   # When not cross-compiling, the existing SBCL needs to be installed in the build environment
   if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
