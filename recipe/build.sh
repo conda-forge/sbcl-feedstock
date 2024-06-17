@@ -33,6 +33,12 @@ function build_install_stage() {
     export INSTALL_ROOT SBCL_HOME PATH=${INSTALL_ROOT}/bin:${PATH}
     bash install.sh
 
+    # Build shared library on linux systems (TODO: Check support for other platforms)
+    if [[ $(uname) == Linux ]]; then
+      bash make-shared-library.sh "${SBCL_ARGS[@]}" > _sbcl_lib_build.log 2>&1
+      install -m 644 src/runtime/libsbcl.so "${install_dir}/lib"
+    fi
+
     if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
       strip "${install_dir}"/bin/sbcl
     fi

@@ -57,6 +57,7 @@ test:
     - if not exist %PREFIX%\\etc\\conda\\deactivate.d\\sbcl-deactivate.bat exit /b 1  # [win]
 
     - test -f ${PREFIX}/bin/sbcl  # [not (osx and arm64 or win)]
+    - test -f ${PREFIX}/lib/libsbcl.so  # [not (osx or win)]
     - if not exist %PREFIX%\\bin\\sbcl.exe exit 1  # [win]
 
     - test -f ${PREFIX}/lib/sbcl/contrib/asdf.fasl  # [not (osx and arm64 or win)]
