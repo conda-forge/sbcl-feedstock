@@ -9,10 +9,12 @@ cd %SRC_DIR%\_conda-build
   xcopy /E %SRC_DIR%\sbcl-source\* . > nul
 
   set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"
-  set "CC=%BUILD_PREFIX%\Library\mingw-w64\bin\gcc"
+  set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
-  bash make.sh --fancy > nul
+  where gcc
+
+  bash make.sh --fancy
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   set "INSTALL_ROOT=%PREFIX%"
