@@ -35,9 +35,9 @@ function build_install_stage() {
 
     # Build shared library on linux systems (TODO: Check support for other platforms)
     bash make-shared-library.sh "${SBCL_ARGS[@]}" > _sbcl_lib_build.log 2>&1
-      install -m 644 src/runtime/libsbcl.so "${install_dir}/lib"
+      install -m 644 src/runtime/libsbcl.so "${install_dir}/lib/libsbcl.so"
     if [[ $(uname) == Darwin ]]; then
-      install -m 644 src/runtime/libsbcl.so "${install_dir}/lib/libsbcl.dylib"
+      ln -s "${install_dir}/lib/libsbcl.so" "${install_dir}/lib/libsbcl.dylib"
     fi
 
     if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
