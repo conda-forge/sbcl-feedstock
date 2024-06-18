@@ -15,7 +15,7 @@ cd %SRC_DIR%\_conda-build
   bash -c "which gcc"
   bash -c "which gcc.exe"
   bash -c "which gcc.exe"
-  bash -c "find %BUILD_PREFIX% -name gcc.exe"
+  bash -c "find %BUILD_PREFIX:\:\\% -name gcc.exe"
   gcc --version
 
   bash make.sh --fancy
