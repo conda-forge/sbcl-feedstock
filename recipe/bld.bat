@@ -15,13 +15,20 @@ cd %SRC_DIR%\_conda-build
   set "_build_prefix=%BUILD_PREFIX:\=/%"
   bash -c "find %_build_prefix% -name gcc.exe"
 
-  bash make.sh --fancy
+  bash make.sh --fancy > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   set "INSTALL_ROOT=%PREFIX%"
   set "SBCL_HOME=%INSTALL_ROOT%/lib/sbcl"
   bash install.sh > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+
+  :: Install dynamic library
+  bash make-shared-library.sh
+  if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+  copy src\runtime\libsbcl.dll %PREFIX%\bin\libsbcl.dll > nul
+  copy src\runtime\libsbcl.lib %PREFIX%\lib\libsbcl.lib > nul
+
 cd %SRC_DIR%
 
 :: Copy the license files for conda-recipe compliance

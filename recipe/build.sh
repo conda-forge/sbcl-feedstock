@@ -34,8 +34,9 @@ function build_install_stage() {
     bash install.sh
 
     # Build shared library on linux systems
-    bash make-shared-library.sh "${SBCL_ARGS[@]}" > _sbcl_lib_build.log 2>&1
-      install -m 644 src/runtime/libsbcl.so "${install_dir}/lib/libsbcl.so"
+    bash make-shared-library.sh > _sbcl_lib_build.log 2>&1
+    install -m 644 src/runtime/libsbcl.so "${install_dir}/lib/libsbcl.so"
+
     if [[ $(uname) == Darwin ]]; then
       ln -s "${install_dir}/lib/libsbcl.so" "${install_dir}/lib/libsbcl.dylib"
     fi
