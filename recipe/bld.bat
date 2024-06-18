@@ -12,7 +12,7 @@ cd %SRC_DIR%\_conda-build
   set "CC=gcc"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
-  bash -c which gcc
+  bash -c "which gcc"
 
   bash make.sh --fancy
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
