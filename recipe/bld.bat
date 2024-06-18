@@ -9,7 +9,7 @@ cd %SRC_DIR%\_conda-build
   xcopy /E %SRC_DIR%\sbcl-source\* . > nul
 
   set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"
-  set "CC=gcc"
+  set "CC=gcc -v"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
 
   bash -c "which gcc"

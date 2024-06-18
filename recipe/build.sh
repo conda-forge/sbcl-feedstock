@@ -33,7 +33,7 @@ function build_install_stage() {
     export INSTALL_ROOT SBCL_HOME PATH=${INSTALL_ROOT}/bin:${PATH}
     bash install.sh
 
-    # Build shared library on linux systems (TODO: Check support for other platforms)
+    # Build shared library on linux systems
     bash make-shared-library.sh "${SBCL_ARGS[@]}" > _sbcl_lib_build.log 2>&1
       install -m 644 src/runtime/libsbcl.so "${install_dir}/lib/libsbcl.so"
     if [[ $(uname) == Darwin ]]; then
