@@ -33,11 +33,9 @@ requirements:
     - {{ stdlib('c') }}  # [not win]
     # Current windows gcc toolchain (v5.3) segfaults when building SBCL, need >=12
     # Using experimental msys2 toolchain for now
-    - {{ compiler('m2w64_c') }}  # [win]
-    - {{ stdlib('m2w64_c') }}  # [win]
-    # - mingw-w64-ucrt-x86_64-gcc  # [win and x86_64]
-    # - mingw-w64-ucrt-x86_64-gcc-libs  # [win and x86_64]
-    # - mingw-w64-ucrt-x86_64-zstd  # [win and x86_64]
+    - mingw-w64-ucrt-x86_64-gcc  # [win and x86_64]
+    - mingw-w64-ucrt-x86_64-gcc-libs  # [win and x86_64]
+    - mingw-w64-ucrt-x86_64-zstd  # [win and x86_64]
     - make
     - sbcl  # [build_platform != target_platform]
   host:
