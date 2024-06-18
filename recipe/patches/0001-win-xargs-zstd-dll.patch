@@ -27,13 +27,12 @@
  CC = gcc
 --- src/runtime/GNUmakefile     2024-05-30 02:25:20.000000000 -0500
 +++ src/runtime/GNUmakefile     2024-06-18 15:21:14.429319621 -0500
-@@ -133,7 +133,8 @@
-
+@@ -134,6 +134,8 @@
  PIC_OBJS = $(subst .o,.pic.o,$(OBJS))
  libsbcl.so: $(PIC_OBJS)
--       $(CC) -shared -o $@ $^ $(LIBS) $(SOFLAGS)
-+       $(CC) -shared -o libsbcl.dll $^ $(LIBS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib
-+
+        $(CC) -shared -o $@ $^ $(LIBS) $(SOFLAGS)
++libsbcl.dll: $(PIC_OBJS)
++        $(CC) -shared -o libsbcl.dll $^ $(LIBS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib
  # for this to work, you must have with-gcc-tls in your build features already.
  # can't define it here because then it conflicts if you have it in both places.
  %.pic.o: %.c

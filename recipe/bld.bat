@@ -24,7 +24,7 @@ cd %SRC_DIR%\_conda-build
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   :: Install dynamic library
-  bash make-shared-library.sh
+  make -C src/runtime libsbcl.dll
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
   copy src\runtime\libsbcl.dll %PREFIX%\bin\libsbcl.dll > nul
   copy src\runtime\libsbcl.lib %PREFIX%\lib\libsbcl.lib > nul
