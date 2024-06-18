@@ -31,8 +31,6 @@ requirements:
   build:
     - {{ compiler('c') }}  # [not win]
     - {{ stdlib('c') }}  # [not win]
-    # For etags
-    - emacs
     # Current windows gcc toolchain (v5.3) segfaults when building SBCL, need >=12
     # Using experimental m2w64 toolchain for now
     - mingw-w64-ucrt-x86_64-gcc  # [win and x86_64]
