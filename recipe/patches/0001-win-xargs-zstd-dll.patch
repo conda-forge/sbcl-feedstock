@@ -27,8 +27,9 @@
  CC = gcc
 --- src/runtime/GNUmakefile     2024-05-30 02:25:20.000000000 -0500
 +++ src/runtime/GNUmakefile     2024-06-18 15:21:14.429319621 -0500
-@@ -153,2 +153,4 @@
- # or else it becomes part of the expansion of $(comma)
+@@ -134,2 +134,5 @@
+ PIC_OBJS = $(subst .o,.pic.o,$(OBJS))
 +libsbcl.dll: $(PIC_OBJS)
-+        $(CC) -shared -o libsbcl.dll $^ $(LIBS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib
- comma := ,
++        echo $(PIC_OBJS)
++        $(CC) -shared -o libsbcl.dll $^ $(LIBS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib $(OS_LIBS)
+ libsbcl.so: $(PIC_OBJS)
