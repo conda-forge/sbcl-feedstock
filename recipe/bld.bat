@@ -8,16 +8,12 @@ mkdir %SRC_DIR%\_conda-build
 cd %SRC_DIR%\_conda-build
   xcopy /E %SRC_DIR%\sbcl-source\* . > nul
 
-  set "PATH=%BUILD_PREFIX%\Library\mingw-w64\bin;%PATH%"
-  set "CC=gcc -v"
-  set "CFLAGS=-I%BUILD_PREFIX%\Library\include %CFLAGS%"
+  set "PATH=%BUILD_PREFIX%\Library\ucrt64\bin;%PATH%"
+  set "CC=gcc"
+  set "CFLAGS=-I%BUILD_PREFIX%\Library\ucrt64\include %CFLAGS%"
 
-  bash -c "which gcc"
-  bash -c "which gcc.exe"
-  bash -c "which gcc.exe"
   set "_build_prefix=%BUILD_PREFIX:\=/%"
   bash -c "find %_build_prefix% -name gcc.exe"
-  gcc --version
 
   bash make.sh --fancy
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
