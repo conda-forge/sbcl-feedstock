@@ -24,10 +24,11 @@ cd %SRC_DIR%\_conda-build
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   :: Install dynamic library: There is an odd error with make trying to use '-lzstd' as a target
-  :: bash make-shared-library.sh > nul
-  :: if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
-  :: copy src\runtime\libsbcl.dll %PREFIX%\bin\libsbcl.dll > nul
-  :: copy src\runtime\libsbcl.lib %PREFIX%\lib\libsbcl.lib > nul
+  copy %RECIPE_DIR%\patches\win-dll-gnumakelife src\runtime\GNUmakefile > nul
+  bash make-shared-library.sh > nul
+  if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+  copy src\runtime\libsbcl.dll %PREFIX%\bin\libsbcl.dll > nul
+  copy src\runtime\libsbcl.lib %PREFIX%\lib\libsbcl.lib > nul
 
 cd %SRC_DIR%
 
