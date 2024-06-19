@@ -61,9 +61,8 @@ test:
     - test -f ${PREFIX}/lib/libsbcl.so  # [not (osx and arm64 or win)]
     - test -f ${PREFIX}/lib/libsbcl.dylib  # [osx and x86_64]
     - if not exist %PREFIX%\\bin\\sbcl.exe exit 1  # [win]
-    # There is an odd error with make trying to use '-lzstd' as a target
-    # - if not exist %PREFIX%\\bin\\libsbcl.dll exit 1  # [win]
-    # - if not exist %PREFIX%\\lib\\libsbcl.lib exit 1  # [win]
+    - if not exist %PREFIX%\\bin\\libsbcl.dll exit 1  # [win]
+    - if not exist %PREFIX%\\lib\\libsbcl.lib exit 1  # [win]
 
     - test -f ${PREFIX}/lib/sbcl/contrib/asdf.fasl  # [not (osx and arm64 or win)]
     - test -f ${PREFIX}/lib/sbcl/contrib/uiop.fasl  # [not (osx and arm64 or win)]
