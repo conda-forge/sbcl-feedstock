@@ -25,6 +25,7 @@ source:
       - patches/0002-linux-patchelf.patch  # [linux]
 
 build:
+  skip: True  # [not win]
   number: 7
 
 requirements:
