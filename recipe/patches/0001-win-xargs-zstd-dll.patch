@@ -25,13 +25,6 @@
         -D__W32API_USE_DLLIMPORT__
 
  CC = gcc
---- src/runtime/GNUmakefile     2024-05-30 02:25:20.000000000 -0500
-+++ src/runtime/GNUmakefile     2024-06-18 15:21:14.429319621 -0500
-@@ -134,2 +134,4 @@
- PIC_OBJS = $(subst .o,.pic.o,$(OBJS))
-+libsbcl.dll: $(PIC_OBJS)
-+        $(CC) -shared -o libsbcl.dll $^ $(LIBS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib
- libsbcl.so: $(PIC_OBJS)
 --- make-shared-library.sh      2024-05-30 02:25:20.000000000 -0500
 +++ make-shared-library.sh      2024-06-18 18:35:29.173493526 -0500
 @@ -7,2 +7,2 @@
