@@ -22,7 +22,7 @@ source:
       - patches/0001-osx-update-rpath-zstd.patch  # [osx and x86_64]
       - patches/0001-win-xargs-zstd-dll.patch  # [win and x86_64]
 
-      - patches/0002-linux-patchelf.patch  # [linux]
+      # - patches/0002-linux-patchelf.patch  # [linux]
 
 build:
   number: 7
