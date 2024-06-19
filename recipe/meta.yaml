@@ -21,8 +21,7 @@ source:
       - patches/0001-linux-x86_64-aarch64-ppc64le-zstd.patch  # [linux and (x86_64 or aarch64 or ppc64le)]
       - patches/0001-osx-update-rpath-zstd.patch  # [osx and x86_64]
       - patches/0001-win-xargs-zstd-dll.patch  # [win and x86_64]
-
-      # - patches/0002-linux-patchelf.patch  # [linux]
+      - patches/0002-linux-patchelf.patch  # [linux]
 
 build:
   number: 7
