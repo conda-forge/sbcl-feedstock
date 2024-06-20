@@ -72,12 +72,8 @@ then
 # PPC64LE: no previous conda version: Need to bootstrap. Once a version is released
 # this special case will be merged to the above
 elif [[ "${target_platform}" == "linux-ppc64le" ]] || [[ "${target_platform}" == "linux-aarch64" ]]; then
-  # Install the bootstrap binary in a temporary location
-  export INSTALL_ROOT=${SRC_DIR}/_conda_bootstrap-install
-  export SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
-  sh install.sh > _sbcl_bootstrap-install.log 2>&1
-
-  export PATH=${INSTALL_ROOT}/bin:${PATH}
+  # Install conda-forge latest version of SBCL
+  mamba install -y sbcl
 
   # Build SBCL from source
   build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda-build" "${PREFIX}"

@@ -9,10 +9,6 @@ package:
 source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
     sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117                               # [osx and arm64]
-  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-1.4.2-arm64-linux-binary.tar.bz2                     # [aarch64]
-    sha256: ddac6499f36c18ecbce9822a53ef3914c0def5276a457446a456c62999b16d36                               # [aarch64]
-  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-1.5.8-ppc64le-linux-binary.tar.bz2                   # [ppc64le]
-    sha256: d8fc313d4198a2e83d6bfa0de47d0a1d809ec26a0755cb7eb1fb7f957d58dda9                               # [ppc64le]
 
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-source.tar.bz2                         # [not (osx and arm64)]
     sha256: 4df68e90c9031807642b4b761988deb5bf6a1bd152c4723482834efa735a7bd1                               # [not (osx and arm64)]
