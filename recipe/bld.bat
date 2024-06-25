@@ -23,8 +23,11 @@ cd %SRC_DIR%\_conda-build
   bash install.sh > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
-  :: Install dynamic library
-  copy %RECIPE_DIR%\patches\win-dll-gnumakefile src\runtime\GNUmakefile > nul
+  :: Install dynamic library. The dll target needs to be added to the GNUmakefile
+  :: This cannot be done by patching the source due to the tabulation needed by Makefile syntax
+  echo libsbcl.dll: $(PIC_OBJS) >> src\runtime\GNUmakefile
+  echo.^t$(CC) -shared -o $@ $^ $(LIBS) $(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib >> src\runtime\GNUmakefile
+
   bash make-shared-library.sh > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
   copy src\runtime\libsbcl.dll %PREFIX%\bin\libsbcl.dll > nul
