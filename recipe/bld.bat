@@ -27,11 +27,12 @@ cd %SRC_DIR%\_conda-build
   :: This cannot be done by patching the source due to the tabulation needed by Makefile syntax
   echo libsbcl.dll: $(PIC_OBJS) >> src\runtime\GNUmakefile
   echo.^t$(CC) -shared -o $@ $^ $(LIBS) $(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib >> src\runtime\GNUmakefile
+  type src\runtime\GNUmakefile
 
   bash make-shared-library.sh
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
-  dir src\runtime\libsbcl.dll
+  dir src\runtime\
   copy src\runtime\libsbcl.dll %PREFIX%\bin\libsbcl.dll > nul
   copy src\runtime\libsbcl.lib %PREFIX%\lib\libsbcl.lib > nul
 
