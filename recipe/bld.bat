@@ -31,6 +31,7 @@ cd %SRC_DIR%\_conda-build
   bash make-shared-library.sh
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
+  dir src\runtime\libsbcl.dll
   copy src\runtime\libsbcl.dll %PREFIX%\bin\libsbcl.dll > nul
   copy src\runtime\libsbcl.lib %PREFIX%\lib\libsbcl.lib > nul
 
