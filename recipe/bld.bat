@@ -13,7 +13,13 @@ cd %SRC_DIR%\_conda-build
   set "CFLAGS=-I%BUILD_PREFIX%\Library\ucrt64\include %CFLAGS%"
 
   set "_build_prefix=%BUILD_PREFIX:\=/%"
-  bash -c "find %_build_prefix% -name gcc.exe"
+
+  ::  The dll target needs to be added to the GNUmakefile
+  :: This cannot be done by patching the source due to the tabulation needed by Makefile syntax
+  powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"libsbcl.dll: `$(PIC_OBJS)\""
+  powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"`t`$(CC) -shared -o `$@ `$`^ `$(LIBS) `$(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib\""
+
+  type src\runtime\GNUmakefile
 
   bash make.sh --fancy > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
@@ -24,11 +30,6 @@ cd %SRC_DIR%\_conda-build
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   :: Install dynamic library. The dll target needs to be added to the GNUmakefile
-  :: This cannot be done by patching the source due to the tabulation needed by Makefile syntax
-  powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"libsbcl.dll: `$(PIC_OBJS)\""
-  powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"`t`$(CC) -shared -o `$@ `$`^ `$(LIBS) `$(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib\""
-  type src\runtime\GNUmakefile
-
   bash make-shared-library.sh > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
