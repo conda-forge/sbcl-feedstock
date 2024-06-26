@@ -13,7 +13,11 @@ cd %SRC_DIR%\_conda-build
   set "CFLAGS=-I%BUILD_PREFIX%\Library\ucrt64\include %CFLAGS%"
 
   set "_build_prefix=%BUILD_PREFIX:\=/%"
-  bash -c "find %_build_prefix% -name gcc.exe"
+
+  :: The dll target needs to be added to the GNUmakefile
+  :: This cannot be done by patching the source due to the tabulation needed by Makefile syntax
+  powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"libsbcl.dll: `$(PIC_OBJS)\""
+  powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"`t`$(CC) -shared -o `$@ `$^ `$(LIBS) `$(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib\""
 
   bash make.sh --fancy > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
@@ -23,11 +27,12 @@ cd %SRC_DIR%\_conda-build
   bash install.sh > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
-  :: Install dynamic library: There is an odd error with make trying to use '-lzstd' as a target
-  :: bash make-shared-library.sh > nul
-  :: if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
-  :: copy src\runtime\libsbcl.dll %PREFIX%\bin\libsbcl.dll > nul
-  :: copy src\runtime\libsbcl.lib %PREFIX%\lib\libsbcl.lib > nul
+  :: Install dynamic library. The dll target needs to be added to the GNUmakefile
+  bash make-shared-library.sh > nul
+  if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+
+  copy src\runtime\libsbcl.dll %PREFIX%\bin\libsbcl.dll > nul
+  copy src\runtime\libsbcl.lib %PREFIX%\lib\libsbcl.lib > nul
 
 cd %SRC_DIR%
 
