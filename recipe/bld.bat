@@ -25,14 +25,14 @@ cd %SRC_DIR%\_conda-build
 
   :: Install dynamic library. The dll target needs to be added to the GNUmakefile
   :: This cannot be done by patching the source due to the tabulation needed by Makefile syntax
-  powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"libsbcl.dll: $$(PIC_OBJS)\""
-  powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"`tb`$$(CC) -shared -o $$@ $$^ $(LIBS) $$(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib\""
+  powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"libsbcl.dll: \$(PIC_OBJS)\""
+  powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"`tb`\$(CC) -shared -o \$@ \$^ \$(LIBS) \$(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib\""
   type src\runtime\GNUmakefile
 
   bash make-shared-library.sh > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
-  dir src\runtime\
+  dir src\runtime\libsbcl.dll
   copy src\runtime\libsbcl.dll %PREFIX%\bin\libsbcl.dll > nul
   copy src\runtime\libsbcl.lib %PREFIX%\lib\libsbcl.lib > nul
 
