@@ -26,7 +26,8 @@ cd %SRC_DIR%\_conda-build
   :: Install dynamic library. The dll target needs to be added to the GNUmakefile
   :: This cannot be done by patching the source due to the tabulation needed by Makefile syntax
   echo libsbcl.dll: $(PIC_OBJS) >> src\runtime\GNUmakefile
-  echo.^t$(CC) -shared -o $@ $^ $(LIBS) $(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib >> src\runtime\GNUmakefile
+  for /f "tokens=1,2 delims=," %%a in ('"echo.|set /p=|findstr /o . "') do set "TAB=%%b"
+  echo.%TAB%$(CC) -shared -o $@ $^ $(LIBS) $(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib >> src\runtime\GNUmakefile
   type src\runtime\GNUmakefile
 
   bash make-shared-library.sh
