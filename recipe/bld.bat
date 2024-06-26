@@ -17,7 +17,7 @@ cd %SRC_DIR%\_conda-build
   :: The dll target needs to be added to the GNUmakefile
   :: This cannot be done by patching the source due to the tabulation needed by Makefile syntax
   powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"libsbcl.dll: `$(PIC_OBJS)\""
-  powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"`t`$(CC) -shared -o `$@ `$`^ `$(LIBS) `$(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib\""
+  powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"`t`$(CC) -shared -o `$@ `$^ `$(LIBS) `$(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib\""
 
   bash make.sh --fancy > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
