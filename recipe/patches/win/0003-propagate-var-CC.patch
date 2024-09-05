@@ -1,0 +1,7 @@
+--- verify-header-parsing.sh.orig    2024-04-29 16:18:51.000000000 -0500
++++ verify-header-parsing.sh    2024-05-11 19:26:44.737874895 -0500
+@@ -8,3 +8,3 @@
+   echo '#include "'$i'"' > tmp.c
+-  cc -Isrc/runtime -c tmp.c
++  "${CC}" -Isrc/runtime -c tmp.c
+ done

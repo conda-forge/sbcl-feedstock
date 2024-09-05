@@ -1,0 +1,19 @@
+--- src/runtime/Config.x86-64-win32     2024-04-29 16:18:52.000000000 -0500
++++ src/runtime/Config.x86-64-win32     2024-05-12 13:26:58.119261982 -0500
+@@ -38,7 +38,7 @@
+
+ OS_LIBS = -l ws2_32 -ladvapi32 -lm
+ ifdef LISP_FEATURE_SB_CORE_COMPRESSION
+-  OS_LIBS += -lzstd
++  OS_LIBS += -L${BUILD_PREFIX}\\Library\\ucrt64\\lib -lzstd
+ endif
+ ifdef LISP_FEATURE_SB_FUTEX
+   OS_LIBS += -lSynchronization
+@@ -59,2 +59,3 @@
+        -O5 -m64 -DWINVER=0x0501 \
++       -I${BUILD_PREFIX}\\Library\\ucrt64\\include -I${PREFIX}\\ucrt64\\include \
+        -D__W32API_USE_DLLIMPORT__
+@@ -62,2 +62,2 @@
+
+-CC = gcc
++# CC = ${CC}

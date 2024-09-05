@@ -14,9 +14,8 @@ cd %SRC_DIR%\_conda-build
     goto :done
   )
   :done
+  set "CC=%CC:\=\\%"
   set "CFLAGS=-I%BUILD_PREFIX%\Library\ucrt64\include -I%BUILD_PREFIX%\include"
-
-  set "_build_prefix=%BUILD_PREFIX:\=/%"
 
   :: The dll target needs to be added to the GNUmakefile
   :: This cannot be done by patching the source due to the tabulation needed by Makefile syntax
@@ -27,7 +26,7 @@ cd %SRC_DIR%\_conda-build
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   set "INSTALL_ROOT=%PREFIX%"
-  set "SBCL_HOME=%INSTALL_ROOT%/lib/sbcl"
+  set "SBCL_HOME=%INSTALL_ROOT%\lib\sbcl"
   bash install.sh
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
