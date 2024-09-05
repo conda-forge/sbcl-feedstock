@@ -9,8 +9,12 @@ cd %SRC_DIR%\_conda-build
   xcopy /E %SRC_DIR%\sbcl-source\* . > nul
 
   set "PATH=%BUILD_PREFIX%\Library\ucrt64\bin;%PATH%"
-  set "CC=gcc"
-  set "CFLAGS=-I%BUILD_PREFIX%\Library\ucrt64\include %CFLAGS%"
+  for /f "delims=" %%i in ('where gcc') do (
+    set "CC=%%i"
+    goto :done
+  )
+  :done
+  set "CFLAGS=-I%BUILD_PREFIX%\Library\ucrt64\include -I%BUILD_PREFIX%\include"
 
   set "_build_prefix=%BUILD_PREFIX:\=/%"
 
