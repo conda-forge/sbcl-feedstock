@@ -26,7 +26,7 @@ cd %SRC_DIR%\_conda-build
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   set "INSTALL_ROOT=%PREFIX%"
-  set "SBCL_HOME=%INSTALL_ROOT%\lib\sbcl"
+  set "SBCL_HOME=%PREFIX%\lib\sbcl"
   bash install.sh
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
