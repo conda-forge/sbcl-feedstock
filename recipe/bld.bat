@@ -19,16 +19,16 @@ cd %SRC_DIR%\_conda-build
   powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"libsbcl.dll: `$(PIC_OBJS)\""
   powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"`t`$(CC) -shared -o `$@ `$^ `$(LIBS) `$(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib\""
 
-  bash make.sh --fancy > nul
+  bash make.sh --fancy
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   set "INSTALL_ROOT=%PREFIX%"
   set "SBCL_HOME=%INSTALL_ROOT%/lib/sbcl"
-  bash install.sh > nul
+  bash install.sh
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   :: Install dynamic library. The dll target needs to be added to the GNUmakefile
-  bash make-shared-library.sh > nul
+  bash make-shared-library.sh
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   copy src\runtime\libsbcl.dll %PREFIX%\bin\libsbcl.dll > nul
