@@ -1,0 +1,7 @@
+--- clean.sh    2024-04-29 16:18:51.000000000 -0500
++++ clean.sh    2024-05-11 19:26:44.737874895 -0500
+@@ -88,3 +88,3 @@
+ # Does the environment look sane?
+-if [ -n "$SBCL_HOME" -a "$INSTALL_ROOT/lib/sbcl" != "$SBCL_HOME" ];then
++if [ -n "$SBCL_HOME" ] && [ "$INSTALL_ROOT/lib/sbcl" != "$SBCL_HOME" ]; then
+    echo SBCL_HOME environment variable is set, and conflicts with INSTALL_ROOT.
