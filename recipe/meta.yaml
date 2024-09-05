@@ -19,8 +19,7 @@ source:
       - patches/osx/0001-update-rpath-zstd.patch  # [osx and x86_64]
       - patches/win/0001-xargs.patch  # [win]
       - patches/win/0002-zstd.patch  # [win]
-      - patches/win/0003-propagate-var-CC.patch  # [win]
-      - patches/win/0004-dll.patch  # [win]
+      - patches/win/0003-dll.patch  # [win]
 
 build:
   number: 0
