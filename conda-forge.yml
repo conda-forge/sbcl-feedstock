@@ -8,8 +8,8 @@ github:
   branch_name: main
   tooling_branch_name: main
 provider:
-  linux_ppc64le: azure
-  linux_aarch64: azure
+  linux_ppc64le: default
+  linux_aarch64: default
 conda_build:
   pkg_format: '2'
 test: native_and_emulated
