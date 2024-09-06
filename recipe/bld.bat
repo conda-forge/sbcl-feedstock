@@ -34,6 +34,8 @@ cd %SRC_DIR%\_conda-build
   powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"libsbcl.dll: `$(PIC_OBJS)\""
   powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"`t`$(CC) -shared -o `$@ `$^ `$(LIBS) `$(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib\""
 
+  dir %PREFIX%\include\zstd.h
+
   bash make.sh --fancy
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
