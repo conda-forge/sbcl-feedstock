@@ -34,8 +34,8 @@ requirements:
     # - mingw-w64-ucrt-x86_64-gcc  # [win]
     - {{ compiler('m2w64_c') }}  # [win]
     - {{ stdlib('m2w64_c') }}  # [win]
-    - make  # [unix
-    - m2-make  # [win]
+    - gcc  # [win]
+    - make
     - sbcl  # [build_platform != target_platform]
   host:
     - zstd  # [not (osx and arm64)]
