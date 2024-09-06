@@ -1,7 +1,16 @@
 @echo off
 
 :: Use existing conda sbcl as bootstrap
-:: call mamba install -y sbcl
+call mamba create -n sbcl_env -y sbcl
+
+:: Get the path to the sbcl executable
+for /f "delims=" %%i in ('mamba run -n sbcl_env where sbcl') do (
+  set "SBCL_PATH=%%i"
+  goto :done
+)
+:done
+for %%i in ("%SBCL_PATH%") do set "SBCL_DIR=%%~dpi"
+set "PATH=%SBCL_DIR%;%PATH%"
 
 :: Build and install SBCL (builds in _conda-build dir and installs in PREFIX)
 mkdir %SRC_DIR%\_conda-build
