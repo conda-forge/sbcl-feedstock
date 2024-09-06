@@ -27,7 +27,7 @@ cd %SRC_DIR%\_conda-build
   :: set "PATH=%SBCL_DIR%;%PATH%"
 
   set "CC=gcc"
-  set "CFLAGS=-I%BUILD_PREFIX%\include -I%PREFIX%\include"
+  set "CFLAGS=-I${BUILD_PREFIX}/include -I${PREFIX}/include"
 
   :: The dll target needs to be added to the GNUmakefile
   :: This cannot be done by patching the source due to the tabulation needed by Makefile syntax
