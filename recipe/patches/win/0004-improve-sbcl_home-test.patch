@@ -3,5 +3,5 @@
 @@ -88,3 +88,3 @@
  # Does the environment look sane?
 -if [ -n "$SBCL_HOME" -a "$INSTALL_ROOT/lib/sbcl" != "$SBCL_HOME" ];then
-+if [ -n "$SBCL_HOME" ] && [ "$INSTALL_ROOT/lib/sbcl" != "$SBCL_HOME" ]; then
++if [ -n "$SBCL_HOME" ] && [ "$INSTALL_ROOT\\lib\\sbcl" != "$SBCL_HOME" ]; then
     echo SBCL_HOME environment variable is set, and conflicts with INSTALL_ROOT.
