@@ -1,7 +1,7 @@
 @echo off
 
 :: Use existing conda sbcl as bootstrap
-call mamba install -y sbcl
+:: call mamba install -y sbcl
 
 :: Build and install SBCL (builds in _conda-build dir and installs in PREFIX)
 mkdir %SRC_DIR%\_conda-build

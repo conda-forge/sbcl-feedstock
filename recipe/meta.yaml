@@ -24,6 +24,7 @@ source:
 
 build:
   number: 0
+  skip: true  # [not (win and x86_64)]
 
 requirements:
   build:
