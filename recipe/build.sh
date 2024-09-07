@@ -68,6 +68,7 @@ then
     SBCL_HOME=$(dirname "$SBCL_PATH")
     export PATH
     export SBCL_HOME="$SBCL_HOME/lib/sbcl"
+    echo "SBCL_HOME=$SBCL_HOME PATH=$PATH"
     # mamba install -y sbcl
     # export SBCL_HOME=${BUILD_PREFIX}/lib/sbcl
     # export CROSSCOMPILING_EMULATOR=""
