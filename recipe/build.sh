@@ -61,15 +61,16 @@ then
   if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
     # Installing in a separate env make the build fail, likely due to missing lib paths
     # TODO: Investigate installing sbcl in a separate env
-    # mamba create -n sbcl_env -y sbcl
-    # SBCL_BIN=$(mamba run -n sbcl_env which sbcl)
-    # SBCL_PATH=$(dirname "$SBCL_BIN")
-    # PATH="$SBCL_PATH:$PATH"
-    # export PATH
-    # export SBCL_HOME=${SBCL_PATH}/../lib/sbcl
-    mamba install -y sbcl
-    export SBCL_HOME=${BUILD_PREFIX}/lib/sbcl
-    export CROSSCOMPILING_EMULATOR=""
+    mamba create -n sbcl_env -y sbcl
+    SBCL_BIN=$(mamba run -n sbcl_env which sbcl)
+    SBCL_PATH=$(dirname "$SBCL_BIN")
+    PATH="$SBCL_PATH:$PATH"
+    SBCL_HOME=$(dirname "$SBCL_PATH")
+    export PATH
+    export SBCL_HOME="$SBCL_HOME/lib/sbcl"
+    # mamba install -y sbcl
+    # export SBCL_HOME=${BUILD_PREFIX}/lib/sbcl
+    # export CROSSCOMPILING_EMULATOR=""
   fi
   # When cross-compiling, the build SBCL is installed in the build environment as a dependency
 
