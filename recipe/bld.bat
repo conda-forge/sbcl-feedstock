@@ -1,7 +1,10 @@
 @echo off
 
+if not defined CONDA_BUILD_CROSS_COMPILATION (
+  CONDA_BUILD_CROSS_COMPILATION=0
+)
 
-if "%CONDA_BUILD_CROSS_COMPILATION%" != "0" (
+if %CONDA_BUILD_CROSS_COMPILATION%==0 (
   :: Use existing conda sbcl as bootstrap
   call mamba create -n sbcl_env -y sbcl
 
