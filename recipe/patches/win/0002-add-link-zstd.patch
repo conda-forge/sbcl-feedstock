@@ -11,7 +11,7 @@
    OS_LIBS += -lSynchronization
 @@ -59,2 +59,3 @@
         -O5 -m64 -DWINVER=0x0501 \
-+       -I${PREFIX}/include \
++       -I${PREFIX}/Library/include \
         -D__W32API_USE_DLLIMPORT__
 @@ -62,2 +62,2 @@
 
