@@ -31,7 +31,7 @@ cd %SRC_DIR%\_conda-build
   powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"`t`$(CC) -shared -o `$@ `$^ `$(LIBS) `$(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib\""
 
   if %target_platform%==win-arm64 (
-    bash make.sh --fancy --arch=arm64
+    bash make.sh --fancy
   ) else (
     bash make.sh --fancy > nul
   )
