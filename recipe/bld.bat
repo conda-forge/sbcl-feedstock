@@ -1,7 +1,7 @@
 @echo off
 
 if not defined CONDA_BUILD_CROSS_COMPILATION (
-  CONDA_BUILD_CROSS_COMPILATION=0
+  set CONDA_BUILD_CROSS_COMPILATION=0
 )
 
 if %CONDA_BUILD_CROSS_COMPILATION%==0 (
@@ -30,7 +30,11 @@ cd %SRC_DIR%\_conda-build
   powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"libsbcl.dll: `$(PIC_OBJS)\""
   powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"`t`$(CC) -shared -o `$@ `$^ `$(LIBS) `$(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib\""
 
-  bash make.sh --fancy > nul
+  if %target_platform%==win-arm64 (
+    bash make.sh --fancy --arch=arm64
+  ) else (
+    bash make.sh --fancy > nul
+  )
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   set "INSTALL_ROOT=%PREFIX%"

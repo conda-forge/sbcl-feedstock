@@ -90,6 +90,6 @@ fi
 # This will allow them to be run on environment activation.
 for CHANGE in "activate" "deactivate"
 do
-    mkdir -p "${PREFIX}/etc/conda/${CHANGE}.d"
-    cp "${RECIPE_DIR}/scripts/${CHANGE}.sh" "${PREFIX}/etc/conda/${CHANGE}.d/${PKG_NAME}-${CHANGE}.sh"
+  mkdir -p "${PREFIX}/etc/conda/${CHANGE}.d"
+  cp "${RECIPE_DIR}/scripts/${CHANGE}.sh" "${PREFIX}/etc/conda/${CHANGE}.d/${PKG_NAME}-${CHANGE}.sh"
 done
