@@ -53,12 +53,18 @@ set -ex
 
 # Select the conda architectures that build from source
 if [[ "${target_platform}" == "osx-64" ]] || \
-   [[ "${target_platform}" == "linux-64" ]]
+   [[ "${target_platform}" == "linux-64" ]] || \
+   [[ "${target_platform}" == "linux-ppc64le" ]] || \
+   [[ "${target_platform}" == "linux-aarch64" ]];
 then
   # When not cross-compiling, the existing SBCL needs to be installed in the build environment
   if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
-    mamba install -y sbcl
-    export SBCL_HOME=${BUILD_PREFIX}/lib/sbcl
+    mamba create -n sbcl_env -y sbcl
+    SBCL_BIN=$(mamba run -n sbcl_env which sbcl)
+    SBCL_PATH=$(dirname "$SBCL_BIN")
+    PATH="$SBCL_PATH:$PATH"
+    export PATH
+    export SBCL_HOME=${SBCL_PATH}/../lib/sbcl
     export CROSSCOMPILING_EMULATOR=""
   fi
   # When cross-compiling, the build SBCL is installed in the build environment as a dependency
@@ -71,21 +77,20 @@ then
 
 # PPC64LE: no previous conda version: Need to bootstrap. Once a version is released
 # this special case will be merged to the above
-elif [[ "${target_platform}" == "linux-ppc64le" ]] || [[ "${target_platform}" == "linux-aarch64" ]]; then
-  # Install conda-forge latest version of SBCL
-  mamba create -n sbcl_env -y sbcl
-  SBCL_PATH=$(mamba run -n sbcl_env which sbcl)
-  PATH="$(dirname "$SBCL_PATH"):$PATH"
-  export PATH
+# elif [[ "${target_platform}" == "linux-ppc64le" ]] || [[ "${target_platform}" == "linux-aarch64" ]]; then
+#   # Install conda-forge latest version of SBCL
+#     SBCL_BIN=$(mamba run -n sbcl_env which sbcl)
+#     SBCL_PATH=$(dirname "$SBCL_BIN")
+#     PATH="$SBCL_PATH:$PATH"
+#     export PATH
+#   # Build SBCL from source
+#   build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda-build" "${PREFIX}"
+#
+#   # Copy the license and credits for conda-recipe packaging
+#   cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
+#   cp "${SRC_DIR}"/sbcl-source/CREDITS "${SRC_DIR}"
 
-  # Build SBCL from source
-  build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda-build" "${PREFIX}"
-
-  # Copy the license and credits for conda-recipe packaging
-  cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
-  cp "${SRC_DIR}"/sbcl-source/CREDITS "${SRC_DIR}"
-
-# All other architectures install the pre-built SBCL (downloaded in SRC_DIR
+# All other architectures install the pre-built SBCL (downloaded in SRC_DIR)
 else
   export INSTALL_ROOT=$PREFIX
   export SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
