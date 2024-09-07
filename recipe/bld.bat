@@ -17,24 +17,12 @@ mkdir %SRC_DIR%\_conda-build
 cd %SRC_DIR%\_conda-build
   xcopy /E %SRC_DIR%\sbcl-source\* . > nul
 
-  :: set "PATH=%BUILD_PREFIX%\Library\ucrt64\bin;%PATH%"
-  :: for /f "delims=" %%i in ('where gcc') do (
-  ::   set "CC_PATH=%%i"
-  ::   goto :done
-  :: )
-  :: :done
-  :: for %%i in ("%CC_PATH%") do set "CC=%%~dpi"
-  :: set "PATH=%SBCL_DIR%;%PATH%"
-
   set "CC=gcc"
-  :: set "CFLAGS=-I%BUILD_PREFIX%\\include -I%PREFIX%\\include"
 
   :: The dll target needs to be added to the GNUmakefile
   :: This cannot be done by patching the source due to the tabulation needed by Makefile syntax
   powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"libsbcl.dll: `$(PIC_OBJS)\""
   powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"`t`$(CC) -shared -o `$@ `$^ `$(LIBS) `$(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib\""
-
-  dir %PREFIX%\include\zstd.h
 
   bash make.sh --fancy
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%

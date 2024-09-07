@@ -73,7 +73,10 @@ then
 # this special case will be merged to the above
 elif [[ "${target_platform}" == "linux-ppc64le" ]] || [[ "${target_platform}" == "linux-aarch64" ]]; then
   # Install conda-forge latest version of SBCL
-  mamba install -y sbcl
+  mamba create -n sbcl_env -y sbcl
+  SBCL_PATH=$(mamba run -n sbcl_env which sbcl)
+  PATH="$(dirname "$SBCL_PATH"):$PATH"
+  export PATH
 
   # Build SBCL from source
   build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda-build" "${PREFIX}"

@@ -24,15 +24,11 @@ source:
 
 build:
   number: 0
-  skip: true  # [not (win and x86_64)]
 
 requirements:
   build:
     - {{ compiler('c') }}  # [not win]
     - {{ stdlib('c') }}
-    # # Current windows gcc toolchain (v5.3) segfaults when building SBCL, need >=12
-    # # Using experimental m2w64 toolchain for now
-    # - mingw-w64-ucrt-x86_64-gcc  # [win]
     - {{ compiler('m2w64_c') }}  # [win]
     - {{ stdlib('m2w64_c') }}  # [win]
     - gcc  # [win]
