@@ -26,7 +26,7 @@ function build_install_stage() {
 
   # Build and install SBCL
   cd "${stage_dir}"
-    bash make.sh "${SBCL_ARGS[@]}" > _sbcl_build.log 2>&1
+    bash make.sh "${SBCL_ARGS[@]}" # > _sbcl_build.log 2>&1
 
     INSTALL_ROOT=${install_dir}
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
