@@ -79,21 +79,6 @@ then
   cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
   cp "${SRC_DIR}"/sbcl-source/CREDITS "${SRC_DIR}"
 
-# PPC64LE: no previous conda version: Need to bootstrap. Once a version is released
-# this special case will be merged to the above
-# elif [[ "${target_platform}" == "linux-ppc64le" ]] || [[ "${target_platform}" == "linux-aarch64" ]]; then
-#   # Install conda-forge latest version of SBCL
-#     SBCL_BIN=$(mamba run -n sbcl_env which sbcl)
-#     SBCL_PATH=$(dirname "$SBCL_BIN")
-#     PATH="$SBCL_PATH:$PATH"
-#     export PATH
-#   # Build SBCL from source
-#   build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda-build" "${PREFIX}"
-#
-#   # Copy the license and credits for conda-recipe packaging
-#   cp "${SRC_DIR}"/sbcl-source/COPYING "${SRC_DIR}"
-#   cp "${SRC_DIR}"/sbcl-source/CREDITS "${SRC_DIR}"
-
 # All other architectures install the pre-built SBCL (downloaded in SRC_DIR)
 else
   export INSTALL_ROOT=$PREFIX

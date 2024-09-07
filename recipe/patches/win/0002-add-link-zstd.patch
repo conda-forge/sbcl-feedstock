@@ -5,7 +5,7 @@
  OS_LIBS = -l ws2_32 -ladvapi32 -lm
  ifdef LISP_FEATURE_SB_CORE_COMPRESSION
 -  OS_LIBS += -lzstd
-+  OS_LIBS += -L${PREFIX}/Library/lib -lzstd
++  OS_LIBS += -L${BUILD_PREFIX}/Library/lib -L${PREFIX}/Library/lib -lzstd
  endif
  ifdef LISP_FEATURE_SB_FUTEX
    OS_LIBS += -lSynchronization

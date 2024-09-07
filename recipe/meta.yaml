@@ -24,11 +24,13 @@ source:
 
 build:
   number: 0
+  # No need to reinstall the 2.4.0 over and over again
+  skip: true  # [osx and arm64]
 
 requirements:
   build:
     - {{ compiler('c') }}  # [not win]
-    - {{ stdlib('c') }}
+    - {{ stdlib('c') }}  # [not (win and x86_64)]
     - {{ compiler('m2w64_c') }}  # [win and x86_64]
     - {{ stdlib('m2w64_c') }}  # [win and x86_64]
     - gcc  # [win and x86_64]
@@ -111,7 +113,7 @@ test:
     - cd _conda-build/tests  # [not ((osx and arm64) or win)]
     - export LD_LIBRARY_PATH=${PREFIX}/lib  # [not (osx or win)]
     - export DYLD_LIBRARY_PATH=${PREFIX}/lib  # [osx and x86_64]
-    - bash run-tests.sh || true  # [not ((osx and arm64) or win or ppc64le)]
+    - bash run-tests.sh || true  # [not ((osx and arm64) or win)]
 
 about:
   home: http://www.sbcl.org
