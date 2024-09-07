@@ -30,9 +30,8 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}  # [not win]
-    - {{ stdlib('c') }}
     - {{ compiler('m2w64_c') }}  # [win and x86_64]
-    # - {{ stdlib('m2w64_c') }}  # [win and x86_64]
+    - {{ stdlib('c') }}
     - gcc  # [win and x86_64]
     # Using experimental m2w64 toolchain since new toolchain not on arm64
     - mingw-w64-ucrt-x86_64-gcc  # [win and arm64]

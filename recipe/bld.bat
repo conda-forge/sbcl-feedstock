@@ -31,7 +31,7 @@ cd %SRC_DIR%\_conda-build
   powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"`t`$(CC) -shared -o `$@ `$^ `$(LIBS) `$(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib\""
 
   if %target_platform%==win-arm64 (
-    bash make.sh --fancy
+    bash make.sh --fancy > nul
   ) else (
     bash make.sh --fancy > nul
   )
@@ -39,11 +39,11 @@ cd %SRC_DIR%\_conda-build
 
   set "INSTALL_ROOT=%PREFIX%"
   set "SBCL_HOME=%PREFIX%\lib\sbcl"
-  bash install.sh
+  bash install.sh > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   :: Install dynamic library. The dll target needs to be added to the GNUmakefile
-  bash make-shared-library.sh
+  bash make-shared-library.sh > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   copy src\runtime\libsbcl.dll %PREFIX%\bin\libsbcl.dll > nul
