@@ -1,16 +1,19 @@
 @echo off
 
-:: Use existing conda sbcl as bootstrap
-call mamba create -n sbcl_env -y sbcl
 
-:: Get the path to the sbcl executable
-for /f "delims=" %%i in ('mamba run -n sbcl_env where sbcl') do (
-  set "SBCL_PATH=%%i"
-  goto :done
+if "%CONDA_BUILD_CROSS_COMPILATION%" == "0" (
+  :: Use existing conda sbcl as bootstrap
+  call mamba create -n sbcl_env -y sbcl
+
+  :: Get the path to the sbcl executable
+  for /f "delims=" %%i in ('mamba run -n sbcl_env where sbcl') do (
+    set "SBCL_PATH=%%i"
+    goto :done
+  )
+  :done
+  for %%i in ("%SBCL_PATH%") do set "SBCL_DIR=%%~dpi"
+  set "PATH=%SBCL_DIR%;%PATH%"
 )
-:done
-for %%i in ("%SBCL_PATH%") do set "SBCL_DIR=%%~dpi"
-set "PATH=%SBCL_DIR%;%PATH%"
 
 :: Build and install SBCL (builds in _conda-build dir and installs in PREFIX)
 mkdir %SRC_DIR%\_conda-build
@@ -24,7 +27,7 @@ cd %SRC_DIR%\_conda-build
   powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"libsbcl.dll: `$(PIC_OBJS)\""
   powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"`t`$(CC) -shared -o `$@ `$^ `$(LIBS) `$(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib\""
 
-  bash make.sh --fancy
+  bash make.sh --fancy > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   set "INSTALL_ROOT=%PREFIX%"
