@@ -62,7 +62,7 @@ then
     # Installing in a separate env make the build fail, likely due to missing lib paths
     # TODO: Investigate installing sbcl in a separate env
     mamba create -n sbcl_env -y sbcl
-    SBCL_BIN=$(mamba run -n sbcl_env which sbcl | grep -Eo '/.*sbcl')
+    SBCL_BIN=$(mamba run -n sbcl_env which sbcl | grep -Eo '/.*sbcl' | tail -n 1)
     SBCL_PATH=$(dirname "$SBCL_BIN")
     PATH="$SBCL_PATH:$PATH"
     SBCL_HOME=$(dirname "$SBCL_PATH")
