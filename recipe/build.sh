@@ -21,7 +21,7 @@ function build_install_stage() {
   if [[ "${target_platform}" == "osx-arm64" ]]; then
     SBCL_ARGS=(--fancy --arch=arm64)
   else
-    SBCL_ARGS=(--fancy --xc-host="$SBCL_BIN")
+    SBCL_ARGS=(--fancy)
   fi
 
   # Build and install SBCL
@@ -62,7 +62,7 @@ then
     # Installing in a separate env make the build fail, likely due to missing lib paths
     # TODO: Investigate installing sbcl in a separate env
     mamba create -n sbcl_env -y sbcl
-    SBCL_BIN=$(mamba run -n sbcl_env which sbcl)
+    SBCL_BIN=$(mamba run -n sbcl_env which sbcl | grep -Eo '/.*sbcl')
     SBCL_PATH=$(dirname "$SBCL_BIN")
     PATH="$SBCL_PATH:$PATH"
     SBCL_HOME=$(dirname "$SBCL_PATH")
