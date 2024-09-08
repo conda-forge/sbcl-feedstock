@@ -26,7 +26,7 @@ function build_install_stage() {
 
   # Build and install SBCL
   cd "${stage_dir}"
-    bash make.sh "${SBCL_ARGS[@]}" # > _sbcl_build.log 2>&1
+    bash make.sh "${SBCL_ARGS[@]}" > _sbcl_build.log 2>&1
 
     INSTALL_ROOT=${install_dir}
     SBCL_HOME=${INSTALL_ROOT}/lib/sbcl
@@ -59,20 +59,13 @@ if [[ "${target_platform}" == "osx-64" ]] || \
 then
   # When not cross-compiling, the existing SBCL needs to be installed in the build environment
   if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
-    # Installing in a separate env make the build fail, likely due to missing lib paths
-    # TODO: Investigate installing sbcl in a separate env
     mamba create -n sbcl_env -y sbcl
     SBCL_BIN=$(mamba run -n sbcl_env which sbcl | grep -Eo '/.*sbcl' | tail -n 1)
     SBCL_PATH=$(dirname "$SBCL_BIN")
-    PATH="$SBCL_PATH:$PATH"
     SBCL_HOME=$(dirname "$SBCL_PATH")
     SBCL_HOME="$SBCL_HOME/lib/sbcl"
-    # export all variables
+    PATH="$SBCL_PATH:$PATH"
     export PATH SBCL_HOME SBCL_BIN
-
-    # mamba install -y sbcl
-    # export SBCL_HOME=${BUILD_PREFIX}/lib/sbcl
-    # export CROSSCOMPILING_EMULATOR=""
   fi
   # When cross-compiling, the build SBCL is installed in the build environment as a dependency
 
