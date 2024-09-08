@@ -21,7 +21,7 @@ function build_install_stage() {
   if [[ "${target_platform}" == "osx-arm64" ]]; then
     SBCL_ARGS=(--fancy --arch=arm64)
   else
-    SBCL_ARGS=(--fancy)
+    SBCL_ARGS=(--fancy --xc-host="$SBCL_BIN")
   fi
 
   # Build and install SBCL
@@ -66,9 +66,10 @@ then
     SBCL_PATH=$(dirname "$SBCL_BIN")
     PATH="$SBCL_PATH:$PATH"
     SBCL_HOME=$(dirname "$SBCL_PATH")
-    export PATH
-    export SBCL_HOME="$SBCL_HOME/lib/sbcl"
-    echo "SBCL_HOME=$SBCL_HOME PATH=$PATH"
+    SBCL_HOME="$SBCL_HOME/lib/sbcl"
+    # export all variables
+    export PATH SBCL_HOME SBCL_BIN
+
     # mamba install -y sbcl
     # export SBCL_HOME=${BUILD_PREFIX}/lib/sbcl
     # export CROSSCOMPILING_EMULATOR=""
