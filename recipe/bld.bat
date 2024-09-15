@@ -1,29 +1,44 @@
 @echo off
 
-:: Use existing conda sbcl as bootstrap
-call mamba install -y sbcl
+if not defined CONDA_BUILD_CROSS_COMPILATION (
+  set CONDA_BUILD_CROSS_COMPILATION=0
+)
+
+if %CONDA_BUILD_CROSS_COMPILATION%==0 (
+  :: Use existing conda sbcl as bootstrap
+  call mamba create -n sbcl_env -y sbcl
+
+  :: Get the path to the sbcl executable
+  for /f "delims=" %%i in ('mamba run -n sbcl_env where sbcl') do (
+    set "SBCL_PATH=%%i"
+    goto :done
+  )
+  :done
+  for %%i in ("%SBCL_PATH%") do set "SBCL_DIR=%%~dpi"
+  set "PATH=%SBCL_DIR%;%PATH%"
+)
 
 :: Build and install SBCL (builds in _conda-build dir and installs in PREFIX)
 mkdir %SRC_DIR%\_conda-build
 cd %SRC_DIR%\_conda-build
   xcopy /E %SRC_DIR%\sbcl-source\* . > nul
 
-  set "PATH=%BUILD_PREFIX%\Library\ucrt64\bin;%PATH%"
   set "CC=gcc"
-  set "CFLAGS=-I%BUILD_PREFIX%\Library\ucrt64\include %CFLAGS%"
-
-  set "_build_prefix=%BUILD_PREFIX:\=/%"
 
   :: The dll target needs to be added to the GNUmakefile
   :: This cannot be done by patching the source due to the tabulation needed by Makefile syntax
   powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"libsbcl.dll: `$(PIC_OBJS)\""
   powershell -noprofile -nologo -command "Add-Content -Path src\runtime\GNUmakefile -Value \"`t`$(CC) -shared -o `$@ `$^ `$(LIBS) `$(SOFLAGS) -Wl,--export-all-symbols -Wl,--out-implib,libsbcl.lib\""
 
-  bash make.sh --fancy > nul
+  if %target_platform%==win-arm64 (
+    bash make.sh --fancy > nul
+  ) else (
+    bash make.sh --fancy > nul
+  )
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   set "INSTALL_ROOT=%PREFIX%"
-  set "SBCL_HOME=%INSTALL_ROOT%/lib/sbcl"
+  set "SBCL_HOME=%PREFIX%\lib\sbcl"
   bash install.sh > nul
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 

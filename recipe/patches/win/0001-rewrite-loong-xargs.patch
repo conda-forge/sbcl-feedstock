@@ -1,0 +1,8 @@
+--- clean.sh    2024-04-29 16:18:51.000000000 -0500
++++ clean.sh    2024-05-11 19:26:44.737874895 -0500
+@@ -114,4 +114,4 @@
+         -name 'depend' -o \
+         -name 'TAGS' -o \
+         -name 'tags' -o \
+-        -name 'local-target-features.lisp-expr' \) -print | xargs rm -fr
++        -name 'local-target-features.lisp-expr' \) -print | env -i /usr/bin/xargs /usr/bin/rm -fr
