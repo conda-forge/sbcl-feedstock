@@ -1,6 +1,6 @@
 build_platform:
   # Re-instating native build - Investigate in separate PR
-  # linux_aarch64: linux_64
+  linux_aarch64: linux_64
   # linux_ppc64le: linux_64
   osx_arm64: osx_64
   win_arm64: win_64
@@ -13,6 +13,6 @@ github:
 os_version:
   linux_64: cos7
 provider:
-  linux_aarch64: default
+  # linux_aarch64: default
   linux_ppc64le: default
 test: native_and_emulated
