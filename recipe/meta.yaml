@@ -25,7 +25,7 @@ source:
 build:
   number: 0
   # No need to reinstall the 2.4.0 over and over again
-  skip: true  # [osx and arm64]
+  skip: true  # [not (linux and aarch64)]
 
 requirements:
   build:
