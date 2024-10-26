@@ -57,7 +57,7 @@ if [[ "${target_platform}" == "osx-64" ]] || \
    [[ "${target_platform}" == "linux-ppc64le" ]] || \
    [[ "${target_platform}" == "linux-aarch64" ]];
 then
-  # When not cross-compiling, the existing SBCL needs to be installed in the build environment
+  # When not cross-compiling, the existing SBCL is installed in a local environment
   if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
     mamba create -n sbcl_env -y sbcl
     SBCL_BIN=$(mamba run -n sbcl_env which sbcl | grep -Eo '/.*sbcl' | tail -n 1)
