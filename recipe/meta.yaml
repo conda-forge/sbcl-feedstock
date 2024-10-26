@@ -23,7 +23,7 @@ source:
       - patches/win/0004-improve-sbcl_home-test.patch  # [win]
 
 build:
-  number: 9
+  number: 0
   # No need to reinstall the 2.4.0 over and over again
   skip: true  # [osx and arm64]
 
