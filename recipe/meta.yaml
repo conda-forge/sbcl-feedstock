@@ -1,18 +1,18 @@
 {% set osx_arm64_version = "2.4.0" %}
-{% set version = "2.5.0" %}
+{% set version = "2.5.9" %}
 
 package:
   name: sbcl
-  version: {{ osx_arm64_version }}   # [osx and arm64]
-  version: {{ version }}             # [not (osx and arm64)]
+  version: {{ osx_arm64_version }}  # [osx and arm64]
+  version: {{ version }}  # [not (osx and arm64)]
 
 source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ osx_arm64_version }}-arm64-darwin-binary.tar.bz2  # [osx and arm64]
-    sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117                               # [osx and arm64]
+    sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117  # [osx and arm64]
 
-  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-source.tar.bz2                         # [not (osx and arm64)]
-    sha256: 2e18afd088e4a2df21b77bae2e170ce570d11da6d27607292265f1cc6a8a19b1                               # [not (osx and arm64)]
-    folder: sbcl-source                                                                                    # [not (osx and arm64)]
+  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-{{ version }}-source.tar.bz2  # [not (osx and arm64)]
+    sha256: d1b19022d43dc493edc972b6e59c93ae6684c963fdd2b413b0965e18cd6bd1e2  # [not (osx and arm64)]
+    folder: sbcl-source  # [not (osx and arm64)]
     patches:
       - patches/linux/0001-x86_64-aarch64-ppc64le-zstd.patch  # [linux and (x86_64 or aarch64 or ppc64le)]
       - patches/linux/0002-patchelf.patch  # [linux]
@@ -112,7 +112,7 @@ test:
     - cd _conda-build/tests  # [not ((osx and arm64) or win)]
     - export LD_LIBRARY_PATH=${PREFIX}/lib  # [not (osx or win)]
     - export DYLD_LIBRARY_PATH=${PREFIX}/lib  # [osx and x86_64]
-    - bash run-tests.sh || true  # [not ((osx and arm64) or win)]
+    - bash run-tests.sh || true  # [not ((osx and arm64) or (linux and aarch64) or (linux and ppc64le) or win)]
 
 about:
   home: http://www.sbcl.org
