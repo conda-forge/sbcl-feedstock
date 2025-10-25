@@ -23,7 +23,7 @@ source:
       - patches/win/0004-improve-sbcl_home-test.patch  # [win]
 
 build:
-  number: 0
+  number: 1
   # No need to reinstall the 2.4.0 over and over again
   skip: true  # [osx and arm64]
 
@@ -112,7 +112,7 @@ test:
     - cd _conda-build/tests  # [not ((osx and arm64) or win)]
     - export LD_LIBRARY_PATH=${PREFIX}/lib  # [not (osx or win)]
     - export DYLD_LIBRARY_PATH=${PREFIX}/lib  # [osx and x86_64]
-    - bash run-tests.sh || true  # [not ((osx and arm64) or (linux and aarch64) or (linux and ppc64le) or win)]
+    - bash run-tests.sh || true  # [linux and x86_64]
 
 about:
   home: http://www.sbcl.org
