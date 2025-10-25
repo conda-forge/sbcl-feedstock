@@ -112,7 +112,7 @@ test:
     - cd _conda-build/tests  # [not ((osx and arm64) or win)]
     - export LD_LIBRARY_PATH=${PREFIX}/lib  # [not (osx or win)]
     - export DYLD_LIBRARY_PATH=${PREFIX}/lib  # [osx and x86_64]
-    - bash run-tests.sh || true  # [build_platform == target_platform]
+    - bash run-tests.sh || true  # [linux and x86_64]
 
 about:
   home: http://www.sbcl.org
