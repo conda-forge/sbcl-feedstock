@@ -45,7 +45,7 @@ test:
   requires:
     - {{ compiler('c') }}  # [not ((osx and arm64) or win)]
     - make  # [not ((osx and arm64) or win)]
-    - strace_{{ target_platform }}  # [linux]
+    - strace  # [linux]
     - zstd  # [not ((osx and arm64) or win)]
   source_files:
     - _conda-build  # [not ((osx and arm64) or win)]
