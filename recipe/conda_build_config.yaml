@@ -1,7 +1,5 @@
 channel_sources:
   - conda-forge/label/m2w64-experimental,conda-forge  # [win and arm64]
-  # This is for strace on linux for the a test in the full testsuite
-  - conda-forge,defaults  # [linux]
 m2w64_c_compiler:            # [win and x86_64]
   - gcc                      # [win and x86_64]
 m2w64_c_compiler_version:    # [win and x86_64]
