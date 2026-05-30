@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  build_number: 1
+  build_number: 0
   name: sbcl
   version: "2.6.5"
   _version: ${{ "2.6.5" if osx and arm64 else version }}
@@ -9,34 +9,32 @@ context:
 
 package:
   name: sbcl
-  version: ${{ _version }}
+  version: ${{ version }}
 
 source:
-  - if: osx and arm64
-    then:
-      - url: http://prdownloads.sourceforge.net/sbcl/sbcl-${{ _version }}-arm64-darwin-binary.tar.bz2
-        sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117
-    else:
-      - url: http://prdownloads.sourceforge.net/sbcl/sbcl-${{ _version }}-source.tar.bz2
-        sha256: 91ec75f647252ed6e6aeae9b1a13f47c7c6cfd9b68488dc69f1a6fea5accb440
-        target_directory: sbcl-source
-        patches:
-          - if: linux
-            then:
-              - patches/linux/0001-x86_64-aarch64-ppc64le-zstd.patch
-              - patches/linux/0002-patchelf.patch
-              - patches/linux/0003-target-runtime-launcher.patch
-              - patches/linux/0004-riscv-libm-anchor.patch
-              - patches/linux/0005-riscv-libgcc-anchor.patch
-          - if: osx
-            then:
-              - patches/osx/0001-update-rpath-zstd.patch
-          - if: not unix
-            then:
-              - patches/win/0001-rewrite-long-xargs.patch
-              - patches/win/0002-add-link-zstd.patch
-              - patches/win/0003-add-build-dll.patch
-              - patches/win/0004-improve-sbcl_home-test.patch
+  - url: http://prdownloads.sourceforge.net/sbcl/sbcl-${{ version }}-source.tar.bz2
+    sha256: 91ec75f647252ed6e6aeae9b1a13f47c7c6cfd9b68488dc69f1a6fea5accb440
+    target_directory: sbcl-source
+    patches:
+      - if: linux
+        then:
+          - patches/linux/0001-x86_64-aarch64-ppc64le-zstd.patch
+          - patches/linux/0002-patchelf.patch
+          - patches/linux/0003-target-runtime-launcher.patch
+          - patches/linux/0004-riscv-libm-anchor.patch
+          - patches/linux/0005-riscv-libgcc-anchor.patch
+      - if: target_platform == "linux-riscv64"
+        then:
+          - patches/linux/0006-target-runtime-launcher-contrib.patch
+      - if: osx
+        then:
+          - patches/osx/0001-update-rpath-zstd.patch
+      - if: not unix
+        then:
+          - patches/win/0001-rewrite-long-xargs.patch
+          - patches/win/0002-add-link-zstd.patch
+          - patches/win/0003-add-build-dll.patch
+          - patches/win/0004-improve-sbcl_home-test.patch
 
 build:
   number: ${{ build_number }}
@@ -50,6 +48,8 @@ requirements:
         - ${{ compiler('c') }}
       else:
         - ${{ compiler('m2w64_c') }}
+        - m2-coreutils
+        - m2-findutils
         - m2-grep
     - ${{ stdlib('c') }}
     - make
@@ -64,10 +64,6 @@ requirements:
     - if: not (osx and arm64) and not riscv64
       then:
         - zstd
-  run:
-    - if: not (osx and arm64) and not riscv64
-      then:
-        - zstd
 
 tests:
   - package_contents:
@@ -75,13 +71,20 @@ tests:
       bin:
         - sbcl
       lib:
-        - sbcl
+        - if: unix
+          then:
+            - sbcl
       files:
         - etc/conda/activate.d/sbcl-activate${{ sh }}
         - etc/conda/deactivate.d/sbcl-deactivate${{ sh }}
         - if: osx
           then:
             - lib/libsbcl.so
+        - if: not unix
+          then:
+            - bin/libsbcl.dll
+            - lib/libsbcl.lib
+        - lib/sbcl/contrib/{asdf,uiop}.fasl
         - lib/sbcl/contrib/sb-{aclrepl,bsd-sockets,capstone,cltl2,concurrency,cover}.{asd,fasl}
         - lib/sbcl/contrib/sb-{executable,gmp,grovel,introspect,md5,mpfr}.{asd,fasl}
         - lib/sbcl/contrib/sb-{posix,queue,rotate-byte,rt,simple-streams,sprof}.{asd,fasl}
@@ -95,13 +98,16 @@ tests:
         - if: x86_64
           then:
             - lib/sbcl/contrib/sb-simd.{asd,fasl}
-        - if: not (osx and arm64)
-          then:
-            - lib/sbcl/contrib/{asdf,uiop}.fasl
+
   - script:
       - sbcl --version
       - sbcl --help
       - sbcl --noinform --disable-debugger --eval "(print (require :asdf))" --disable-debugger --eval "(quit)"
+    requirements:
+      run:
+        - if: linux and not (target_platform == "linux-ppc64le" or target_platform == "linux-riscv64")
+          then:
+            - strace
 
 about:
   homepage: http://www.sbcl.org

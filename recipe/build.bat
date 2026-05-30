@@ -4,26 +4,26 @@ if not defined CONDA_BUILD_CROSS_COMPILATION (
   set CONDA_BUILD_CROSS_COMPILATION=0
 )
 
-if %CONDA_BUILD_CROSS_COMPILATION%==0 (
-  :: Use existing conda sbcl as bootstrap
-  call mamba create -n sbcl_env -y sbcl
+:: if %CONDA_BUILD_CROSS_COMPILATION%==0 (
+::   :: Use existing conda sbcl as bootstrap
+::   call mamba create -n sbcl_env -y sbcl
 
-  :: Get the path to the sbcl executable
-  for /f "delims=" %%i in ('mamba run -n sbcl_env where sbcl') do (
-    set "SBCL_PATH=%%i"
-    goto :done
-  )
-  :done
-  for %%i in ("%SBCL_PATH%") do set "SBCL_DIR=%%~dpi"
-  set "PATH=%SBCL_DIR%;%PATH%"
-)
+::   :: Get the path to the sbcl executable
+::   for /f "delims=" %%i in ('mamba run -n sbcl_env where sbcl') do (
+::     set "SBCL_PATH=%%i"
+::     goto :done
+::   )
+::   :done
+::   for %%i in ("%SBCL_PATH%") do set "SBCL_DIR=%%~dpi"
+::   set "PATH=%SBCL_DIR%;%PATH%"
+:: )
 
 :: Build and install SBCL (builds in _conda-build dir and installs in PREFIX)
 mkdir %SRC_DIR%\_conda-build
 cd %SRC_DIR%\_conda-build
   xcopy /E %SRC_DIR%\sbcl-source\* . > nul
 
-  set "CC=gcc"
+  set "CC=x86_64-w64-mingw32-gcc"
 
   :: The dll target needs to be added to the GNUmakefile
   :: This cannot be done by patching the source due to the tabulation needed by Makefile syntax
