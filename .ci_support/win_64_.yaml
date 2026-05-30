@@ -1,3 +1,5 @@
+c_compiler:
+- vs2022
 c_stdlib:
 - vs
 channel_sources:
@@ -7,7 +9,7 @@ channel_targets:
 m2w64_c_compiler:
 - gcc
 m2w64_c_compiler_version:
-- '13'
+- '14'
 target_platform:
 - win-64
 zstd:

@@ -1,0 +1,12 @@
+c_compiler:
+  - if: linux and not (aarch64 or ppc64le or s390x or x86_64) or not unix and arm64
+    then:
+      - "zig"
+c_compiler_version:
+  - if: linux and not (aarch64 or ppc64le or s390x or x86_64) or not unix and arm64
+    then:
+      - "0.15.2"
+c_stdlib_version:
+  - if: linux and not (aarch64 or ppc64le or s390x or x86_64)
+    then:
+      - "2.39"

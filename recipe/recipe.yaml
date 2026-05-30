@@ -1,0 +1,125 @@
+schema_version: 1
+
+context:
+  build_number: 1
+  name: sbcl
+  version: "2.6.5"
+  _version: ${{ "2.6.5" if osx and arm64 else version }}
+  sh: ${{ ".sh" if unix else ".bat" }}
+
+package:
+  name: sbcl
+  version: ${{ _version }}
+
+source:
+  - if: osx and arm64
+    then:
+      - url: http://prdownloads.sourceforge.net/sbcl/sbcl-${{ _version }}-arm64-darwin-binary.tar.bz2
+        sha256: 1d01fac2d9748f769c9246a0a11a2c011d7843337f8f06ca144f5a500e10c117
+    else:
+      - url: http://prdownloads.sourceforge.net/sbcl/sbcl-${{ _version }}-source.tar.bz2
+        sha256: 91ec75f647252ed6e6aeae9b1a13f47c7c6cfd9b68488dc69f1a6fea5accb440
+        target_directory: sbcl-source
+        patches:
+          - if: linux
+            then:
+              - patches/linux/0001-x86_64-aarch64-ppc64le-zstd.patch
+              - patches/linux/0002-patchelf.patch
+              - patches/linux/0003-target-runtime-launcher.patch
+              - patches/linux/0004-riscv-libm-anchor.patch
+              - patches/linux/0005-riscv-libgcc-anchor.patch
+          - if: osx
+            then:
+              - patches/osx/0001-update-rpath-zstd.patch
+          - if: not unix
+            then:
+              - patches/win/0001-rewrite-long-xargs.patch
+              - patches/win/0002-add-link-zstd.patch
+              - patches/win/0003-add-build-dll.patch
+              - patches/win/0004-improve-sbcl_home-test.patch
+
+build:
+  number: ${{ build_number }}
+  # No need to reinstall the 2.4.0 over and over again
+  # skip: osx and arm64
+
+requirements:
+  build:
+    - if: unix
+      then:
+        - ${{ compiler('c') }}
+      else:
+        - ${{ compiler('m2w64_c') }}
+        - m2-grep
+    - ${{ stdlib('c') }}
+    - make
+    - if: linux
+      then:
+        - patchelf
+    - if: riscv64 or ppc64le
+      then:
+        - qemu-execve-${{ target_platform | replace("linux-", "") }}
+    - sbcl
+  host:
+    - if: not (osx and arm64) and not riscv64
+      then:
+        - zstd
+  run:
+    - if: not (osx and arm64) and not riscv64
+      then:
+        - zstd
+
+tests:
+  - package_contents:
+      strict: true
+      bin:
+        - sbcl
+      lib:
+        - sbcl
+      files:
+        - etc/conda/activate.d/sbcl-activate${{ sh }}
+        - etc/conda/deactivate.d/sbcl-deactivate${{ sh }}
+        - if: osx
+          then:
+            - lib/libsbcl.so
+        - lib/sbcl/contrib/sb-{aclrepl,bsd-sockets,capstone,cltl2,concurrency,cover}.{asd,fasl}
+        - lib/sbcl/contrib/sb-{executable,gmp,grovel,introspect,md5,mpfr}.{asd,fasl}
+        - lib/sbcl/contrib/sb-{posix,queue,rotate-byte,rt,simple-streams,sprof}.{asd,fasl}
+        - lib/sbcl/sbcl.core
+        - lib/sbcl/sbcl.mk
+        - share/doc/sbcl/{BUGS,COPYING,CREDITS,NEWS}
+        - share/man/man1/sbcl.1
+        - if: linux
+          then:
+            - lib/sbcl/contrib/sb-perf.{asd,fasl}
+        - if: x86_64
+          then:
+            - lib/sbcl/contrib/sb-simd.{asd,fasl}
+        - if: not (osx and arm64)
+          then:
+            - lib/sbcl/contrib/{asdf,uiop}.fasl
+  - script:
+      - sbcl --version
+      - sbcl --help
+      - sbcl --noinform --disable-debugger --eval "(print (require :asdf))" --disable-debugger --eval "(quit)"
+
+about:
+  homepage: http://www.sbcl.org
+  license: BSD-2-Clause AND MIT
+  summary: Steel Bank Common Lisp (SBCL) is a high performance Common Lisp compiler
+  description: |
+    Steel Bank Common Lisp (SBCL) is a high performance Common Lisp compiler.
+    It is open source / free software, with a permissive license. In addition to the
+    compiler and runtime system for ANSI Common Lisp, it provides an interactive
+    environment including a debugger, a statistical profiler, a code coverage tool,
+    and many other extensions.
+  documentation: http://www.sbcl.org/manual/index.html
+  license_file:
+    - COPYING
+    - CREDITS
+
+extra:
+  recipe-maintainers:
+    - MementoRC
+    - wolfv
+    - Tobias-Fischer

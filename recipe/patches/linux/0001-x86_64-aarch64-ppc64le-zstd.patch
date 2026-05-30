@@ -29,3 +29,10 @@
 -  OS_LIBS += -lzstd
 +  OS_LIBS += -L${PREFIX}/lib -lzstd
  endif
+--- src/runtime/Config.riscv-linux      2024-04-29 16:18:52.000000000 -0500
++++ src/runtime/Config.riscv-linux      2024-05-27 12:36:22.145078325 -0500
+@@ -15,3 +15,3 @@
+ OS_SRC = linux-os.c linux-mman.c riscv-linux-os.c
+-OS_LIBS = -ldl -Wl,-no-as-needed
++OS_LIBS = -ldl
+ ifdef LISP_FEATURE_SB_THREAD

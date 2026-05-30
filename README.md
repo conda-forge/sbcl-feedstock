@@ -3,7 +3,7 @@ About sbcl-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/sbcl-feedstock/blob/main/LICENSE.txt)
 
-Home: http://www.sbcl.org
+Home: http://www.sbcl.org/
 
 Package license: BSD-2-Clause AND MIT
 
@@ -16,7 +16,6 @@ It is open source / free software, with a permissive license. In addition to the
 compiler and runtime system for ANSI Common Lisp, it provides an interactive
 environment including a debugger, a statistical profiler, a code coverage tool,
 and many other extensions.
-
 
 Current build status
 ====================
@@ -47,6 +46,13 @@ Current build status
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=7240&branchName=main">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/sbcl-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=7240&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/sbcl-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_" alt="variant">
                 </a>
               </td>
             </tr><tr>

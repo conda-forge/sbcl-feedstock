@@ -1,0 +1,40 @@
+--- make-target-2.sh	2026-05-29 20:34:14.578524303 -0500
++++ make-target-2.sh	2026-05-29 20:34:43.698528825 -0500
+@@ -22,6 +22,13 @@
+ LC_ALL=C
+ export LANG LC_ALL
+
++# Optional emulator indirection for cross-build environments (e.g. riscv64).
++# When SBCL_RUNTIME_LAUNCHER is unset the expansion is empty and behaviour is
++# identical to upstream.  Set it to e.g. /path/to/qemu-riscv64 (or a multi-
++# word prefix like "qemu-riscv64 -L /sysroot") to route every target-runtime
++# invocation through that emulator, bypassing kernel binfmt registration.
++SBCL_RUNTIME_LAUNCHER="${SBCL_RUNTIME_LAUNCHER:-}"
++
+ # Load our build configuration
+ . output/build-config
+
+@@ -53,12 +60,12 @@
+ patchelf --add-rpath $PREFIX/lib ./src/runtime/sbcl
+ if [ "$warm_compile" = yes ]; then
+     echo //doing warm init - compilation phase
+-    ./src/runtime/sbcl --core output/cold-sbcl.core \
++    $SBCL_RUNTIME_LAUNCHER ./src/runtime/sbcl --core output/cold-sbcl.core \
+      --lose-on-corruption $SBCL_MAKE_TARGET_2_OPTIONS --no-sysinit --no-userinit \
+      --eval '(sb-fasl::!warm-load "src/cold/warm.lisp")' --quit
+ fi
+ echo //doing warm init - load and dump phase
+-./src/runtime/sbcl --noinform --core output/cold-sbcl.core \
++$SBCL_RUNTIME_LAUNCHER ./src/runtime/sbcl --noinform --core output/cold-sbcl.core \
+                    --lose-on-corruption $SBCL_MAKE_TARGET_2_OPTIONS \
+                    --no-sysinit --no-userinit --noprint <<EOF
+ (progn ${devel})
+@@ -74,7 +81,7 @@
+  (sb-ext:save-lisp-and-die "output/sbcl.core"))
+ EOF
+
+-./src/runtime/sbcl --noinform --core output/sbcl.core \
++$SBCL_RUNTIME_LAUNCHER ./src/runtime/sbcl --noinform --core output/sbcl.core \
+                    --no-sysinit --no-userinit --noprint <<EOF
+   (load "validate-float.lisp")
+   (check-float-file "output/xfloat-math.lisp-expr")

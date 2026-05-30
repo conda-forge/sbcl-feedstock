@@ -20,12 +20,24 @@ function build_install_stage() {
   # Configure SBCL build arguments, like host architecture, enable fancy features
   if [[ "${target_platform}" == "osx-arm64" ]]; then
     SBCL_ARGS=(--fancy --arch=arm64)
+  elif [[ "${target_platform}" == "linux-ppc64le" ]]; then
+    # export CC="${ZIG_CC}"
+    SBCL_ARGS+=(--arch=ppc64)
+    export SBCL_MAKE_TARGET_2_OPTIONS="--dynamic-space-size 1024"
+    export SBCL_RUNTIME_LAUNCHER="${BUILD_PREFIX}/bin/qemu-execve-ppc64le"
+  elif [[ "${target_platform}" == "linux-riscv64" ]]; then
+    export CC="${ZIG_CC}"
+    SBCL_ARGS+=(--arch=riscv64 --without-sb-core-compression)
+    export SBCL_MAKE_TARGET_2_OPTIONS="--dynamic-space-size 1024"
+    export SBCL_RUNTIME_LAUNCHER="${BUILD_PREFIX}/bin/qemu-execve-riscv64"
   else
     SBCL_ARGS=(--fancy)
   fi
-
+  
   # Build and install SBCL
   cd "${stage_dir}"
+    # zig-cc (clang) does not pick up conda's include path the way gcc did; make zstd.h findable
+    export CPPFLAGS="${CPPFLAGS:-} -I${PREFIX}/include"
     bash make.sh "${SBCL_ARGS[@]}" > _sbcl_build.log 2>&1
 
     INSTALL_ROOT=${install_dir}
@@ -53,20 +65,22 @@ set -ex
 
 # Select the conda architectures that build from source
 if [[ "${target_platform}" == "osx-64" ]] || \
+   [[ "${target_platform}" == "osx-arm64" ]] || \
    [[ "${target_platform}" == "linux-64" ]] || \
    [[ "${target_platform}" == "linux-ppc64le" ]] || \
+   [[ "${target_platform}" == "linux-riscv64" ]] || \
    [[ "${target_platform}" == "linux-aarch64" ]];
 then
   # When not cross-compiling, the existing SBCL is installed in a local environment
-  if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
-    mamba create -n sbcl_env -y sbcl
-    SBCL_BIN=$(mamba run -n sbcl_env which sbcl | grep -Eo '/.*sbcl' | tail -n 1)
-    SBCL_PATH=$(dirname "$SBCL_BIN")
-    SBCL_HOME=$(dirname "$SBCL_PATH")
-    SBCL_HOME="$SBCL_HOME/lib/sbcl"
-    PATH="$SBCL_PATH:$PATH"
-    export PATH SBCL_HOME SBCL_BIN
-  fi
+  #if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "0" ]]; then
+  #  mamba create -n sbcl_env -y sbcl
+  #  SBCL_BIN=$(mamba run -n sbcl_env which sbcl | grep -Eo '/.*sbcl' | tail -n 1)
+  #  SBCL_PATH=$(dirname "$SBCL_BIN")
+  #  SBCL_HOME=$(dirname "$SBCL_PATH")
+  #  SBCL_HOME="$SBCL_HOME/lib/sbcl"
+  #  PATH="$SBCL_PATH:$PATH"
+  #  export PATH SBCL_HOME SBCL_BIN
+  #fi
   # When cross-compiling, the build SBCL is installed in the build environment as a dependency
 
   build_install_stage "${SRC_DIR}/sbcl-source" "${SRC_DIR}/_conda-build" "${PREFIX}"
