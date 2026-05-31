@@ -4,7 +4,6 @@ context:
   build_number: 0
   name: sbcl
   version: "2.6.5"
-  _version: ${{ "2.6.5" if osx and arm64 else version }}
   sh: ${{ ".sh" if unix else ".bat" }}
 
 package:
@@ -38,8 +37,6 @@ source:
 
 build:
   number: ${{ build_number }}
-  # No need to reinstall the 2.4.0 over and over again
-  # skip: osx and arm64
 
 requirements:
   build:
@@ -61,6 +58,7 @@ requirements:
         - qemu-execve-${{ target_platform | replace("linux-", "") }}
     - sbcl
   host:
+    # zstd not yet available
     - if: not (osx and arm64) and not riscv64
       then:
         - zstd
