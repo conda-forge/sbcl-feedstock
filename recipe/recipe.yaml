@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  build_number: 0
+  build_number: 1
   name: sbcl
   version: "2.6.5"
   sh: ${{ ".sh" if unix else ".bat" }}
@@ -18,13 +18,10 @@ source:
       - if: linux
         then:
           - patches/linux/0001-x86_64-aarch64-ppc64le-zstd.patch
-          # - patches/linux/0002-patchelf.patch
-          - patches/linux/0003-target-runtime-launcher.patch
-          # - patches/linux/0004-riscv-libm-anchor.patch
-          # - patches/linux/0005-riscv-libgcc-anchor.patch
+          - patches/linux/0002-target-runtime-launcher.patch
       - if: target_platform == "linux-riscv64"
         then:
-          - patches/linux/0006-target-runtime-launcher-contrib.patch
+          - patches/linux/0003-target-runtime-launcher-contrib.patch
       - if: osx
         then:
           - patches/osx/0001-update-rpath-zstd.patch
@@ -50,9 +47,6 @@ requirements:
         - m2-grep
     - ${{ stdlib('c') }}
     - make
-    - if: linux
-      then:
-        - patchelf
     - if: riscv64 or ppc64le
       then:
         - qemu-execve-${{ target_platform | replace("linux-", "") }}
