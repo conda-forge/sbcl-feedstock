@@ -1,0 +1,11 @@
+--- a/make-target-contrib.sh
++++ b/make-target-contrib.sh
+@@ -44,7 +44,7 @@ export CC LANG LC_ALL
+ SBCL_HOME="$SBCL_TOP/obj/sbcl-home"
+ export SBCL_HOME SBCL_TOP
+
+-SBCL="$SBCL_TOP/src/runtime/sbcl --noinform --core $SBCL_TOP/output/sbcl.core \
++SBCL="${SBCL_CONTRIB_LAUNCHER:-} $SBCL_TOP/src/runtime/sbcl --noinform --core $SBCL_TOP/output/sbcl.core \
+ --lose-on-corruption --disable-debugger --no-sysinit --no-userinit"
+ export SBCL
+
