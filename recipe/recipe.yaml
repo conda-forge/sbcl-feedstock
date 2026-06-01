@@ -18,10 +18,10 @@ source:
       - if: linux
         then:
           - patches/linux/0001-x86_64-aarch64-ppc64le-zstd.patch
-          - patches/linux/0002-patchelf.patch
+          # - patches/linux/0002-patchelf.patch
           - patches/linux/0003-target-runtime-launcher.patch
-          - patches/linux/0004-riscv-libm-anchor.patch
-          - patches/linux/0005-riscv-libgcc-anchor.patch
+          # - patches/linux/0004-riscv-libm-anchor.patch
+          # - patches/linux/0005-riscv-libgcc-anchor.patch
       - if: target_platform == "linux-riscv64"
         then:
           - patches/linux/0006-target-runtime-launcher-contrib.patch
