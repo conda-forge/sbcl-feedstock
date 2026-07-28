@@ -79,7 +79,7 @@ tests:
         - lib/sbcl/contrib/{asdf,uiop}.fasl
         - lib/sbcl/contrib/sb-{aclrepl,bsd-sockets,capstone,cltl2,concurrency,cover}.{asd,fasl}
         - lib/sbcl/contrib/sb-{executable,gmp,grovel,introspect,manual,md5,mpfr}.{asd,fasl}
-        - lib/sbcl/contrib/sb-{posix,queue,rotate-byte,rt,simple-streams,sprof}.{asd,fasl}
+        - lib/sbcl/contrib/sb-{posix,queue,rotate-byte,rt,simd,simple-streams,sprof}.{asd,fasl}
         - lib/sbcl/sbcl.core
         - lib/sbcl/sbcl.mk
         - share/doc/sbcl/{BUGS,COPYING,CREDITS,NEWS}
