@@ -3,7 +3,7 @@ schema_version: 1
 context:
   build_number: 0
   name: sbcl
-  version: "2.6.6"
+  version: "2.6.7"
   sh: ${{ ".sh" if unix else ".bat" }}
 
 package:
@@ -12,7 +12,7 @@ package:
 
 source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-${{ version }}-source.tar.bz2
-    sha256: a65a7a30812aaf54925d1192b9b9e810f527c79911c6000b7548105aef7da34b
+    sha256: 1ebdc35c9dc8e271b8cd1ac44965e00bf255f9c0221650fcb77f0fb34c2d3ade
     target_directory: sbcl-source
     patches:
       - if: linux
@@ -78,8 +78,8 @@ tests:
             - lib/libsbcl.lib
         - lib/sbcl/contrib/{asdf,uiop}.fasl
         - lib/sbcl/contrib/sb-{aclrepl,bsd-sockets,capstone,cltl2,concurrency,cover}.{asd,fasl}
-        - lib/sbcl/contrib/sb-{executable,gmp,grovel,introspect,md5,mpfr}.{asd,fasl}
-        - lib/sbcl/contrib/sb-{posix,queue,rotate-byte,rt,simple-streams,sprof}.{asd,fasl}
+        - lib/sbcl/contrib/sb-{executable,gmp,grovel,introspect,manual,md5,mpfr}.{asd,fasl}
+        - lib/sbcl/contrib/sb-{posix,queue,rotate-byte,rt,simd,simple-streams,sprof}.{asd,fasl}
         - lib/sbcl/sbcl.core
         - lib/sbcl/sbcl.mk
         - share/doc/sbcl/{BUGS,COPYING,CREDITS,NEWS}

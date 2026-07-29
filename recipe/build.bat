@@ -6,8 +6,11 @@ if not defined CONDA_BUILD_CROSS_COMPILATION (
 
 :: Build and install SBCL (builds in _conda-build dir and installs in PREFIX)
 mkdir %SRC_DIR%\_conda-build
+if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 cd %SRC_DIR%\_conda-build
-  xcopy /E %SRC_DIR%\sbcl-source\* . > nul
+  :: robocopy tolerates long paths (xcopy does not) and exit codes 0-7 are success
+  robocopy %SRC_DIR%\sbcl-source . /E /NFL /NDL /NJH /NJS
+  if %ERRORLEVEL% GEQ 8 exit /b %ERRORLEVEL%
 
   set "CC=x86_64-w64-mingw32-gcc"
 
