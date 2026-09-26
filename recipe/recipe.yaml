@@ -3,7 +3,7 @@ schema_version: 1
 context:
   build_number: 0
   name: sbcl
-  version: "2.6.8"
+  version: "2.6.9"
   sh: ${{ ".sh" if unix else ".bat" }}
 
 package:
@@ -12,7 +12,7 @@ package:
 
 source:
   - url: http://prdownloads.sourceforge.net/sbcl/sbcl-${{ version }}-source.tar.bz2
-    sha256: ad5126dfdfba5db27ee77bcc25893020fe522d0b7653d45b4c4795ade3ddc23d
+    sha256: c6fd1d735570eb4ff34caf9609988ca77ed0bd12b55d09a4fed075be890da513
     target_directory: sbcl-source
     patches:
       - if: linux
