@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  build_number: 0
+  build_number: 1
   name: sbcl
   version: "2.6.9"
   sh: ${{ ".sh" if unix else ".bat" }}
@@ -82,8 +82,11 @@ tests:
         - lib/sbcl/contrib/sb-{posix,queue,rotate-byte,rt,simd,simple-streams,sprof}.{asd,fasl}
         - lib/sbcl/sbcl.core
         - lib/sbcl/sbcl.mk
+        - lib/sbcl/sbclrc
+        - lib/sbcl/sbclrc.d/00-README.lisp
         - share/doc/sbcl/{BUGS,COPYING,CREDITS,NEWS}
         - share/man/man1/sbcl.1
+        - etc/conda/test-files/${{ name }}/**
         - if: linux
           then:
             - lib/sbcl/contrib/sb-perf.{asd,fasl}
@@ -100,6 +103,14 @@ tests:
         - if: linux and not (target_platform == "linux-ppc64le" or target_platform == "linux-riscv64")
           then:
             - strace
+
+  - files:
+      recipe:
+        - tests/sbclrc-d-write-probe.lisp
+        - tests/sbclrc-d-check-probe.lisp
+    script:
+      - sbcl --noinform --non-interactive --no-userinit --load tests/sbclrc-d-write-probe.lisp
+      - sbcl --noinform --non-interactive --no-userinit --load tests/sbclrc-d-check-probe.lisp
 
 about:
   homepage: http://www.sbcl.org

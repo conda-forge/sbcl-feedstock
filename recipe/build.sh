@@ -86,3 +86,8 @@ do
   mkdir -p "${PREFIX}/etc/conda/${CHANGE}.d"
   cp "${RECIPE_DIR}/scripts/${CHANGE}.sh" "${PREFIX}/etc/conda/${CHANGE}.d/${PKG_NAME}-${CHANGE}.sh"
 done
+
+# Provide sbclrc that loads files from sbclrc.d directory
+install -Dm644 "${RECIPE_DIR}/sbclrc" "${PREFIX}/lib/sbcl/sbclrc"
+mkdir -p "${PREFIX}/lib/sbcl/sbclrc.d"
+install -m644 "${RECIPE_DIR}/sbclrc.d/00-README.lisp" "${PREFIX}/lib/sbcl/sbclrc.d/"

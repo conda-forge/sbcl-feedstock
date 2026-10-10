@@ -1,0 +1,7 @@
+;;; Environment-wide init: load every file in sbclrc.d, in alphabetical order.
+(let* ((dir (merge-pathnames "sbclrc.d/" (sb-int:sbcl-homedir-pathname)))
+       (files (sort (append (directory (merge-pathnames "*.lisp" dir))
+                            (directory (merge-pathnames "*.lsp" dir)))
+                    #'string-lessp :key #'namestring)))
+  (dolist (f files)
+    (load f)))

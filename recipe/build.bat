@@ -52,3 +52,12 @@ copy "%RECIPE_DIR%\scripts\activate.bat" "%PREFIX%\etc\conda\activate.d\sbcl-act
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 copy "%RECIPE_DIR%\scripts\deactivate.bat" "%PREFIX%\etc\conda\deactivate.d\sbcl-deactivate.bat" > nul
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+
+:: Provide sbclrc that loads files from sbclrc.d directory
+if not exist "%PREFIX%\lib\sbcl\sbclrc.d\" mkdir "%PREFIX%\lib\sbcl\sbclrc.d\"
+if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+
+copy "%RECIPE_DIR%\sbclrc" "%PREFIX%\lib\sbcl\sbclrc" > nul
+if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+copy "%RECIPE_DIR%\sbclrc.d\00-README.lisp" "%PREFIX%\lib\sbcl\sbclrc.d\" > nul
+if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
