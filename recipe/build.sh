@@ -29,7 +29,8 @@ function build_install_stage() {
     export SBCL_RUNTIME_LAUNCHER="${BUILD_PREFIX}/bin/qemu-execve-riscv64"
     export SBCL_CONTRIB_LAUNCHER="${BUILD_PREFIX}/bin/qemu-riscv64"
   else
-    SBCL_ARGS=(--fancy)
+    # The bootstrap sbcl defaults to a 1 GiB heap, which the xc-host stage exhausts on osx-arm64
+    SBCL_ARGS=(--fancy "--xc-host=sbcl --dynamic-space-size 4096 --disable-debugger --no-userinit --no-sysinit")
   fi
   
   # Build and install SBCL
