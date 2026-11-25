@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  build_number: 0
+  build_number: 1
   name: sbcl
   version: "2.6.10"
   sh: ${{ ".sh" if unix else ".bat" }}
